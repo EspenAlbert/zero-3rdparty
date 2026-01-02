@@ -1,5 +1,4 @@
 # path-sync copy -n python-template
-# path-sync copy -n python-template
 name: Validate Synced Files
 
 on:
