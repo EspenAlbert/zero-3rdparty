@@ -1,5 +1,4 @@
 # path-sync copy -n python-template
-# path-sync copy -n python-template
 
 # === OK_EDIT ===
 # Custom variables and setup
