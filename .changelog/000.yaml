@@ -38,11 +38,6 @@ type: expose
 ts: 2026-01-02 14:51:38.849514+00:00
 details: auto-exposed from iter_utils.py
 ---
-name: DT
-type: expose
-ts: 2026-01-02 14:51:39.430482+00:00
-details: auto-exposed from datetime_utils.py
----
 name: get_date_as_rfc3339_without_time
 type: expose
 ts: 2026-01-02 14:51:39.972092+00:00
@@ -262,16 +257,6 @@ name: update
 type: expose
 ts: 2026-01-02 14:52:04.317607+00:00
 details: auto-exposed from dict_nested.py
----
-name: KT
-type: expose
-ts: 2026-01-02 14:52:04.941969+00:00
-details: auto-exposed from iter_utils.py
----
-name: VT
-type: expose
-ts: 2026-01-02 14:52:05.439966+00:00
-details: auto-exposed from iter_utils.py
 ---
 name: update_no_overwrite
 type: expose
@@ -1207,3 +1192,13 @@ name: TypeDict
 type: expose
 ts: 2026-01-02 14:53:49.849281+00:00
 details: auto-exposed from type_dict.py
+---
+name: copy_dataclass
+type: expose
+ts: 2026-01-02 16:24:10.045871+00:00
+details: auto-exposed from dataclass_utils.py
+---
+name: as_dict
+type: expose
+ts: 2026-01-02 16:24:10.078749+00:00
+details: auto-exposed from dataclass_utils.py
