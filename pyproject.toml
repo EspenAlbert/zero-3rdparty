@@ -80,6 +80,7 @@ exclude_lines = [
 ]
 
 [tool.pyright]
+include = ["zero_3rdparty"]
 exclude = [
   "zero_3rdparty/humps.py",
   "zero_3rdparty/timeparse.py",
