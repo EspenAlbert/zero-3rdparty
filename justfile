@@ -3,6 +3,11 @@
 # === OK_EDIT ===
 # Custom variables and setup
 
+default:
+  just --list
+
+sync:
+  uv sync
 
 # === DO_NOT_EDIT: path-sync standard ===
 pre-push: lint fmt-check test
