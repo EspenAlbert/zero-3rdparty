@@ -1,7 +1,7 @@
 [project]
 name = "zero-3rdparty"
 version = "1.0.0b8"
-requires-python = ">=3.12"
+requires-python = ">=3.13"
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python :: 3.13",
@@ -35,10 +35,6 @@ exclude = [
 tag_prefix = "v"
 flat_package = true
 keep_prerelease = true
-ignored_symbols = [
-  "KT",
-  "VT",
-]
 
 [tool.ruff]
 line-length = 120
