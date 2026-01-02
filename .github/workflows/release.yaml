@@ -1,5 +1,4 @@
 # path-sync copy -n python-template
-# path-sync copy -n python-template
 name: Release
 
 # Release flow:
@@ -34,9 +33,6 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: pypi
-      url: https://pypi.org/p/${{ github.event.repository.name }}
     permissions:
       id-token: write
     steps:
