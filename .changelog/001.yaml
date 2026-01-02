@@ -1202,3 +1202,9 @@ name: as_dict
 type: expose
 ts: 2026-01-02 16:24:10.078749+00:00
 details: auto-exposed from dataclass_utils.py
+---
+name: 1.0.0b8
+type: release
+details:
+  old_version: 1.0.0b7
+ts: 2026-01-02 17:30:15.188978+00:00

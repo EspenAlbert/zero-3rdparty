@@ -1,6 +1,6 @@
 [project]
 name = "zero-3rdparty"
-version = "1.0.0b7"
+version = "1.0.0b8"
 requires-python = ">=3.12"
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -80,7 +80,9 @@ exclude_lines = [
 ]
 
 [tool.pyright]
-include = ["zero_3rdparty"]
+include = [
+  "zero_3rdparty",
+]
 exclude = [
   "zero_3rdparty/humps.py",
   "zero_3rdparty/timeparse.py",
