@@ -1,9 +1,13 @@
 # path-sync copy -n python-template
-# path-sync copy -n python-template
 
 # === OK_EDIT ===
 # Custom variables and setup
 
+default:
+  just --list
+
+sync:
+  uv sync
 
 # === DO_NOT_EDIT: path-sync standard ===
 pre-push: lint fmt-check test
