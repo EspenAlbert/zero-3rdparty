@@ -4,6 +4,7 @@ import pytest
 
 from zero_3rdparty.sections import (
     CommentConfig,
+    compare_sections,
     extract_sections,
     extract_sections_from_path,
     get_comment_config,
@@ -147,3 +148,32 @@ content here
     assert sections[0].id == "sec"
     extracted = extract_sections_from_path(f, "tool")
     assert extracted["sec"] == "content here"
+
+
+def test_compare_sections():
+    baseline = """\
+# === DO_NOT_EDIT: t sec1 ===
+original
+# === OK_EDIT ===
+# === DO_NOT_EDIT: t sec2 ===
+unchanged
+# === OK_EDIT ==="""
+    # sec1 modified, sec2 unchanged
+    current = """\
+# === DO_NOT_EDIT: t sec1 ===
+modified
+# === OK_EDIT ===
+# === DO_NOT_EDIT: t sec2 ===
+unchanged
+# === OK_EDIT ==="""
+    assert compare_sections(baseline, current, "t", HASH_CONFIG) == ["sec1"]
+
+    # sec1 removed (not in current)
+    current_removed = """\
+# === DO_NOT_EDIT: t sec2 ===
+unchanged
+# === OK_EDIT ==="""
+    assert compare_sections(baseline, current_removed, "t", HASH_CONFIG) == ["sec1"]
+
+    # skip sec1
+    assert compare_sections(baseline, current, "t", HASH_CONFIG, skip={"sec1"}) == []

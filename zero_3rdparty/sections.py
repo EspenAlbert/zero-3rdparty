@@ -153,6 +153,24 @@ def extract_sections(content: str, tool_name: str, config: CommentConfig) -> dic
     return {s.id: s.content for s in parse_sections(content, tool_name, config)}
 
 
+def compare_sections(
+    baseline_content: str,
+    current_content: str,
+    tool_name: str,
+    config: CommentConfig,
+    skip: set[str] | None = None,
+) -> list[str]:
+    """Return section IDs with changes (modified or removed), excluding skipped sections."""
+    skip_ids = skip or set()
+    baseline_secs = extract_sections(baseline_content, tool_name, config)
+    current_secs = extract_sections(current_content, tool_name, config)
+    return [
+        sec_id
+        for sec_id, baseline_text in baseline_secs.items()
+        if sec_id not in skip_ids and baseline_text != current_secs.get(sec_id, "")
+    ]
+
+
 def wrap_in_default_section(content: str, tool_name: str, config: CommentConfig) -> str:
     start = _start_marker(tool_name, "default", config)
     end = _end_marker(config)
