@@ -13,26 +13,36 @@ from zero_3rdparty.sections import (
     parse_sections,
     parse_sections_from_path,
     replace_sections,
+    slug,
     wrap_in_default_section,
 )
 
 HASH_CONFIG = CommentConfig("#")
 HTML_CONFIG = CommentConfig("<!--", " -->")
 
+
+def test_slug():
+    assert slug("hello world") == "hello_world"
+    assert slug("HelloWorld") == "helloworld"
+    assert slug("parse_config") == "parse_config"
+    assert slug("Some.Thing!") == "something"
+    assert slug("class_DumpYaml") == "class_dumpyaml"
+
+
 JUSTFILE_CONTENT = """\
 # header line
 
-# === OK_EDIT ===
+# === OK_EDIT: mytool header ===
 # Custom variables
 
 # === DO_NOT_EDIT: mytool standard ===
 pre-push: lint test
-# === OK_EDIT ===
+# === OK_EDIT: mytool standard ===
 
 # === DO_NOT_EDIT: mytool coverage ===
 cov:
   uv run pytest --cov
-# === OK_EDIT ===
+# === OK_EDIT: mytool coverage ===
 """
 
 
@@ -51,8 +61,8 @@ def test_parse_sections_errors():
     nested = """\
 # === DO_NOT_EDIT: t outer ===
 # === DO_NOT_EDIT: t inner ===
-# === OK_EDIT ===
-# === OK_EDIT ===
+# === OK_EDIT: t inner ===
+# === OK_EDIT: t outer ===
 """
     with pytest.raises(ValueError, match="Nested section"):
         parse_sections(nested, "t", HASH_CONFIG)
@@ -61,10 +71,18 @@ def test_parse_sections_errors():
     with pytest.raises(ValueError, match="Unclosed section"):
         parse_sections(unclosed, "t", HASH_CONFIG)
 
+    mismatched = """\
+# === DO_NOT_EDIT: t sec1 ===
+content
+# === OK_EDIT: t sec2 ===
+"""
+    with pytest.raises(ValueError, match="Mismatched section end"):
+        parse_sections(mismatched, "t", HASH_CONFIG)
+
 
 def test_parse_sections_edge_cases():
     assert parse_sections("plain content", "t", HASH_CONFIG) == []
-    assert parse_sections("# === OK_EDIT ===\ncontent", "t", HASH_CONFIG) == []
+    assert parse_sections("# === OK_EDIT: t orphan ===\ncontent", "t", HASH_CONFIG) == []
 
 
 def test_extract_and_has_sections():
@@ -78,14 +96,14 @@ def test_extract_and_has_sections():
 def test_wrap_in_default_section():
     result = wrap_in_default_section("content", "mytool", HASH_CONFIG)
     assert "DO_NOT_EDIT: mytool default" in result
-    assert result.endswith("# === OK_EDIT ===")
+    assert result.endswith("# === OK_EDIT: mytool default ===")
 
 
 def test_replace_sections():
     dest = """\
 # === DO_NOT_EDIT: t std ===
 old
-# === OK_EDIT ==="""
+# === OK_EDIT: t std ==="""
     result = replace_sections(dest, {"std": "new"}, "t", HASH_CONFIG)
     assert "new" in result
     assert "old" not in result
@@ -98,12 +116,13 @@ old
     # adds new sections
     result3 = replace_sections("# plain", {"newid": "content"}, "t", HASH_CONFIG)
     assert "DO_NOT_EDIT: t newid" in result3
+    assert "OK_EDIT: t newid" in result3
 
     # preserves dest-only sections
     dest_only = """\
 # === DO_NOT_EDIT: t custom ===
 my stuff
-# === OK_EDIT ==="""
+# === OK_EDIT: t custom ==="""
     result4 = replace_sections(dest_only, {}, "t", HASH_CONFIG)
     assert "my stuff" in result4
 
@@ -125,7 +144,7 @@ def test_html_comment_markers():
     content = """\
 <!-- === DO_NOT_EDIT: pkg heading === -->
 # Title
-<!-- === OK_EDIT === -->
+<!-- === OK_EDIT: pkg heading === -->
 """
     sections = parse_sections(content, "pkg", HTML_CONFIG)
     assert len(sections) == 1
@@ -141,7 +160,7 @@ def test_path_based_functions(tmp_path: Path):
     f.write_text("""\
 # === DO_NOT_EDIT: tool sec ===
 content here
-# === OK_EDIT ===
+# === OK_EDIT: tool sec ===
 """)
     assert has_sections_in_path(f, "tool")
     sections = parse_sections_from_path(f, "tool")
@@ -154,25 +173,25 @@ def test_compare_sections():
     baseline = """\
 # === DO_NOT_EDIT: t sec1 ===
 original
-# === OK_EDIT ===
+# === OK_EDIT: t sec1 ===
 # === DO_NOT_EDIT: t sec2 ===
 unchanged
-# === OK_EDIT ==="""
+# === OK_EDIT: t sec2 ==="""
     # sec1 modified, sec2 unchanged
     current = """\
 # === DO_NOT_EDIT: t sec1 ===
 modified
-# === OK_EDIT ===
+# === OK_EDIT: t sec1 ===
 # === DO_NOT_EDIT: t sec2 ===
 unchanged
-# === OK_EDIT ==="""
+# === OK_EDIT: t sec2 ==="""
     assert compare_sections(baseline, current, "t", HASH_CONFIG) == ["sec1"]
 
     # sec1 removed (not in current)
     current_removed = """\
 # === DO_NOT_EDIT: t sec2 ===
 unchanged
-# === OK_EDIT ==="""
+# === OK_EDIT: t sec2 ==="""
     assert compare_sections(baseline, current_removed, "t", HASH_CONFIG) == ["sec1"]
 
     # skip sec1

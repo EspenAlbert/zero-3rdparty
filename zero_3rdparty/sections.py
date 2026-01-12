@@ -5,6 +5,12 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
+def slug(text: str) -> str:
+    """Convert text to lowercase slug suitable for section marker IDs."""
+    s = re.sub(r"[^\w\s-]", "", text.lower())
+    return re.sub(r"[-\s]+", "_", s).strip("_")
+
+
 @dataclass(frozen=True)
 class CommentConfig:
     prefix: str
@@ -91,9 +97,10 @@ def _build_start_pattern(tool_name: str, config: CommentConfig) -> re.Pattern[st
     )
 
 
-def _build_end_pattern(config: CommentConfig) -> re.Pattern[str]:
+def _build_end_pattern(tool_name: str, config: CommentConfig) -> re.Pattern[str]:
     return re.compile(
-        rf"^{re.escape(config.prefix)}\s*===\s*OK_EDIT\s*==={re.escape(config.suffix)}$",
+        rf"^{re.escape(config.prefix)}\s*===\s*OK_EDIT:\s*"
+        rf"{re.escape(tool_name)}\s+(?P<end_id>\w+)\s*==={re.escape(config.suffix)}$",
         re.MULTILINE,
     )
 
@@ -102,13 +109,13 @@ def _start_marker(tool_name: str, section_id: str, config: CommentConfig) -> str
     return f"{config.prefix} === DO_NOT_EDIT: {tool_name} {section_id} ==={config.suffix}"
 
 
-def _end_marker(config: CommentConfig) -> str:
-    return f"{config.prefix} === OK_EDIT ==={config.suffix}"
+def _end_marker(tool_name: str, section_id: str, config: CommentConfig) -> str:
+    return f"{config.prefix} === OK_EDIT: {tool_name} {section_id} ==={config.suffix}"
 
 
 def parse_sections(content: str, tool_name: str, config: CommentConfig) -> list[Section]:
     start_pattern = _build_start_pattern(tool_name, config)
-    end_pattern = _build_end_pattern(config)
+    end_pattern = _build_end_pattern(tool_name, config)
     lines = content.split("\n")
     sections: list[Section] = []
     current_id: str | None = None
@@ -122,9 +129,12 @@ def parse_sections(content: str, tool_name: str, config: CommentConfig) -> list[
             current_id = start_match.group("id")
             current_start = i
             content_lines = []
-        elif end_pattern.match(line):
+        elif end_match := end_pattern.match(line):
             if current_id is None:
                 continue  # standalone OK_EDIT is valid, ignored
+            end_id = end_match.group("end_id")
+            if end_id != current_id:
+                raise ValueError(f"Mismatched section end at line {i}: expected '{current_id}', got '{end_id}'")
             sections.append(
                 Section(
                     id=current_id,
@@ -171,10 +181,14 @@ def compare_sections(
     ]
 
 
-def wrap_in_default_section(content: str, tool_name: str, config: CommentConfig) -> str:
-    start = _start_marker(tool_name, "default", config)
-    end = _end_marker(config)
+def wrap_section(content: str, section_id: str, tool_name: str, config: CommentConfig) -> str:
+    start = _start_marker(tool_name, section_id, config)
+    end = _end_marker(tool_name, section_id, config)
     return f"{start}\n{content}\n{end}"
+
+
+def wrap_in_default_section(content: str, tool_name: str, config: CommentConfig) -> str:
+    return wrap_section(content, "default", tool_name, config)
 
 
 def replace_sections(
@@ -190,7 +204,7 @@ def replace_sections(
     dest_sections = {s.id: s.content for s in dest_parsed}
 
     start_pattern = _build_start_pattern(tool_name, config)
-    end_pattern = _build_end_pattern(config)
+    end_pattern = _build_end_pattern(tool_name, config)
     lines = dest_content.split("\n")
     result: list[str] = []
 
@@ -217,7 +231,7 @@ def replace_sections(
         if sid not in dest_ids and sid not in skip:
             result.append(_start_marker(tool_name, sid, config))
             result.append(src_sections[sid])
-            result.append(_end_marker(config))
+            result.append(_end_marker(tool_name, sid, config))
 
     return "\n".join(result)
 
