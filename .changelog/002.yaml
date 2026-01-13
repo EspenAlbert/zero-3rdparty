@@ -1113,8 +1113,9 @@ full_path: closable_queue.ClosableQueue
 ---
 name: Section
 ts: 2026-01-13 13:29:26.791923+00:00
-type: keep_private
-full_path: _internal.sections.Section
+type: make_public
+group: sections
+details: core data class used by all section functions
 ---
 name: KwargsError
 ts: 2026-01-13 13:29:29.665407+00:00

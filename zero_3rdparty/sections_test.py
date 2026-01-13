@@ -4,7 +4,8 @@
 import pytest
 
 from zero_3rdparty import sections_examples as examples_module
-from zero_3rdparty.sections import get_comment_config, parse_sections, replace_sections, CommentConfig
+from zero_3rdparty.sections import CommentConfig, get_comment_config, parse_sections, replace_sections
+
 # === OK_EDIT: pkg-ext header ===
 
 # === DO_NOT_EDIT: pkg-ext commentconfig_test_parametrize ===
