@@ -1,0 +1,317 @@
+pkg_import_name: zero_3rdparty
+version: 0.100.0
+groups:
+- name: sections
+  stability: ga
+  symbols:
+  - name: CommentConfig
+    module_path: _internal.sections
+    docstring: 'CommentConfig(prefix: ''str'', suffix: ''str'' = '''')'
+    line_number: 14
+    type: class
+    direct_bases: []
+    init_signature:
+      parameters:
+      - name: self
+        kind: positional_or_keyword
+        type_imports: []
+      - name: prefix
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      - name: suffix
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+        default:
+          value_repr: ''''''
+          is_factory: false
+      return_annotation: None
+      return_type_imports: []
+    fields:
+    - name: prefix
+      type_annotation: str
+      type_imports: []
+      is_class_var: false
+      is_computed: false
+    - name: suffix
+      type_annotation: str
+      type_imports: []
+      default:
+        value_repr: ''''''
+        is_factory: false
+      is_class_var: false
+      is_computed: false
+  - name: compare_sections
+    module_path: _internal.sections
+    docstring: Return section IDs with changes (modified or removed), excluding skipped sections.
+    line_number: 166
+    type: function
+    signature:
+      parameters:
+      - name: baseline_content
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      - name: current_content
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      - name: tool_name
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      - name: config
+        kind: positional_or_keyword
+        type_annotation: CommentConfig
+        type_imports:
+        - zero_3rdparty._internal.sections.CommentConfig
+      - name: skip
+        kind: positional_or_keyword
+        type_annotation: set[str] | None
+        type_imports: []
+        default:
+          value_repr: None
+          is_factory: false
+      return_annotation: list[str]
+      return_type_imports: []
+  - name: extract_sections
+    module_path: _internal.sections
+    docstring: ''
+    line_number: 162
+    type: function
+    signature:
+      parameters:
+      - name: content
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      - name: tool_name
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      - name: config
+        kind: positional_or_keyword
+        type_annotation: CommentConfig
+        type_imports:
+        - zero_3rdparty._internal.sections.CommentConfig
+      return_annotation: dict[str, str]
+      return_type_imports: []
+  - name: extract_sections_from_path
+    module_path: _internal.sections
+    docstring: ''
+    line_number: 255
+    type: function
+    signature:
+      parameters:
+      - name: path
+        kind: positional_or_keyword
+        type_annotation: Path
+        type_imports:
+        - pathlib.Path
+      - name: tool_name
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      return_annotation: dict[str, str]
+      return_type_imports: []
+  - name: get_comment_config
+    module_path: _internal.sections
+    docstring: ''
+    line_number: 81
+    type: function
+    signature:
+      parameters:
+      - name: path
+        kind: positional_or_keyword
+        type_annotation: Path | str
+        type_imports:
+        - pathlib.Path
+      - name: override
+        kind: positional_or_keyword
+        type_annotation: CommentConfig | None
+        type_imports:
+        - zero_3rdparty._internal.sections.CommentConfig
+        default:
+          value_repr: None
+          is_factory: false
+      return_annotation: CommentConfig
+      return_type_imports:
+      - zero_3rdparty._internal.sections.CommentConfig
+  - name: has_sections
+    module_path: _internal.sections
+    docstring: ''
+    line_number: 158
+    type: function
+    signature:
+      parameters:
+      - name: content
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      - name: tool_name
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      - name: config
+        kind: positional_or_keyword
+        type_annotation: CommentConfig
+        type_imports:
+        - zero_3rdparty._internal.sections.CommentConfig
+      return_annotation: bool
+      return_type_imports: []
+  - name: has_sections_in_path
+    module_path: _internal.sections
+    docstring: ''
+    line_number: 250
+    type: function
+    signature:
+      parameters:
+      - name: path
+        kind: positional_or_keyword
+        type_annotation: Path
+        type_imports:
+        - pathlib.Path
+      - name: tool_name
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      return_annotation: bool
+      return_type_imports: []
+  - name: parse_sections
+    module_path: _internal.sections
+    docstring: ''
+    line_number: 116
+    type: function
+    signature:
+      parameters:
+      - name: content
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      - name: tool_name
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      - name: config
+        kind: positional_or_keyword
+        type_annotation: CommentConfig
+        type_imports:
+        - zero_3rdparty._internal.sections.CommentConfig
+      return_annotation: list[Section]
+      return_type_imports:
+      - zero_3rdparty._internal.sections.Section
+  - name: parse_sections_from_path
+    module_path: _internal.sections
+    docstring: ''
+    line_number: 245
+    type: function
+    signature:
+      parameters:
+      - name: path
+        kind: positional_or_keyword
+        type_annotation: Path
+        type_imports:
+        - pathlib.Path
+      - name: tool_name
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      return_annotation: list[Section]
+      return_type_imports:
+      - zero_3rdparty._internal.sections.Section
+  - name: replace_sections
+    module_path: _internal.sections
+    docstring: Replace sections in dest_content with src_sections, excluding skipped sections. New sections are added at the end
+    line_number: 194
+    type: function
+    signature:
+      parameters:
+      - name: dest_content
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      - name: src_sections
+        kind: positional_or_keyword
+        type_annotation: dict[str, str]
+        type_imports: []
+      - name: tool_name
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      - name: config
+        kind: positional_or_keyword
+        type_annotation: CommentConfig
+        type_imports:
+        - zero_3rdparty._internal.sections.CommentConfig
+      - name: skip_sections
+        kind: positional_or_keyword
+        type_annotation: list[str] | None
+        type_imports: []
+        default:
+          value_repr: None
+          is_factory: false
+      return_annotation: str
+      return_type_imports: []
+  - name: slug
+    module_path: _internal.sections
+    docstring: Convert text to lowercase slug suitable for section marker IDs.
+    line_number: 8
+    type: function
+    signature:
+      parameters:
+      - name: text
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      return_annotation: str
+      return_type_imports: []
+  - name: wrap_in_default_section
+    module_path: _internal.sections
+    docstring: ''
+    line_number: 190
+    type: function
+    signature:
+      parameters:
+      - name: content
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      - name: tool_name
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      - name: config
+        kind: positional_or_keyword
+        type_annotation: CommentConfig
+        type_imports:
+        - zero_3rdparty._internal.sections.CommentConfig
+      return_annotation: str
+      return_type_imports: []
+  - name: wrap_section
+    module_path: _internal.sections
+    docstring: ''
+    line_number: 184
+    type: function
+    signature:
+      parameters:
+      - name: content
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      - name: section_id
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      - name: tool_name
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      - name: config
+        kind: positional_or_keyword
+        type_annotation: CommentConfig
+        type_imports:
+        - zero_3rdparty._internal.sections.CommentConfig
+      return_annotation: str
+      return_type_imports: []
+dumped_at: 2026-01-13 21:08:40.391528+00:00

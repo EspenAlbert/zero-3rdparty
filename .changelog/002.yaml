@@ -1126,3 +1126,11 @@ name: BaseError
 ts: 2026-01-13 13:29:29.665532+00:00
 type: keep_private
 full_path: error.BaseError
+---
+name: ''
+ts: 2026-01-13 20:59:58.862967+00:00
+author: Espen Albert
+type: fix
+short_sha: 9351e0
+message: 'fix: adjust test parameters in sections_test.py to exclude unnecessary fields for CommentConfig instantiation'
+ignored: true
