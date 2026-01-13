@@ -24,7 +24,7 @@ result = get_comment_config(path='justfile', override=None)
 ### Example: markdown_file
 
 ```python
-result = get_comment_config(path=PosixPath('test.md'), override=None, expected_prefix='<!--', expected_suffix=' -->')
+result = get_comment_config(path=PosixPath("test.md"), override=None)
 ```
 <!-- === OK_EDIT: pkg-ext get_comment_config_example_markdown_file === -->
 
@@ -32,7 +32,7 @@ result = get_comment_config(path=PosixPath('test.md'), override=None, expected_p
 ### Example: python_file
 
 ```python
-result = get_comment_config(path=PosixPath('test.py'), override=None, expected_prefix='#', expected_suffix='')
+result = get_comment_config(path=PosixPath("test.py"), override=None)
 ```
 <!-- === OK_EDIT: pkg-ext get_comment_config_example_python_file === -->
 
@@ -48,7 +48,9 @@ result = get_comment_config(path=PosixPath('app.ts'), override=None)
 ### Example: with_override
 
 ```python
-result = get_comment_config(path=PosixPath('test.py'), override={'prefix': '%%', 'suffix': ''}, expected_prefix='%%', expected_suffix='')
+result = get_comment_config(
+    path=PosixPath("test.py"), override={"prefix": "%%", "suffix": ""}
+)
 ```
 <!-- === OK_EDIT: pkg-ext get_comment_config_example_with_override === -->
 

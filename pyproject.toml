@@ -27,6 +27,7 @@ include = [
   "zero_3rdparty/py.typed",
 ]
 exclude = [
+  "*_examples.py",
   "*_test.py",
   "conftest.py",
   "test_*.json",

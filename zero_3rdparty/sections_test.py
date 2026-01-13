@@ -16,9 +16,8 @@ commentconfig_examples = [
 
 @pytest.mark.parametrize("example", commentconfig_examples, ids=[e.example_name for e in commentconfig_examples])
 def test_commentconfig(example: examples_module.CommentConfigExample):
-    instance = CommentConfig(**example.model_dump(exclude={"example_name", "example_description_md"}))
-    assert instance.prefix == example.prefix
-    assert instance.suffix == example.suffix
+    instance = CommentConfig(**example.model_dump(exclude={"example_name", "example_description_md", "test_assert"}))
+    example.expected(example, instance)
 
 
 # === OK_EDIT: pkg-ext commentconfig_test_parametrize ===
@@ -34,8 +33,7 @@ get_comment_config_examples = [
 )
 def test_get_comment_config(example: examples_module.GetCommentConfigExample):
     result = get_comment_config(path=example.path, override=example.override)
-    assert result.prefix == example.expected_prefix
-    assert result.suffix == example.expected_suffix
+    example.expected(example, result)
 
 
 # === OK_EDIT: pkg-ext get_comment_config_test_parametrize ===
@@ -49,9 +47,7 @@ parse_sections_examples = [
 @pytest.mark.parametrize("example", parse_sections_examples, ids=[e.example_name for e in parse_sections_examples])
 def test_parse_sections(example: examples_module.ParseSectionsExample):
     result = parse_sections(content=example.content, tool_name=example.tool_name, config=example.config)
-    assert len(result) == example.expected_section_count
-    assert result[0].id == example.expected_first_id
-    assert result[0].content == example.expected_first_content
+    example.expected(example, result)
 
 
 # === OK_EDIT: pkg-ext parse_sections_test_parametrize ===
@@ -71,8 +67,7 @@ def test_replace_sections(example: examples_module.ReplaceSectionsExample):
         config=example.config,
         skip_sections=example.skip_sections,
     )
-    assert example.expected_contains in result
-    assert example.expected_not_contains not in result
+    example.expected(example, result)
 
 
 # === OK_EDIT: pkg-ext replace_sections_test_parametrize ===

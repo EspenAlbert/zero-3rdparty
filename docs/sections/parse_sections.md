@@ -16,7 +16,25 @@ The type of the None singleton.
 ### Example: justfile_sections
 
 ```python
-result = parse_sections(content='# header line\n\n# === OK_EDIT: mytool header ===\n# Custom variables\n\n# === DO_NOT_EDIT: mytool standard ===\npre-push: lint test\n# === OK_EDIT: mytool standard ===\n\n# === DO_NOT_EDIT: mytool coverage ===\ncov:\n  uv run pytest --cov\n# === OK_EDIT: mytool coverage ===\n', tool_name='mytool', config={'prefix': '#', 'suffix': ''}, expected_section_count=2, expected_first_id='standard', expected_first_content='pre-push: lint test')
+result = parse_sections(
+    content="""\
+# header line
+
+# === OK_EDIT: mytool header ===
+# Custom variables
+
+# === DO_NOT_EDIT: mytool standard ===
+pre-push: lint test
+# === OK_EDIT: mytool standard ===
+
+# === DO_NOT_EDIT: mytool coverage ===
+cov:
+  uv run pytest --cov
+# === OK_EDIT: mytool coverage ===
+""",
+    tool_name="mytool",
+    config={"prefix": "#", "suffix": ""},
+)
 ```
 <!-- === OK_EDIT: pkg-ext parse_sections_example_justfile_sections === -->
 
@@ -31,6 +49,14 @@ result = parse_sections(content='# header line\n\n# === OK_EDIT: mytool header =
 ### Example: html_sections
 
 ```python
-result = parse_sections(content='<!-- === DO_NOT_EDIT: pkg heading === -->\n# Title\n<!-- === OK_EDIT: pkg heading === -->\n', tool_name='pkg', config={'prefix': '<!--', 'suffix': ' -->'}, expected_section_count=1, expected_first_id='heading', expected_first_content='# Title')
+result = parse_sections(
+    content="""\
+<!-- === DO_NOT_EDIT: pkg heading === -->
+# Title
+<!-- === OK_EDIT: pkg heading === -->
+""",
+    tool_name="pkg",
+    config={"prefix": "<!--", "suffix": " -->"},
+)
 ```
 <!-- === OK_EDIT: pkg-ext parse_sections_example_html_sections === -->

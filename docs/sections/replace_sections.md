@@ -16,7 +16,16 @@ The type of the None singleton.
 ### Example: replace_existing
 
 ```python
-result = replace_sections(dest_content='# === DO_NOT_EDIT: t std ===\nold content\n# === OK_EDIT: t std ===', src_sections={'std': 'new content'}, tool_name='t', config={'prefix': '#', 'suffix': ''}, skip_sections=None, expected_contains='new content', expected_not_contains='old content')
+result = replace_sections(
+    dest_content="""\
+# === DO_NOT_EDIT: t std ===
+old content
+# === OK_EDIT: t std ===""",
+    src_sections={"std": "new content"},
+    tool_name="t",
+    config={"prefix": "#", "suffix": ""},
+    skip_sections=None,
+)
 ```
 <!-- === OK_EDIT: pkg-ext replace_sections_example_replace_existing === -->
 
@@ -24,7 +33,16 @@ result = replace_sections(dest_content='# === DO_NOT_EDIT: t std ===\nold conten
 ### Example: skip_section
 
 ```python
-result = replace_sections(dest_content='# === DO_NOT_EDIT: t std ===\npreserved\n# === OK_EDIT: t std ===', src_sections={'std': 'would be replaced'}, tool_name='t', config={'prefix': '#', 'suffix': ''}, skip_sections=['std'], expected_contains='preserved', expected_not_contains='would be replaced')
+result = replace_sections(
+    dest_content="""\
+# === DO_NOT_EDIT: t std ===
+preserved
+# === OK_EDIT: t std ===""",
+    src_sections={"std": "would be replaced"},
+    tool_name="t",
+    config={"prefix": "#", "suffix": ""},
+    skip_sections=["std"],
+)
 ```
 <!-- === OK_EDIT: pkg-ext replace_sections_example_skip_section === -->
 
