@@ -198,6 +198,7 @@ def replace_sections(
     config: CommentConfig,
     skip_sections: list[str] | None = None,
 ) -> str:
+    """Replace sections in dest_content with src_sections, excluding skipped sections. New sections are added at the end"""
     skip = set(skip_sections or [])
     dest_parsed = parse_sections(dest_content, tool_name, config)
     dest_ids = {s.id for s in dest_parsed}

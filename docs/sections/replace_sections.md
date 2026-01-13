@@ -2,14 +2,14 @@
 
 <!-- === DO_NOT_EDIT: pkg-ext replace_sections_def === -->
 ## function: replace_sections
-- [source](../../_internal/sections.py#L194)
+- [source](../../zero_3rdparty/_internal/sections.py#L194)
 
 ```python
 def replace_sections(dest_content: str, src_sections: dict[str, str], tool_name: str, config: CommentConfig, skip_sections: list[str] | None = None) -> str:
     ...
 ```
 
-The type of the None singleton.
+Replace sections in dest_content with src_sections, excluding skipped sections. New sections are added at the end
 <!-- === OK_EDIT: pkg-ext replace_sections_def === -->
 
 <!-- === DO_NOT_EDIT: pkg-ext replace_sections_example_replace_existing === -->

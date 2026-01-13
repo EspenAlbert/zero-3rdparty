@@ -35,24 +35,15 @@
 <!-- === DO_NOT_EDIT: pkg-ext extract_sections_from_path_def === -->
 ### function: `extract_sections_from_path`
 <!-- === OK_EDIT: pkg-ext extract_sections_from_path_def === -->
-<!-- === DO_NOT_EDIT: pkg-ext get_comment_config_def === -->
-### function: `get_comment_config`
-<!-- === OK_EDIT: pkg-ext get_comment_config_def === -->
 <!-- === DO_NOT_EDIT: pkg-ext has_sections_def === -->
 ### function: `has_sections`
 <!-- === OK_EDIT: pkg-ext has_sections_def === -->
 <!-- === DO_NOT_EDIT: pkg-ext has_sections_in_path_def === -->
 ### function: `has_sections_in_path`
 <!-- === OK_EDIT: pkg-ext has_sections_in_path_def === -->
-<!-- === DO_NOT_EDIT: pkg-ext parse_sections_def === -->
-### function: `parse_sections`
-<!-- === OK_EDIT: pkg-ext parse_sections_def === -->
 <!-- === DO_NOT_EDIT: pkg-ext parse_sections_from_path_def === -->
 ### function: `parse_sections_from_path`
 <!-- === OK_EDIT: pkg-ext parse_sections_from_path_def === -->
-<!-- === DO_NOT_EDIT: pkg-ext replace_sections_def === -->
-### function: `replace_sections`
-<!-- === OK_EDIT: pkg-ext replace_sections_def === -->
 <!-- === DO_NOT_EDIT: pkg-ext slug_def === -->
 ### function: `slug`
 <!-- === OK_EDIT: pkg-ext slug_def === -->

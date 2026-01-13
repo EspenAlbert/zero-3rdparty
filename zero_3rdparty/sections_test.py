@@ -4,8 +4,7 @@
 import pytest
 
 from zero_3rdparty import sections_examples as examples_module
-from zero_3rdparty.sections import CommentConfig, get_comment_config, parse_sections, replace_sections
-
+from zero_3rdparty.sections import get_comment_config, parse_sections, replace_sections, CommentConfig
 # === OK_EDIT: pkg-ext header ===
 
 # === DO_NOT_EDIT: pkg-ext commentconfig_test_parametrize ===
@@ -16,7 +15,7 @@ commentconfig_examples = [
 
 @pytest.mark.parametrize("example", commentconfig_examples, ids=[e.example_name for e in commentconfig_examples])
 def test_commentconfig(example: examples_module.CommentConfigExample):
-    instance = CommentConfig(**example.model_dump(exclude={"example_name", "example_description_md", "test_assert"}))
+    instance = CommentConfig(**example.model_dump(exclude={"example_name", "example_description_md"}))
     example.expected(example, instance)
 
 
