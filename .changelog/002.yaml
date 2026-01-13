@@ -1134,3 +1134,8 @@ type: fix
 short_sha: 9351e0
 message: 'fix: adjust test parameters in sections_test.py to exclude unnecessary fields for CommentConfig instantiation'
 ignored: true
+---
+name: 0.101.0
+old_version: 0.100.0
+ts: 2026-01-13 21:37:28.681703+00:00
+type: release
