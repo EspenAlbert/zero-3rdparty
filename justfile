@@ -1,6 +1,6 @@
 # path-sync copy -n python-template
 
-# === OK_EDIT ===
+# === OK_EDIT: path-sync header ===
 # Custom variables and setup
 
 default:
@@ -33,12 +33,12 @@ test:
 
 build:
   uv build
-# === OK_EDIT ===
+# === OK_EDIT: path-sync standard ===
 
 # === DO_NOT_EDIT: path-sync path-sync ===
 path-sync-validate:
   uv run path-sync validate-no-changes -n python-template
-# === OK_EDIT ===
+# === OK_EDIT: path-sync path-sync ===
 
 # === DO_NOT_EDIT: path-sync coverage ===
 cov:
@@ -49,25 +49,25 @@ cov-full:
 
 open-cov: cov
   open htmlcov/index.html
-# === OK_EDIT ===
+# === OK_EDIT: path-sync coverage ===
 
 # === DO_NOT_EDIT: path-sync typing ===
 type-check:
   uv run pyright
-# === OK_EDIT ===
+# === OK_EDIT: path-sync typing ===
 
 # === DO_NOT_EDIT: path-sync pkg-ext ===
-pkg-pre-push:
-  uv run pkg-ext pre-push
+pkg-pre-change:
+  uv run pkg-ext pre-change
 
-pkg-pre-merge:
-  uv run pkg-ext --is-bot pre-merge
+pkg-pre-commit:
+  uv run pkg-ext --is-bot pre-commit
 
 pkg-post-merge:
   uv run pkg-ext --is-bot post-merge --push
 
 pkg-release-notes tag:
   uv run pkg-ext release-notes --tag {{tag}}
-# === OK_EDIT ===
+# === OK_EDIT: path-sync pkg-ext ===
 
 # Custom recipes below

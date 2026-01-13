@@ -88,7 +88,7 @@ def bind_instances(
 class _InjectDescriptor(Generic[T]):
     cls: type[T]
 
-    def __get__(self, _instance, owner) -> T | _InjectDescriptor[T]:
+    def __get__(self, _instance, _owner) -> T | _InjectDescriptor[T]:
         with suppress(DependencyNotSet):
             return instance(self.cls)
         if _instance is not None:
