@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from zero_3rdparty.sections import (
+from zero_3rdparty._internal.sections import (
     CommentConfig,
     compare_sections,
     extract_sections,
@@ -81,8 +81,8 @@ content
 
 
 def test_parse_sections_edge_cases():
-    assert parse_sections("plain content", "t", HASH_CONFIG) == []
-    assert parse_sections("# === OK_EDIT: t orphan ===\ncontent", "t", HASH_CONFIG) == []
+    assert not parse_sections("plain content", "t", HASH_CONFIG)
+    assert not parse_sections("# === OK_EDIT: t orphan ===\ncontent", "t", HASH_CONFIG)
 
 
 def test_extract_and_has_sections():
@@ -195,4 +195,4 @@ unchanged
     assert compare_sections(baseline, current_removed, "t", HASH_CONFIG) == ["sec1"]
 
     # skip sec1
-    assert compare_sections(baseline, current, "t", HASH_CONFIG, skip={"sec1"}) == []
+    assert not compare_sections(baseline, current, "t", HASH_CONFIG, skip={"sec1"})

@@ -161,7 +161,7 @@ def as_incomplete_future(future: Future | None, fut_type: type = ConcFuture) -> 
     return fut_type()
 
 
-def safe_cancel(future: Future | None, reason: str = "") -> None:
+def safe_cancel(future: Future | None, _reason: str = "") -> None:
     if future and not future.done():
         future.cancel()
     return None

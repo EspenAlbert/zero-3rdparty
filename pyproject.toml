@@ -1,6 +1,6 @@
 [project]
 name = "zero-3rdparty"
-version = "1.0.0b8"
+version = "0.100.0"
 requires-python = ">=3.13"
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -23,6 +23,7 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.sdist]
 include = [
   "zero_3rdparty/*.py",
+  "zero_3rdparty/_internal/*.py",
   "zero_3rdparty/py.typed",
 ]
 exclude = [
@@ -33,8 +34,6 @@ exclude = [
 
 [tool.pkg-ext]
 tag_prefix = "v"
-flat_package = true
-keep_prerelease = true
 
 [tool.ruff]
 line-length = 120
