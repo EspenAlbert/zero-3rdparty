@@ -35,6 +35,15 @@ exclude = [
 [tool.pkg-ext]
 tag_prefix = "v"
 
+[tool.pkg-ext.groups.sections]
+examples_enabled = true
+examples_include = [
+  "CommentConfig",
+  "parse_sections",
+  "replace_sections",
+  "get_comment_config",
+]
+
 [tool.ruff]
 line-length = 120
 target-version = "py313"

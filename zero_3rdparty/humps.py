@@ -1,3 +1,4 @@
+# type: ignore
 """
 # https://raw.githubusercontent.com/nficano/humps/master/humps/main.py
 This module contains all the core logic for humps.
