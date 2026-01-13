@@ -42,6 +42,56 @@ groups:
         is_factory: false
       is_class_var: false
       is_computed: false
+  - name: Section
+    module_path: _internal.sections
+    docstring: 'Section(id: ''str'', content: ''str'', start_line: ''int'', end_line: ''int'')'
+    line_number: 20
+    type: class
+    direct_bases: []
+    init_signature:
+      parameters:
+      - name: self
+        kind: positional_or_keyword
+        type_imports: []
+      - name: id
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      - name: content
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+      - name: start_line
+        kind: positional_or_keyword
+        type_annotation: int
+        type_imports: []
+      - name: end_line
+        kind: positional_or_keyword
+        type_annotation: int
+        type_imports: []
+      return_annotation: None
+      return_type_imports: []
+    fields:
+    - name: id
+      type_annotation: str
+      type_imports: []
+      is_class_var: false
+      is_computed: false
+    - name: content
+      type_annotation: str
+      type_imports: []
+      is_class_var: false
+      is_computed: false
+    - name: start_line
+      type_annotation: int
+      type_imports: []
+      is_class_var: false
+      is_computed: false
+    - name: end_line
+      type_annotation: int
+      type_imports: []
+      is_class_var: false
+      is_computed: false
   - name: compare_sections
     module_path: _internal.sections
     docstring: Return section IDs with changes (modified or removed), excluding skipped sections.
@@ -314,4 +364,4 @@ groups:
         - zero_3rdparty._internal.sections.CommentConfig
       return_annotation: str
       return_type_imports: []
-dumped_at: 2026-01-13 21:08:40.391528+00:00
+dumped_at: 2026-01-13 21:17:41.546885+00:00

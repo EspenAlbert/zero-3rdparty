@@ -5,6 +5,7 @@
 
 <!-- === DO_NOT_EDIT: pkg-ext symbols === -->
 - `CommentConfig`
+- `Section`
 - `compare_sections`
 - `extract_sections`
 - `extract_sections_from_path`
@@ -53,3 +54,6 @@
 <!-- === DO_NOT_EDIT: pkg-ext wrap_section_def === -->
 ### function: `wrap_section`
 <!-- === OK_EDIT: pkg-ext wrap_section_def === -->
+<!-- === DO_NOT_EDIT: pkg-ext section_def === -->
+### class: `Section`
+<!-- === OK_EDIT: pkg-ext section_def === -->

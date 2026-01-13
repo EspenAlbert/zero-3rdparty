@@ -6,6 +6,7 @@ groups:
   - _internal.sections
   owned_refs:
   - _internal.sections.CommentConfig
+  - _internal.sections.Section
   - _internal.sections.compare_sections
   - _internal.sections.extract_sections
   - _internal.sections.extract_sections_from_path
