@@ -14,9 +14,6 @@ DOCS_DIR = Path(__file__).parent.parent / "docs"
 # Pattern: [source](../../zero_3rdparty/_internal/sections.py#L81)
 RELATIVE_SOURCE_PATTERN = re.compile(r"\[source\]\((?P<rel_path>\.\./[^)]+)\)")
 
-# Pattern: [name](docs/sections/index.md) -> [name](sections/index.md)
-DOCS_PREFIX_PATTERN = re.compile(r"\]\(docs/(?P<path>[^)]+)\)")
-
 
 def to_github_url(rel_path: str, doc_file: Path) -> str:
     """Convert relative path to absolute GitHub URL."""
@@ -32,22 +29,15 @@ def to_github_url(rel_path: str, doc_file: Path) -> str:
 def fix_links_in_file(file_path: Path) -> bool:
     """Fix source links in a single file. Returns True if modified."""
     content = file_path.read_text()
-    original = content
 
     def replace_source_link(match: re.Match[str]) -> str:
         rel_path = match.group("rel_path")
         github_url = to_github_url(rel_path, file_path)
         return f"[source]({github_url})"
 
-    def replace_docs_prefix(match: re.Match[str]) -> str:
-        path = match.group("path")
-        return f"]({path})"
-
-    content = RELATIVE_SOURCE_PATTERN.sub(replace_source_link, content)
-    content = DOCS_PREFIX_PATTERN.sub(replace_docs_prefix, content)
-
-    if content != original:
-        file_path.write_text(content)
+    new_content = RELATIVE_SOURCE_PATTERN.sub(replace_source_link, content)
+    if new_content != content:
+        file_path.write_text(new_content)
         return True
     return False
 
