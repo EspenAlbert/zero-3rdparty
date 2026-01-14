@@ -103,3 +103,6 @@ dev = [
   "pyright>=1.1.404",
   "pydantic",
 ]
+docs = [
+  "mkdocs-material>=9.5",
+]

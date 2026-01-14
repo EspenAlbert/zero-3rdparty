@@ -71,3 +71,9 @@ pkg-release-notes tag:
 # === OK_EDIT: path-sync pkg-ext ===
 
 # Custom recipes below
+
+docs-build:
+  uv run --group docs mkdocs build --strict
+
+docs-serve:
+  uv run --group docs mkdocs serve

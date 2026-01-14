@@ -34,3 +34,6 @@ coverage.xml
 .groups-dev.yaml
 CHANGELOG-dev.md
 # === OK_EDIT: path-sync gitignore ===
+
+# MkDocs build output
+site/
