@@ -9,6 +9,7 @@ classifiers = [
 ]
 readme = "readme.md"
 license = "MIT"
+license-files = ["LICENSE"]
 keywords = []
 authors = [
   { name = "EspenAlbert", email = "espen.albert1@gmail.com" },
