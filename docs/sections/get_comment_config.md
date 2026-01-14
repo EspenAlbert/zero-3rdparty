@@ -2,7 +2,7 @@
 
 <!-- === DO_NOT_EDIT: pkg-ext get_comment_config_def === -->
 ## function: get_comment_config
-- [source](../../zero_3rdparty/_internal/sections.py#L81)
+- [source](../../zero_3rdparty/_internal/sections.py#L84)
 
 ```python
 def get_comment_config(path: Path | str, override: CommentConfig | None = None) -> CommentConfig:

@@ -75,6 +75,9 @@ FILENAME_COMMENT_MAP: dict[str, CommentConfig] = {
     ".dockerignore": CommentConfig("#"),
     ".env": CommentConfig("#"),
     ".editorconfig": CommentConfig("#"),
+    "uv.lock": CommentConfig("#"),
+    "CODEOWNERS": CommentConfig("#"),
+    "LICENSE": CommentConfig("#"),
 }
 
 
@@ -113,7 +116,12 @@ def _end_marker(tool_name: str, section_id: str, config: CommentConfig) -> str:
     return f"{config.prefix} === OK_EDIT: {tool_name} {section_id} ==={config.suffix}"
 
 
-def parse_sections(content: str, tool_name: str, config: CommentConfig) -> list[Section]:
+def parse_sections(
+    content: str,
+    tool_name: str,
+    config: CommentConfig,
+    filename: str = "",
+) -> list[Section]:
     start_pattern = _build_start_pattern(tool_name, config)
     end_pattern = _build_end_pattern(tool_name, config)
     lines = content.split("\n")
@@ -121,11 +129,14 @@ def parse_sections(content: str, tool_name: str, config: CommentConfig) -> list[
     current_id: str | None = None
     current_start: int = -1
     content_lines: list[str] = []
+    file_suffix = f" in {filename}" if filename else ""
 
     for i, line in enumerate(lines):
         if start_match := start_pattern.match(line):
             if current_id is not None:
-                raise ValueError(f"Nested section at line {i}: found '{start_match.group('id')}' inside '{current_id}'")
+                raise ValueError(
+                    f"Nested section at line {i}: found '{start_match.group('id')}' inside '{current_id}'{file_suffix}"
+                )
             current_id = start_match.group("id")
             current_start = i
             content_lines = []
@@ -134,7 +145,9 @@ def parse_sections(content: str, tool_name: str, config: CommentConfig) -> list[
                 continue  # standalone OK_EDIT is valid, ignored
             end_id = end_match.group("end_id")
             if end_id != current_id:
-                raise ValueError(f"Mismatched section end at line {i}: expected '{current_id}', got '{end_id}'")
+                raise ValueError(
+                    f"Mismatched section end at line {i}: expected '{current_id}', got '{end_id}'{file_suffix}"
+                )
             sections.append(
                 Section(
                     id=current_id,
@@ -150,7 +163,7 @@ def parse_sections(content: str, tool_name: str, config: CommentConfig) -> list[
             content_lines.append(line)
 
     if current_id is not None:
-        raise ValueError(f"Unclosed section '{current_id}' starting at line {current_start}")
+        raise ValueError(f"Unclosed section '{current_id}' starting at line {current_start}{file_suffix}")
 
     return sections
 
@@ -159,8 +172,13 @@ def has_sections(content: str, tool_name: str, config: CommentConfig) -> bool:
     return bool(_build_start_pattern(tool_name, config).search(content))
 
 
-def extract_sections(content: str, tool_name: str, config: CommentConfig) -> dict[str, str]:
-    return {s.id: s.content for s in parse_sections(content, tool_name, config)}
+def extract_sections(
+    content: str,
+    tool_name: str,
+    config: CommentConfig,
+    filename: str = "",
+) -> dict[str, str]:
+    return {s.id: s.content for s in parse_sections(content, tool_name, config, filename)}
 
 
 def compare_sections(
@@ -169,11 +187,12 @@ def compare_sections(
     tool_name: str,
     config: CommentConfig,
     skip: set[str] | None = None,
+    filename: str = "",
 ) -> list[str]:
     """Return section IDs with changes (modified or removed), excluding skipped sections."""
     skip_ids = skip or set()
-    baseline_secs = extract_sections(baseline_content, tool_name, config)
-    current_secs = extract_sections(current_content, tool_name, config)
+    baseline_secs = extract_sections(baseline_content, tool_name, config, filename)
+    current_secs = extract_sections(current_content, tool_name, config, filename)
     return [
         sec_id
         for sec_id, baseline_text in baseline_secs.items()
@@ -244,7 +263,7 @@ def replace_sections(
 # Path-based convenience functions
 def parse_sections_from_path(path: Path, tool_name: str) -> list[Section]:
     config = get_comment_config(path)
-    return parse_sections(path.read_text(), tool_name, config)
+    return parse_sections(path.read_text(), tool_name, config, str(path))
 
 
 def has_sections_in_path(path: Path, tool_name: str) -> bool:
@@ -254,4 +273,4 @@ def has_sections_in_path(path: Path, tool_name: str) -> bool:
 
 def extract_sections_from_path(path: Path, tool_name: str) -> dict[str, str]:
     config = get_comment_config(path)
-    return extract_sections(path.read_text(), tool_name, config)
+    return extract_sections(path.read_text(), tool_name, config, str(path))

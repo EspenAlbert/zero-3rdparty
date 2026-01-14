@@ -2,7 +2,7 @@
 
 <!-- === DO_NOT_EDIT: pkg-ext replace_sections_def === -->
 ## function: replace_sections
-- [source](../../zero_3rdparty/_internal/sections.py#L194)
+- [source](../../zero_3rdparty/_internal/sections.py#L213)
 
 ```python
 def replace_sections(dest_content: str, src_sections: dict[str, str], tool_name: str, config: CommentConfig, skip_sections: list[str] | None = None) -> str:

@@ -121,6 +121,7 @@ class ParseSectionsExample(Example[list[Section]]):
     content: str = ...  # type: ignore
     tool_name: str = ...  # type: ignore
     config: CommentConfig = ...  # type: ignore
+    filename: str = ...  # type: ignore
 
 
 # === OK_EDIT: pkg-ext class_parse_sections ===
@@ -143,6 +144,7 @@ parse_sections_justfile = ParseSectionsExample(
     content=JUSTFILE_CONTENT,
     tool_name="mytool",
     config=HASH_CONFIG,
+    filename="justfile",
     expected=_assert_justfile_sections,
 )
 
@@ -155,6 +157,7 @@ parse_sections_html = ParseSectionsExample(
 """,
     tool_name="pkg",
     config=HTML_CONFIG,
+    filename="index.html",
     expected=_assert_html_sections,
 )
 

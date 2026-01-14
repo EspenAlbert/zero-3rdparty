@@ -2,10 +2,10 @@
 
 <!-- === DO_NOT_EDIT: pkg-ext parse_sections_def === -->
 ## function: parse_sections
-- [source](../../zero_3rdparty/_internal/sections.py#L116)
+- [source](../../zero_3rdparty/_internal/sections.py#L119)
 
 ```python
-def parse_sections(content: str, tool_name: str, config: CommentConfig) -> list[Section]:
+def parse_sections(content: str, tool_name: str, config: CommentConfig, filename: str = '') -> list[Section]:
     ...
 ```
 <!-- === OK_EDIT: pkg-ext parse_sections_def === -->
@@ -22,6 +22,7 @@ result = parse_sections(
 """,
     tool_name="pkg",
     config={"prefix": "<!--", "suffix": " -->"},
+    filename="index.html",
 )
 ```
 <!-- === OK_EDIT: pkg-ext parse_sections_example_html_sections === -->
@@ -48,6 +49,7 @@ cov:
 """,
     tool_name="mytool",
     config={"prefix": "#", "suffix": ""},
+    filename="justfile",
 )
 ```
 <!-- === OK_EDIT: pkg-ext parse_sections_example_justfile_sections === -->
