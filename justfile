@@ -71,9 +71,12 @@ pkg-release-notes tag:
 # === OK_EDIT: path-sync pkg-ext ===
 
 # Custom recipes below
+REPO_URL := "https://github.com/EspenAlbert/zero-3rdparty"
 
 docs-build:
+  uv run scripts/fix_source_links.py {{REPO_URL}}
   uv run --group docs mkdocs build --strict
 
 docs-serve:
+  uv run scripts/fix_source_links.py {{REPO_URL}}
   uv run --group docs mkdocs serve

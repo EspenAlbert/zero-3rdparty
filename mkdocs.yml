@@ -23,7 +23,3 @@ markdown_extensions:
   - pymdownx.superfences
   - admonition
 # === OK_EDIT: pkg-ext extensions ===
-
-validation:
-  links:
-    not_found: info

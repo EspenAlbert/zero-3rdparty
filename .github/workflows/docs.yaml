@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
       - name: Build docs
-        run: uv run --group docs mkdocs build --strict
+        run: just docs-build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
