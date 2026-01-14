@@ -46,7 +46,9 @@ parse_sections_examples = [
 
 @pytest.mark.parametrize("example", parse_sections_examples, ids=[e.example_name for e in parse_sections_examples])
 def test_parse_sections(example: examples_module.ParseSectionsExample):
-    result = parse_sections(content=example.content, tool_name=example.tool_name, config=example.config)
+    result = parse_sections(
+        content=example.content, tool_name=example.tool_name, config=example.config, filename=example.filename
+    )
     example.expected(example, result)
 
 
