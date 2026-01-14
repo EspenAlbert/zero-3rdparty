@@ -74,9 +74,11 @@ pkg-release-notes tag:
 REPO_URL := "https://github.com/EspenAlbert/zero-3rdparty"
 
 docs-build:
+  cp readme.md docs/index.md
   uv run scripts/fix_source_links.py {{REPO_URL}}
   uv run --group docs mkdocs build --strict
 
 docs-serve:
+  cp readme.md docs/index.md
   uv run scripts/fix_source_links.py {{REPO_URL}}
   uv run --group docs mkdocs serve

@@ -37,3 +37,4 @@ CHANGELOG-dev.md
 
 # MkDocs build output
 site/
+docs/index.md # copied from root readme
