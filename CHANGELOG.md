@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.101.1 2026-01-14T14-41Z
+
+### Sections
+- fix: enhance section parsing functions to include filename in error messages and add support for additional file types [ec3be0](https://github.com/EspenAlbert/zero-3rdparty/commit/ec3be0)
+
+
 ## 0.101.0 2026-01-13T21-37Z
 
 ### Sections

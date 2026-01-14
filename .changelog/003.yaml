@@ -5,3 +5,8 @@ author: Espen Albert
 changelog_message: 'fix: enhance section parsing functions to include filename in error messages and add support for additional file types'
 message: 'fix: enhance section parsing functions to include filename in error messages and add support for additional file types'
 short_sha: ec3be0
+---
+name: 0.101.1
+ts: 2026-01-14 14:41:43.653526+00:00
+type: release
+old_version: 0.101.0
