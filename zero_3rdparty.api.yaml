@@ -1,33 +1,14 @@
 pkg_import_name: zero_3rdparty
-version: 0.100.0
+version: 0.101.1
 groups:
 - name: sections
-  stability: ga
   symbols:
   - name: CommentConfig
     module_path: _internal.sections
-    docstring: 'CommentConfig(prefix: ''str'', suffix: ''str'' = '''')'
+    docstring: ''
     line_number: 14
     type: class
     direct_bases: []
-    init_signature:
-      parameters:
-      - name: self
-        kind: positional_or_keyword
-        type_imports: []
-      - name: prefix
-        kind: positional_or_keyword
-        type_annotation: str
-        type_imports: []
-      - name: suffix
-        kind: positional_or_keyword
-        type_annotation: str
-        type_imports: []
-        default:
-          value_repr: ''''''
-          is_factory: false
-      return_annotation: None
-      return_type_imports: []
     fields:
     - name: prefix
       type_annotation: str
@@ -44,33 +25,10 @@ groups:
       is_computed: false
   - name: Section
     module_path: _internal.sections
-    docstring: 'Section(id: ''str'', content: ''str'', start_line: ''int'', end_line: ''int'')'
+    docstring: ''
     line_number: 20
     type: class
     direct_bases: []
-    init_signature:
-      parameters:
-      - name: self
-        kind: positional_or_keyword
-        type_imports: []
-      - name: id
-        kind: positional_or_keyword
-        type_annotation: str
-        type_imports: []
-      - name: content
-        kind: positional_or_keyword
-        type_annotation: str
-        type_imports: []
-      - name: start_line
-        kind: positional_or_keyword
-        type_annotation: int
-        type_imports: []
-      - name: end_line
-        kind: positional_or_keyword
-        type_annotation: int
-        type_imports: []
-      return_annotation: None
-      return_type_imports: []
     fields:
     - name: id
       type_annotation: str
@@ -95,7 +53,7 @@ groups:
   - name: compare_sections
     module_path: _internal.sections
     docstring: Return section IDs with changes (modified or removed), excluding skipped sections.
-    line_number: 166
+    line_number: 184
     type: function
     signature:
       parameters:
@@ -123,12 +81,19 @@ groups:
         default:
           value_repr: None
           is_factory: false
+      - name: filename
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+        default:
+          value_repr: ''''''
+          is_factory: false
       return_annotation: list[str]
       return_type_imports: []
   - name: extract_sections
     module_path: _internal.sections
     docstring: ''
-    line_number: 162
+    line_number: 175
     type: function
     signature:
       parameters:
@@ -145,12 +110,19 @@ groups:
         type_annotation: CommentConfig
         type_imports:
         - zero_3rdparty._internal.sections.CommentConfig
+      - name: filename
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+        default:
+          value_repr: ''''''
+          is_factory: false
       return_annotation: dict[str, str]
       return_type_imports: []
   - name: extract_sections_from_path
     module_path: _internal.sections
     docstring: ''
-    line_number: 255
+    line_number: 274
     type: function
     signature:
       parameters:
@@ -168,7 +140,7 @@ groups:
   - name: get_comment_config
     module_path: _internal.sections
     docstring: ''
-    line_number: 81
+    line_number: 84
     type: function
     signature:
       parameters:
@@ -191,7 +163,7 @@ groups:
   - name: has_sections
     module_path: _internal.sections
     docstring: ''
-    line_number: 158
+    line_number: 171
     type: function
     signature:
       parameters:
@@ -213,7 +185,7 @@ groups:
   - name: has_sections_in_path
     module_path: _internal.sections
     docstring: ''
-    line_number: 250
+    line_number: 269
     type: function
     signature:
       parameters:
@@ -231,7 +203,7 @@ groups:
   - name: parse_sections
     module_path: _internal.sections
     docstring: ''
-    line_number: 116
+    line_number: 119
     type: function
     signature:
       parameters:
@@ -248,13 +220,20 @@ groups:
         type_annotation: CommentConfig
         type_imports:
         - zero_3rdparty._internal.sections.CommentConfig
+      - name: filename
+        kind: positional_or_keyword
+        type_annotation: str
+        type_imports: []
+        default:
+          value_repr: ''''''
+          is_factory: false
       return_annotation: list[Section]
       return_type_imports:
       - zero_3rdparty._internal.sections.Section
   - name: parse_sections_from_path
     module_path: _internal.sections
     docstring: ''
-    line_number: 245
+    line_number: 264
     type: function
     signature:
       parameters:
@@ -273,7 +252,7 @@ groups:
   - name: replace_sections
     module_path: _internal.sections
     docstring: Replace sections in dest_content with src_sections, excluding skipped sections. New sections are added at the end
-    line_number: 194
+    line_number: 213
     type: function
     signature:
       parameters:
@@ -319,7 +298,7 @@ groups:
   - name: wrap_in_default_section
     module_path: _internal.sections
     docstring: ''
-    line_number: 190
+    line_number: 209
     type: function
     signature:
       parameters:
@@ -341,7 +320,7 @@ groups:
   - name: wrap_section
     module_path: _internal.sections
     docstring: ''
-    line_number: 184
+    line_number: 203
     type: function
     signature:
       parameters:
@@ -364,4 +343,4 @@ groups:
         - zero_3rdparty._internal.sections.CommentConfig
       return_annotation: str
       return_type_imports: []
-dumped_at: 2026-01-13 21:17:41.546885+00:00
+dumped_at: 2026-01-18 18:26:04.125082+00:00

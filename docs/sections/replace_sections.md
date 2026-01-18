@@ -52,5 +52,5 @@ preserved
 
 | Version | Change |
 |---------|--------|
-| unreleased | Made public |
+| 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext replace_sections_changes === -->

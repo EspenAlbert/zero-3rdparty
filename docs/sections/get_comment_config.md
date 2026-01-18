@@ -42,5 +42,5 @@ result = get_comment_config(
 
 | Version | Change |
 |---------|--------|
-| unreleased | Made public |
+| 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext get_comment_config_changes === -->

@@ -1,0 +1,8 @@
+ts: 2026-01-18 18:26:04.133737+00:00
+type: chore
+description: minor copy log level change
+---
+name: 0.101.2
+ts: 2026-01-18 18:26:04.338936+00:00
+type: release
+old_version: 0.101.1
