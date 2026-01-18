@@ -75,7 +75,7 @@ def join_if_not_absolute(base_path: os.PathLike, relative: str) -> str:
 
 
 def copy(src: os.PathLike, dest: os.PathLike, clean_dest: bool = False, ensure_parents=True) -> None:
-    logger.info(f"cp {src} {dest}")
+    logger.debug(f"cp {src} {dest}")
     dest = Path(dest)
     if ensure_parents:
         dest.parent.mkdir(parents=True, exist_ok=True)
