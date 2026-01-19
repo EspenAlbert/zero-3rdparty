@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.101.3 2026-01-19T07-29Z
+
+### Sections
+- fix: update section replacement logic to delete dest-only sections by default, with options to preserve them using skip_sections or keep_deleted_sections [6fd5b2](https://github.com/EspenAlbert/zero-3rdparty/commit/6fd5b2)
+- `sections.replace_sections`: added optional param 'keep_deleted_sections' (default: False)
+
+
 ## 0.101.1 2026-01-14T14-41Z
 
 ### Sections

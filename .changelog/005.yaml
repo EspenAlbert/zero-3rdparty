@@ -13,3 +13,8 @@ auto_generated: true
 change_kind: optional_param_added
 details: 'added optional param ''keep_deleted_sections'' (default: False)'
 group: sections
+---
+name: 0.101.3
+ts: 2026-01-19 07:29:17.091907+00:00
+type: release
+old_version: 0.101.2

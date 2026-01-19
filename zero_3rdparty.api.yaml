@@ -1,5 +1,5 @@
 pkg_import_name: zero_3rdparty
-version: 0.101.1
+version: 0.101.3
 groups:
 - name: sections
   symbols:
@@ -122,7 +122,7 @@ groups:
   - name: extract_sections_from_path
     module_path: _internal.sections
     docstring: ''
-    line_number: 274
+    line_number: 297
     type: function
     signature:
       parameters:
@@ -185,7 +185,7 @@ groups:
   - name: has_sections_in_path
     module_path: _internal.sections
     docstring: ''
-    line_number: 269
+    line_number: 292
     type: function
     signature:
       parameters:
@@ -233,7 +233,7 @@ groups:
   - name: parse_sections_from_path
     module_path: _internal.sections
     docstring: ''
-    line_number: 264
+    line_number: 287
     type: function
     signature:
       parameters:
@@ -251,8 +251,8 @@ groups:
       - zero_3rdparty._internal.sections.Section
   - name: replace_sections
     module_path: _internal.sections
-    docstring: Replace sections in dest_content with src_sections, excluding skipped sections. New sections are added at the end
-    line_number: 213
+    docstring: "Replace sections in dest_content with src_sections.\n\nArgs:\n    dest_content: The destination content containing sections to update\n    src_sections: Dict mapping section IDs to their new content\n    tool_name: The tool name used in section markers\n    config: Comment configuration for the file type\n    skip_sections: Section IDs to preserve unchanged (not replaced, not deleted)\n    keep_deleted_sections: If True, preserve sections not in src_sections.\n        If False (default), delete sections not in src_sections (unless skipped).\n\nNew sections from src_sections are always added at the end.\n"
+    line_number: 233
     type: function
     signature:
       parameters:
@@ -279,6 +279,13 @@ groups:
         type_imports: []
         default:
           value_repr: None
+          is_factory: false
+      - name: keep_deleted_sections
+        kind: keyword_only
+        type_annotation: bool
+        type_imports: []
+        default:
+          value_repr: 'False'
           is_factory: false
       return_annotation: str
       return_type_imports: []
@@ -343,4 +350,4 @@ groups:
         - zero_3rdparty._internal.sections.CommentConfig
       return_annotation: str
       return_type_imports: []
-dumped_at: 2026-01-18 18:26:04.125082+00:00
+dumped_at: 2026-01-19 07:29:17.076693+00:00

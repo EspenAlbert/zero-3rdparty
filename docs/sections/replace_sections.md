@@ -65,5 +65,6 @@ preserved
 
 | Version | Change |
 |---------|--------|
+| 0.101.3 | added optional param 'keep_deleted_sections' (default: False) |
 | 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext replace_sections_changes === -->
