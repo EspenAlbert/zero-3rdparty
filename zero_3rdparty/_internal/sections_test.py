@@ -118,13 +118,22 @@ old
     assert "DO_NOT_EDIT: t newid" in result3
     assert "OK_EDIT: t newid" in result3
 
-    # preserves dest-only sections
+    # deletes dest-only sections by default
     dest_only = """\
 # === DO_NOT_EDIT: t custom ===
 my stuff
 # === OK_EDIT: t custom ==="""
     result4 = replace_sections(dest_only, {}, "t", HASH_CONFIG)
-    assert "my stuff" in result4
+    assert "my stuff" not in result4
+    assert "custom" not in result4
+
+    # preserves dest-only sections if in skip_sections
+    result5 = replace_sections(dest_only, {}, "t", HASH_CONFIG, skip_sections=["custom"])
+    assert "my stuff" in result5
+
+    # preserves dest-only sections with keep_deleted_sections=True
+    result6 = replace_sections(dest_only, {}, "t", HASH_CONFIG, keep_deleted_sections=True)
+    assert "my stuff" in result6
 
 
 def test_get_comment_config():

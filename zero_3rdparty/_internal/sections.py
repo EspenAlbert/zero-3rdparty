@@ -210,52 +210,75 @@ def wrap_in_default_section(content: str, tool_name: str, config: CommentConfig)
     return wrap_section(content, "default", tool_name, config)
 
 
+def _compute_section_content(
+    dest_parsed: list[Section],
+    src_sections: dict[str, str],
+    skip: set[str],
+    keep_deleted_sections: bool,
+) -> dict[str, str | None]:
+    """Compute final content for each dest section: src, original, or None (delete)."""
+    result: dict[str, str | None] = {}
+    for s in dest_parsed:
+        if s.id in skip:
+            result[s.id] = s.content
+        elif s.id in src_sections:
+            result[s.id] = src_sections[s.id]
+        elif keep_deleted_sections:
+            result[s.id] = s.content
+        else:
+            result[s.id] = None
+    return result
+
+
 def replace_sections(
     dest_content: str,
     src_sections: dict[str, str],
     tool_name: str,
     config: CommentConfig,
     skip_sections: list[str] | None = None,
+    *,
+    keep_deleted_sections: bool = False,
 ) -> str:
-    """Replace sections in dest_content with src_sections, excluding skipped sections. New sections are added at the end"""
+    """Replace sections in dest_content with src_sections.
+
+    Args:
+        dest_content: The destination content containing sections to update
+        src_sections: Dict mapping section IDs to their new content
+        tool_name: The tool name used in section markers
+        config: Comment configuration for the file type
+        skip_sections: Section IDs to preserve unchanged (not replaced, not deleted)
+        keep_deleted_sections: If True, preserve sections not in src_sections.
+            If False (default), delete sections not in src_sections (unless skipped).
+
+    New sections from src_sections are always added at the end.
+    """
     skip = set(skip_sections or [])
     dest_parsed = parse_sections(dest_content, tool_name, config)
     dest_ids = {s.id for s in dest_parsed}
-    dest_sections = {s.id: s.content for s in dest_parsed}
+    final_content = _compute_section_content(dest_parsed, src_sections, skip, keep_deleted_sections)
 
     start_pattern = _build_start_pattern(tool_name, config)
     end_pattern = _build_end_pattern(tool_name, config)
-    lines = dest_content.split("\n")
     result: list[str] = []
+    current_id: str | None = None
 
-    current_section_id: str | None = None
-    for line in lines:
+    for line in dest_content.split("\n"):
         if start_match := start_pattern.match(line):
-            current_section_id = start_match.group("id")
-            result.append(line)
+            current_id = start_match.group("id")
+            if current_id and final_content.get(current_id) is not None:
+                result.append(line)
         elif end_pattern.match(line):
-            if current_section_id:
-                should_replace = current_section_id in src_sections and current_section_id not in skip
-                section_content = (
-                    src_sections[current_section_id] if should_replace else dest_sections.get(current_section_id, "")
-                )
-                if section_content:
-                    result.append(section_content)
-            result.append(line)
-            current_section_id = None
-        elif current_section_id is None:
+            if current_id and (content := final_content.get(current_id)):
+                result.append(content)
+                result.append(line)
+            current_id = None
+        elif current_id is None:
             result.append(line)
 
-    # Append new sections from source not in dest
-    for sid in src_sections:
+    # Append new sections from src not in dest
+    for sid, content in src_sections.items():
         if sid not in dest_ids and sid not in skip:
-            result.extend(
-                (
-                    _start_marker(tool_name, sid, config),
-                    src_sections[sid],
-                    _end_marker(tool_name, sid, config),
-                )
-            )
+            result.extend((_start_marker(tool_name, sid, config), content, _end_marker(tool_name, sid, config)))
 
     return "\n".join(result)
 
