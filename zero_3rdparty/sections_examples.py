@@ -169,6 +169,7 @@ class ReplaceSectionsExample(Example[str]):
     tool_name: str = ...  # type: ignore
     config: CommentConfig = ...  # type: ignore
     skip_sections: list[str] | None = ...  # type: ignore
+    keep_deleted_sections: bool = ...  # type: ignore
 
 
 # === OK_EDIT: pkg-ext class_replace_sections ===
@@ -194,6 +195,7 @@ old content
     tool_name="t",
     config=HASH_CONFIG,
     skip_sections=None,
+    keep_deleted_sections=False,
     expected=_assert_replace_existing,
 )
 
@@ -207,5 +209,6 @@ preserved
     tool_name="t",
     config=HASH_CONFIG,
     skip_sections=["std"],
+    keep_deleted_sections=False,
     expected=_assert_skip_section,
 )
