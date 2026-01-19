@@ -68,6 +68,7 @@ def test_replace_sections(example: examples_module.ReplaceSectionsExample):
         tool_name=example.tool_name,
         config=example.config,
         skip_sections=example.skip_sections,
+        keep_deleted_sections=example.keep_deleted_sections,
     )
     example.expected(example, result)
 

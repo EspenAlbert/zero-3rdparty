@@ -1,0 +1,15 @@
+name: sections
+ts: 2026-01-19 07:27:43.711515+00:00
+type: fix
+author: Espen Albert
+changelog_message: 'fix: update section replacement logic to delete dest-only sections by default, with options to preserve them using skip_sections or keep_deleted_sections'
+message: 'fix: update section replacement logic to delete dest-only sections by default, with options to preserve them using skip_sections or keep_deleted_sections'
+short_sha: 6fd5b2
+---
+name: replace_sections
+ts: 2026-01-19 07:27:45.854710+00:00
+type: additional_change
+auto_generated: true
+change_kind: optional_param_added
+details: 'added optional param ''keep_deleted_sections'' (default: False)'
+group: sections
