@@ -268,7 +268,7 @@ def replace_sections(
             if current_id and final_content.get(current_id) is not None:
                 result.append(line)
         elif end_pattern.match(line):
-            if current_id and (content := final_content.get(current_id)):
+            if current_id and (content := final_content.get(current_id)) is not None:
                 result.append(content)
                 result.append(line)
             current_id = None

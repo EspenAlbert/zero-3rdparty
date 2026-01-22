@@ -178,6 +178,26 @@ content here
     assert extracted["sec"] == "content here"
 
 
+def test_replace_sections_with_empty_content():
+    """Regression test: empty content should still produce valid sections with end markers."""
+    dest = """\
+# === DO_NOT_EDIT: t symbols ===
+- old_symbol
+# === OK_EDIT: t symbols ==="""
+    # Replace with empty content
+    result = replace_sections(dest, {"symbols": ""}, "t", HASH_CONFIG)
+
+    # Must be parseable (no unclosed sections)
+    sections = parse_sections(result, "t", HASH_CONFIG)
+    assert len(sections) == 1
+    assert sections[0].id == "symbols"
+    assert sections[0].content == ""
+
+    # Both markers must be present
+    assert "DO_NOT_EDIT: t symbols" in result
+    assert "OK_EDIT: t symbols" in result
+
+
 def test_compare_sections():
     baseline = """\
 # === DO_NOT_EDIT: t sec1 ===
