@@ -1,0 +1,7 @@
+name: sections
+ts: 2026-01-22 21:19:53.199486+00:00
+type: fix
+author: Espen Albert
+changelog_message: 'fix: replace_sections empty content should also write end marker'
+message: 'fix: replace_sections empty content should also write end marker'
+short_sha: 637c17
