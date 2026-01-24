@@ -19,3 +19,11 @@ type: make_public
 details: exposed in the function _internal.sections.changed_sections
 full_path: _internal.sections.SectionChanges
 group: sections
+---
+name: sections
+ts: 2026-01-24 19:15:30.322505+00:00
+type: fix
+author: Espen Albert
+changelog_message: 'fix: Enhances section parsing for hyphenated IDs'
+message: 'fix: Enhances section parsing for hyphenated IDs'
+short_sha: a557d4
