@@ -4,6 +4,7 @@ import pytest
 
 from zero_3rdparty._internal.sections import (
     CommentConfig,
+    changed_sections,
     compare_sections,
     extract_sections,
     extract_sections_from_path,
@@ -225,3 +226,30 @@ unchanged
 
     # skip sec1
     assert not compare_sections(baseline, current, "t", HASH_CONFIG, skip={"sec1"})
+
+
+def test_changed_sections():
+    baseline = """\
+# === DO_NOT_EDIT: t sec1 ===
+original
+# === OK_EDIT: t sec1 ===
+# === DO_NOT_EDIT: t sec2 ===
+unchanged
+# === OK_EDIT: t sec2 ===
+# === DO_NOT_EDIT: t sec3 ===
+will be removed
+# === OK_EDIT: t sec3 ==="""
+    current = """\
+# === DO_NOT_EDIT: t sec1 ===
+modified
+# === OK_EDIT: t sec1 ===
+# === DO_NOT_EDIT: t sec2 ===
+unchanged
+# === OK_EDIT: t sec2 ==="""
+    result = changed_sections(baseline, current, "t", HASH_CONFIG)
+    assert result.modified == ["sec1"]
+    assert result.missing == ["sec3"]
+
+    result_skip = changed_sections(baseline, current, "t", HASH_CONFIG, skip={"sec1", "sec3"})
+    assert result_skip.modified == []
+    assert result_skip.missing == []

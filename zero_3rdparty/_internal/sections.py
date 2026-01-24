@@ -25,6 +25,12 @@ class Section:
     end_line: int
 
 
+@dataclass
+class SectionChanges:
+    modified: list[str]
+    missing: list[str]
+
+
 EXTENSION_COMMENT_MAP: dict[str, CommentConfig] = {
     # Hash comments
     ".py": CommentConfig("#"),
@@ -198,6 +204,29 @@ def compare_sections(
         for sec_id, baseline_text in baseline_secs.items()
         if sec_id not in skip_ids and baseline_text != current_secs.get(sec_id, "")
     ]
+
+
+def changed_sections(
+    baseline_content: str,
+    current_content: str,
+    tool_name: str,
+    config: CommentConfig,
+    skip: set[str] | None = None,
+    filename: str = "",
+) -> SectionChanges:
+    """Return modified and missing sections separately."""
+    skip_ids = skip or set()
+    baseline_secs = extract_sections(baseline_content, tool_name, config, filename)
+    current_secs = extract_sections(current_content, tool_name, config, filename)
+    modified, missing = [], []
+    for sec_id, baseline_text in baseline_secs.items():
+        if sec_id in skip_ids:
+            continue
+        if sec_id not in current_secs:
+            missing.append(sec_id)
+        elif baseline_text != current_secs[sec_id]:
+            modified.append(sec_id)
+    return SectionChanges(modified=modified, missing=missing)
 
 
 def wrap_section(content: str, section_id: str, tool_name: str, config: CommentConfig) -> str:

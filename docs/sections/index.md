@@ -6,6 +6,8 @@
 <!-- === DO_NOT_EDIT: pkg-ext symbols === -->
 - [`CommentConfig`](#commentconfig_def)
 - [`Section`](#section_def)
+- [`SectionChanges`](#sectionchanges_def)
+- [`changed_sections`](#changed_sections_def)
 - [`compare_sections`](#compare_sections_def)
 - [`extract_sections`](#extract_sections_def)
 - [`extract_sections_from_path`](#extract_sections_from_path_def)
@@ -46,7 +48,7 @@ class CommentConfig:
 <a id="compare_sections_def"></a>
 
 ### function: `compare_sections`
-- [source](../../zero_3rdparty/_internal/sections.py#L184)
+- [source](../../zero_3rdparty/_internal/sections.py#L190)
 > **Since:** 0.101.0
 
 ```python
@@ -60,7 +62,7 @@ Return section IDs with changes (modified or removed), excluding skipped section
 <a id="extract_sections_def"></a>
 
 ### function: `extract_sections`
-- [source](../../zero_3rdparty/_internal/sections.py#L175)
+- [source](../../zero_3rdparty/_internal/sections.py#L181)
 > **Since:** 0.101.0
 
 ```python
@@ -72,7 +74,7 @@ def extract_sections(content: str, tool_name: str, config: CommentConfig, filena
 <a id="extract_sections_from_path_def"></a>
 
 ### function: `extract_sections_from_path`
-- [source](../../zero_3rdparty/_internal/sections.py#L297)
+- [source](../../zero_3rdparty/_internal/sections.py#L326)
 > **Since:** 0.101.0
 
 ```python
@@ -84,7 +86,7 @@ def extract_sections_from_path(path: Path, tool_name: str) -> dict[str, str]:
 <a id="has_sections_def"></a>
 
 ### function: `has_sections`
-- [source](../../zero_3rdparty/_internal/sections.py#L171)
+- [source](../../zero_3rdparty/_internal/sections.py#L177)
 > **Since:** 0.101.0
 
 ```python
@@ -96,7 +98,7 @@ def has_sections(content: str, tool_name: str, config: CommentConfig) -> bool:
 <a id="has_sections_in_path_def"></a>
 
 ### function: `has_sections_in_path`
-- [source](../../zero_3rdparty/_internal/sections.py#L292)
+- [source](../../zero_3rdparty/_internal/sections.py#L321)
 > **Since:** 0.101.0
 
 ```python
@@ -108,7 +110,7 @@ def has_sections_in_path(path: Path, tool_name: str) -> bool:
 <a id="parse_sections_from_path_def"></a>
 
 ### function: `parse_sections_from_path`
-- [source](../../zero_3rdparty/_internal/sections.py#L287)
+- [source](../../zero_3rdparty/_internal/sections.py#L316)
 > **Since:** 0.101.0
 
 ```python
@@ -134,7 +136,7 @@ Convert text to lowercase slug suitable for section marker IDs.
 <a id="wrap_in_default_section_def"></a>
 
 ### function: `wrap_in_default_section`
-- [source](../../zero_3rdparty/_internal/sections.py#L209)
+- [source](../../zero_3rdparty/_internal/sections.py#L238)
 > **Since:** 0.101.0
 
 ```python
@@ -146,7 +148,7 @@ def wrap_in_default_section(content: str, tool_name: str, config: CommentConfig)
 <a id="wrap_section_def"></a>
 
 ### function: `wrap_section`
-- [source](../../zero_3rdparty/_internal/sections.py#L203)
+- [source](../../zero_3rdparty/_internal/sections.py#L232)
 > **Since:** 0.101.0
 
 ```python
@@ -176,3 +178,35 @@ class Section:
 | start_line | `int` | - | 0.101.0 |
 | end_line | `int` | - | 0.101.0 |
 <!-- === OK_EDIT: pkg-ext section_def === -->
+<!-- === DO_NOT_EDIT: pkg-ext sectionchanges_def === -->
+<a id="sectionchanges_def"></a>
+
+### class: `SectionChanges`
+- [source](../../zero_3rdparty/_internal/sections.py#L28)
+> **Since:** unreleased
+
+```python
+class SectionChanges:
+    modified: list[str]
+    missing: list[str]
+```
+
+| Field | Type | Default | Since |
+|---|---|---|---|
+| modified | `list[str]` | - | unreleased |
+| missing | `list[str]` | - | unreleased |
+<!-- === OK_EDIT: pkg-ext sectionchanges_def === -->
+<!-- === DO_NOT_EDIT: pkg-ext changed_sections_def === -->
+<a id="changed_sections_def"></a>
+
+### function: `changed_sections`
+- [source](../../zero_3rdparty/_internal/sections.py#L209)
+> **Since:** unreleased
+
+```python
+def changed_sections(baseline_content: str, current_content: str, tool_name: str, config: CommentConfig, skip: set[str] | None = None, filename: str = '') -> SectionChanges:
+    ...
+```
+
+Return modified and missing sections separately.
+<!-- === OK_EDIT: pkg-ext changed_sections_def === -->

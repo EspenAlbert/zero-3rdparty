@@ -2,7 +2,7 @@
 
 <!-- === DO_NOT_EDIT: pkg-ext parse_sections_def === -->
 ## function: parse_sections
-- [source](../../zero_3rdparty/_internal/sections.py#L119)
+- [source](../../zero_3rdparty/_internal/sections.py#L125)
 > **Since:** 0.101.0
 
 ```python
