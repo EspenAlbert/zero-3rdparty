@@ -101,7 +101,7 @@ def get_comment_config(path: Path | str, override: CommentConfig | None = None) 
 def _build_start_pattern(tool_name: str, config: CommentConfig) -> re.Pattern[str]:
     return re.compile(
         rf"^{re.escape(config.prefix)}\s*===\s*DO_NOT_EDIT:\s*"
-        rf"{re.escape(tool_name)}\s+(?P<id>\w+)\s*==={re.escape(config.suffix)}$",
+        rf"{re.escape(tool_name)}\s+(?P<id>[\w-]+)\s*==={re.escape(config.suffix)}$",
         re.MULTILINE,
     )
 
@@ -109,7 +109,7 @@ def _build_start_pattern(tool_name: str, config: CommentConfig) -> re.Pattern[st
 def _build_end_pattern(tool_name: str, config: CommentConfig) -> re.Pattern[str]:
     return re.compile(
         rf"^{re.escape(config.prefix)}\s*===\s*OK_EDIT:\s*"
-        rf"{re.escape(tool_name)}\s+(?P<end_id>\w+)\s*==={re.escape(config.suffix)}$",
+        rf"{re.escape(tool_name)}\s+(?P<end_id>[\w-]+)\s*==={re.escape(config.suffix)}$",
         re.MULTILINE,
     )
 

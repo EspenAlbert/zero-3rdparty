@@ -253,3 +253,53 @@ unchanged
     result_skip = changed_sections(baseline, current, "t", HASH_CONFIG, skip={"sec1", "sec3"})
     assert result_skip.modified == []
     assert result_skip.missing == []
+
+
+HYPHENATED_CONTENT = """\
+# header
+
+# === DO_NOT_EDIT: path-sync standard ===
+pre-push: lint test
+# === OK_EDIT: path-sync standard ===
+
+# === DO_NOT_EDIT: path-sync pkg-ext ===
+pkg-pre-change:
+  uv run --group release pkg-ext pre-change
+# === OK_EDIT: path-sync pkg-ext ===
+
+# === DO_NOT_EDIT: path-sync my-custom-section ===
+custom content
+# === OK_EDIT: path-sync my-custom-section ===
+"""
+
+
+def test_parse_sections_with_hyphenated_ids():
+    result = parse_sections(HYPHENATED_CONTENT, "path-sync", HASH_CONFIG)
+    assert len(result) == 3
+    ids = [s.id for s in result]
+    assert "standard" in ids
+    assert "pkg-ext" in ids
+    assert "my-custom-section" in ids
+
+
+def test_extract_sections_with_hyphenated_ids():
+    assert has_sections(HYPHENATED_CONTENT, "path-sync", HASH_CONFIG)
+    result = extract_sections(HYPHENATED_CONTENT, "path-sync", HASH_CONFIG)
+    assert "standard" in result
+    assert "pkg-ext" in result
+    assert "my-custom-section" in result
+    assert "--group release" in result["pkg-ext"]
+
+
+def test_replace_sections_with_hyphenated_ids():
+    dest = """\
+# === DO_NOT_EDIT: path-sync pkg-ext ===
+old content
+# === OK_EDIT: path-sync pkg-ext ==="""
+    result = replace_sections(dest, {"pkg-ext": "new content"}, "path-sync", HASH_CONFIG)
+    assert "new content" in result
+    assert "old content" not in result
+
+    result_skip = replace_sections(dest, {"pkg-ext": "replaced"}, "path-sync", HASH_CONFIG, skip_sections=["pkg-ext"])
+    assert "old content" in result_skip
+    assert "replaced" not in result_skip
