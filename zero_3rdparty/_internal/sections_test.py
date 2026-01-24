@@ -4,6 +4,7 @@ import pytest
 
 from zero_3rdparty._internal.sections import (
     CommentConfig,
+    changed_sections,
     compare_sections,
     extract_sections,
     extract_sections_from_path,
@@ -178,6 +179,26 @@ content here
     assert extracted["sec"] == "content here"
 
 
+def test_replace_sections_with_empty_content():
+    """Regression test: empty content should still produce valid sections with end markers."""
+    dest = """\
+# === DO_NOT_EDIT: t symbols ===
+- old_symbol
+# === OK_EDIT: t symbols ==="""
+    # Replace with empty content
+    result = replace_sections(dest, {"symbols": ""}, "t", HASH_CONFIG)
+
+    # Must be parseable (no unclosed sections)
+    sections = parse_sections(result, "t", HASH_CONFIG)
+    assert len(sections) == 1
+    assert sections[0].id == "symbols"
+    assert sections[0].content == ""
+
+    # Both markers must be present
+    assert "DO_NOT_EDIT: t symbols" in result
+    assert "OK_EDIT: t symbols" in result
+
+
 def test_compare_sections():
     baseline = """\
 # === DO_NOT_EDIT: t sec1 ===
@@ -205,3 +226,80 @@ unchanged
 
     # skip sec1
     assert not compare_sections(baseline, current, "t", HASH_CONFIG, skip={"sec1"})
+
+
+def test_changed_sections():
+    baseline = """\
+# === DO_NOT_EDIT: t sec1 ===
+original
+# === OK_EDIT: t sec1 ===
+# === DO_NOT_EDIT: t sec2 ===
+unchanged
+# === OK_EDIT: t sec2 ===
+# === DO_NOT_EDIT: t sec3 ===
+will be removed
+# === OK_EDIT: t sec3 ==="""
+    current = """\
+# === DO_NOT_EDIT: t sec1 ===
+modified
+# === OK_EDIT: t sec1 ===
+# === DO_NOT_EDIT: t sec2 ===
+unchanged
+# === OK_EDIT: t sec2 ==="""
+    result = changed_sections(baseline, current, "t", HASH_CONFIG)
+    assert result.modified == ["sec1"]
+    assert result.missing == ["sec3"]
+
+    result_skip = changed_sections(baseline, current, "t", HASH_CONFIG, skip={"sec1", "sec3"})
+    assert result_skip.modified == []
+    assert result_skip.missing == []
+
+
+HYPHENATED_CONTENT = """\
+# header
+
+# === DO_NOT_EDIT: path-sync standard ===
+pre-push: lint test
+# === OK_EDIT: path-sync standard ===
+
+# === DO_NOT_EDIT: path-sync pkg-ext ===
+pkg-pre-change:
+  uv run --group release pkg-ext pre-change
+# === OK_EDIT: path-sync pkg-ext ===
+
+# === DO_NOT_EDIT: path-sync my-custom-section ===
+custom content
+# === OK_EDIT: path-sync my-custom-section ===
+"""
+
+
+def test_parse_sections_with_hyphenated_ids():
+    result = parse_sections(HYPHENATED_CONTENT, "path-sync", HASH_CONFIG)
+    assert len(result) == 3
+    ids = [s.id for s in result]
+    assert "standard" in ids
+    assert "pkg-ext" in ids
+    assert "my-custom-section" in ids
+
+
+def test_extract_sections_with_hyphenated_ids():
+    assert has_sections(HYPHENATED_CONTENT, "path-sync", HASH_CONFIG)
+    result = extract_sections(HYPHENATED_CONTENT, "path-sync", HASH_CONFIG)
+    assert "standard" in result
+    assert "pkg-ext" in result
+    assert "my-custom-section" in result
+    assert "--group release" in result["pkg-ext"]
+
+
+def test_replace_sections_with_hyphenated_ids():
+    dest = """\
+# === DO_NOT_EDIT: path-sync pkg-ext ===
+old content
+# === OK_EDIT: path-sync pkg-ext ==="""
+    result = replace_sections(dest, {"pkg-ext": "new content"}, "path-sync", HASH_CONFIG)
+    assert "new content" in result
+    assert "old content" not in result
+
+    result_skip = replace_sections(dest, {"pkg-ext": "replaced"}, "path-sync", HASH_CONFIG, skip_sections=["pkg-ext"])
+    assert "old content" in result_skip
+    assert "replaced" not in result_skip

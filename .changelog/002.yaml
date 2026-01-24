@@ -958,78 +958,91 @@ ts: 2026-01-13 13:27:15.347438+00:00
 type: make_public
 group: sections
 details: created in _internal/sections.py
+full_path: _internal.sections.slug
 ---
 name: get_comment_config
 ts: 2026-01-13 13:27:15.347987+00:00
 type: make_public
 group: sections
 details: created in _internal/sections.py
+full_path: _internal.sections.get_comment_config
 ---
 name: parse_sections
 ts: 2026-01-13 13:27:15.348592+00:00
 type: make_public
 group: sections
 details: created in _internal/sections.py
+full_path: _internal.sections.parse_sections
 ---
 name: has_sections
 ts: 2026-01-13 13:27:15.349204+00:00
 type: make_public
 group: sections
 details: created in _internal/sections.py
+full_path: _internal.sections.has_sections
 ---
 name: extract_sections
 ts: 2026-01-13 13:27:15.349716+00:00
 type: make_public
 group: sections
 details: created in _internal/sections.py
+full_path: _internal.sections.extract_sections
 ---
 name: compare_sections
 ts: 2026-01-13 13:27:15.350240+00:00
 type: make_public
 group: sections
 details: created in _internal/sections.py
+full_path: _internal.sections.compare_sections
 ---
 name: wrap_section
 ts: 2026-01-13 13:27:15.350961+00:00
 type: make_public
 group: sections
 details: created in _internal/sections.py
+full_path: _internal.sections.wrap_section
 ---
 name: wrap_in_default_section
 ts: 2026-01-13 13:27:15.351500+00:00
 type: make_public
 group: sections
 details: created in _internal/sections.py
+full_path: _internal.sections.wrap_in_default_section
 ---
 name: replace_sections
 ts: 2026-01-13 13:27:15.352142+00:00
 type: make_public
 group: sections
 details: created in _internal/sections.py
+full_path: _internal.sections.replace_sections
 ---
 name: parse_sections_from_path
 ts: 2026-01-13 13:27:15.354509+00:00
 type: make_public
 group: sections
 details: created in _internal/sections.py
+full_path: _internal.sections.parse_sections_from_path
 ---
 name: has_sections_in_path
 ts: 2026-01-13 13:27:15.355436+00:00
 type: make_public
 group: sections
 details: created in _internal/sections.py
+full_path: _internal.sections.has_sections_in_path
 ---
 name: extract_sections_from_path
 ts: 2026-01-13 13:27:15.356380+00:00
 type: make_public
 group: sections
 details: created in _internal/sections.py
+full_path: _internal.sections.extract_sections_from_path
 ---
 name: CommentConfig
 ts: 2026-01-13 13:27:15.369564+00:00
 type: make_public
 group: sections
 details: exposed in the function _internal.sections.get_comment_config
+full_path: _internal.sections.CommentConfig
 ---
 name: TypeDict
 ts: 2026-01-13 13:27:28.497459+00:00
@@ -1116,6 +1129,7 @@ ts: 2026-01-13 13:29:26.791923+00:00
 type: make_public
 group: sections
 details: core data class used by all section functions
+full_path: _internal.sections.Section
 ---
 name: KwargsError
 ts: 2026-01-13 13:29:29.665407+00:00

@@ -107,3 +107,4 @@ dev = [
 docs = [
   "mkdocs-material>=9.5",
 ]
+release = ["pkg-ext"]

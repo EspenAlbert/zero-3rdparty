@@ -25,6 +25,12 @@ class Section:
     end_line: int
 
 
+@dataclass
+class SectionChanges:
+    modified: list[str]
+    missing: list[str]
+
+
 EXTENSION_COMMENT_MAP: dict[str, CommentConfig] = {
     # Hash comments
     ".py": CommentConfig("#"),
@@ -95,7 +101,7 @@ def get_comment_config(path: Path | str, override: CommentConfig | None = None) 
 def _build_start_pattern(tool_name: str, config: CommentConfig) -> re.Pattern[str]:
     return re.compile(
         rf"^{re.escape(config.prefix)}\s*===\s*DO_NOT_EDIT:\s*"
-        rf"{re.escape(tool_name)}\s+(?P<id>\w+)\s*==={re.escape(config.suffix)}$",
+        rf"{re.escape(tool_name)}\s+(?P<id>[\w-]+)\s*==={re.escape(config.suffix)}$",
         re.MULTILINE,
     )
 
@@ -103,7 +109,7 @@ def _build_start_pattern(tool_name: str, config: CommentConfig) -> re.Pattern[st
 def _build_end_pattern(tool_name: str, config: CommentConfig) -> re.Pattern[str]:
     return re.compile(
         rf"^{re.escape(config.prefix)}\s*===\s*OK_EDIT:\s*"
-        rf"{re.escape(tool_name)}\s+(?P<end_id>\w+)\s*==={re.escape(config.suffix)}$",
+        rf"{re.escape(tool_name)}\s+(?P<end_id>[\w-]+)\s*==={re.escape(config.suffix)}$",
         re.MULTILINE,
     )
 
@@ -200,6 +206,29 @@ def compare_sections(
     ]
 
 
+def changed_sections(
+    baseline_content: str,
+    current_content: str,
+    tool_name: str,
+    config: CommentConfig,
+    skip: set[str] | None = None,
+    filename: str = "",
+) -> SectionChanges:
+    """Return modified and missing sections separately."""
+    skip_ids = skip or set()
+    baseline_secs = extract_sections(baseline_content, tool_name, config, filename)
+    current_secs = extract_sections(current_content, tool_name, config, filename)
+    modified, missing = [], []
+    for sec_id, baseline_text in baseline_secs.items():
+        if sec_id in skip_ids:
+            continue
+        if sec_id not in current_secs:
+            missing.append(sec_id)
+        elif baseline_text != current_secs[sec_id]:
+            modified.append(sec_id)
+    return SectionChanges(modified=modified, missing=missing)
+
+
 def wrap_section(content: str, section_id: str, tool_name: str, config: CommentConfig) -> str:
     start = _start_marker(tool_name, section_id, config)
     end = _end_marker(tool_name, section_id, config)
@@ -268,7 +297,7 @@ def replace_sections(
             if current_id and final_content.get(current_id) is not None:
                 result.append(line)
         elif end_pattern.match(line):
-            if current_id and (content := final_content.get(current_id)):
+            if current_id and (content := final_content.get(current_id)) is not None:
                 result.append(content)
                 result.append(line)
             current_id = None

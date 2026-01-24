@@ -1,0 +1,29 @@
+name: sections
+ts: 2026-01-22 21:19:53.199486+00:00
+type: fix
+author: Espen Albert
+changelog_message: 'fix: replace_sections empty content should also write end marker'
+message: 'fix: replace_sections empty content should also write end marker'
+short_sha: 637c17
+---
+name: changed_sections
+ts: 2026-01-24 18:08:54.587148+00:00
+type: make_public
+details: created in _internal/sections.py
+full_path: _internal.sections.changed_sections
+group: sections
+---
+name: SectionChanges
+ts: 2026-01-24 18:08:54.590557+00:00
+type: make_public
+details: exposed in the function _internal.sections.changed_sections
+full_path: _internal.sections.SectionChanges
+group: sections
+---
+name: sections
+ts: 2026-01-24 19:15:30.322505+00:00
+type: fix
+author: Espen Albert
+changelog_message: 'fix: Enhances section parsing for hyphenated IDs'
+message: 'fix: Enhances section parsing for hyphenated IDs'
+short_sha: a557d4
