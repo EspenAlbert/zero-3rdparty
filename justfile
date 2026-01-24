@@ -1,6 +1,5 @@
 # path-sync copy -n python-template
 
-# === OK_EDIT: path-sync header ===
 # Custom variables and setup
 
 default:
