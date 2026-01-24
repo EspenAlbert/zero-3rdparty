@@ -27,3 +27,8 @@ author: Espen Albert
 changelog_message: 'fix: Enhances section parsing for hyphenated IDs'
 message: 'fix: Enhances section parsing for hyphenated IDs'
 short_sha: a557d4
+---
+name: 0.102.0
+ts: 2026-01-24 19:19:07.594757+00:00
+type: release
+old_version: 0.101.3

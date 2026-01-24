@@ -183,7 +183,7 @@ class Section:
 
 ### class: `SectionChanges`
 - [source](../../zero_3rdparty/_internal/sections.py#L28)
-> **Since:** unreleased
+> **Since:** 0.102.0
 
 ```python
 class SectionChanges:
@@ -193,15 +193,15 @@ class SectionChanges:
 
 | Field | Type | Default | Since |
 |---|---|---|---|
-| modified | `list[str]` | - | unreleased |
-| missing | `list[str]` | - | unreleased |
+| modified | `list[str]` | - | 0.102.0 |
+| missing | `list[str]` | - | 0.102.0 |
 <!-- === OK_EDIT: pkg-ext sectionchanges_def === -->
 <!-- === DO_NOT_EDIT: pkg-ext changed_sections_def === -->
 <a id="changed_sections_def"></a>
 
 ### function: `changed_sections`
 - [source](../../zero_3rdparty/_internal/sections.py#L209)
-> **Since:** unreleased
+> **Since:** 0.102.0
 
 ```python
 def changed_sections(baseline_content: str, current_content: str, tool_name: str, config: CommentConfig, skip: set[str] | None = None, filename: str = '') -> SectionChanges:

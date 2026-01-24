@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.102.0 2026-01-24T19-19Z
+
+### Sections
+- New function `changed_sections`
+- New class `SectionChanges`
+- fix: replace_sections empty content should also write end marker [637c17](https://github.com/EspenAlbert/zero-3rdparty/commit/637c17)
+- fix: Enhances section parsing for hyphenated IDs [a557d4](https://github.com/EspenAlbert/zero-3rdparty/commit/a557d4)
+
+
 ## 0.101.3 2026-01-19T07-29Z
 
 ### Sections
