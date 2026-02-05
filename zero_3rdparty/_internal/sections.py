@@ -360,11 +360,15 @@ def replace_sections(  # noqa: C901
                 has_more_parts = i + 1 < src_len
                 # Only preserve gap if source expects gap (has more parts or has gap_after)
                 if has_more_parts or src_part.gap_after:
-                    gap = (
-                        dest_section.parts[i].gap_after
-                        if i < dest_len and dest_section.parts[i].gap_after
-                        else src_part.gap_after
-                    )
+                    # Dest has gap structure if it has a next part (i+1 exists)
+                    # In that case, preserve dest's gap even if empty (user cleared template)
+                    dest_has_gap_structure = i + 1 < dest_len
+                    if dest_has_gap_structure:
+                        gap = dest_section.parts[i].gap_after
+                    elif i < dest_len and dest_section.parts[i].gap_after:
+                        gap = dest_section.parts[i].gap_after
+                    else:
+                        gap = src_part.gap_after
                 else:
                     gap = ""
                 merged_parts.append(SectionPart(src_part.content, 0, 0, gap))

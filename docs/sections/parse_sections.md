@@ -11,6 +11,8 @@ def parse_sections(content: str, tool_name: str, config: CommentConfig, filename
 ```
 <!-- === OK_EDIT: pkg-ext parse_sections_def === -->
 
+Returns a list of `Section` objects, each containing one or more `SectionPart` entries. Sections can be "resumable" - the same section ID can pause (OK_EDIT) and resume (DO_NOT_EDIT) multiple times. User content in the gaps between parts is captured in `SectionPart.gap_after`.
+
 <!-- === DO_NOT_EDIT: pkg-ext parse_sections_example_html_sections === -->
 ### Example: html_sections
 
@@ -54,6 +56,29 @@ cov:
 )
 ```
 <!-- === OK_EDIT: pkg-ext parse_sections_example_justfile_sections === -->
+
+### Example: resumable section with gaps
+
+A section can be paused and resumed, allowing user content in the gaps:
+
+```python
+content = """\
+# === DO_NOT_EDIT: path-sync job ===
+name: CI Job
+runs-on: ubuntu-latest
+# === OK_EDIT: path-sync job ===
+env:
+  MY_SECRET: ${{ secrets.MY_SECRET }}  # user-customizable gap
+# === DO_NOT_EDIT: path-sync job ===
+steps:
+  - uses: actions/checkout@v4
+# === OK_EDIT: path-sync job ===
+"""
+result = parse_sections(content, "path-sync", CommentConfig("#"))
+# result[0].parts[0].content = "name: CI Job\nruns-on: ubuntu-latest"
+# result[0].parts[0].gap_after = "env:\n  MY_SECRET: ..."
+# result[0].parts[1].content = "steps:\n  - uses: actions/checkout@v4"
+```
 
 <!-- === DO_NOT_EDIT: pkg-ext parse_sections_changes === -->
 ### Changes

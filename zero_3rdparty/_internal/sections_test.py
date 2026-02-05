@@ -594,3 +594,114 @@ name: Old Simple Job
 
     # Source gap_after included (dest didn't have any, so use source boilerplate)
     assert "CUSTOMIZE: Add your environment" in result
+
+
+def test_parse_trailing_content_after_final_ok_edit_ignored():
+    """Trailing content after the final OK_EDIT is NOT captured as gap_after.
+
+    This is intentional: gaps are only meaningful between OK_EDIT and the next
+    DO_NOT_EDIT (for resuming). Content after the final marker is outside the
+    section scope.
+    """
+    content_with_trailing = """\
+# === DO_NOT_EDIT: path-sync job ===
+name: Test Job
+# === OK_EDIT: path-sync job ===
+# This trailing content after final OK_EDIT
+# is NOT part of the section
+extra_key: value
+"""
+    sections = parse_sections(content_with_trailing, "path-sync", HASH_CONFIG)
+    assert len(sections) == 1
+    section = sections[0]
+    assert len(section.parts) == 1
+    # Trailing content is NOT captured - gap_after is empty
+    assert section.parts[0].gap_after == ""
+    # Only managed content is in the section
+    assert "name: Test Job" in section.content
+    assert "trailing content" not in section.content
+    assert "extra_key" not in section.content
+
+
+def test_replace_empty_dest_gap_preserved_when_structure_exists():
+    """When dest has gap structure (2+ parts), empty gap is preserved (user cleared template).
+
+    If the user deliberately removes the template content but keeps the gap structure
+    (markers exist), we preserve their empty gap and don't re-inject the source template.
+    """
+    source_with_gap = """\
+# === DO_NOT_EDIT: path-sync job ===
+name: Source Job
+# === OK_EDIT: path-sync job ===
+# Default env vars - customize as needed:
+#   MY_VAR: value
+# === DO_NOT_EDIT: path-sync job ===
+steps:
+  - run: echo hello
+# === OK_EDIT: path-sync job ===
+"""
+    # Dest has same structure (2 parts) but with EMPTY gap (user cleared template)
+    dest_with_empty_gap = """\
+# === DO_NOT_EDIT: path-sync job ===
+name: Dest Job
+# === OK_EDIT: path-sync job ===
+# === DO_NOT_EDIT: path-sync job ===
+steps:
+  - run: old command
+# === OK_EDIT: path-sync job ===
+"""
+    src_sections = parse_sections(source_with_gap, "path-sync", HASH_CONFIG)
+    assert src_sections[0].parts[0].gap_after  # Source has gap
+    assert len(src_sections[0].parts) == 2
+
+    dest_sections = parse_sections(dest_with_empty_gap, "path-sync", HASH_CONFIG)
+    assert dest_sections[0].parts[0].gap_after == ""  # Dest has empty gap
+    assert len(dest_sections[0].parts) == 2  # But dest HAS the structure
+
+    result = replace_sections(dest_with_empty_gap, src_sections, "path-sync", HASH_CONFIG)
+
+    # Source managed content used
+    assert "name: Source Job" in result
+    assert "echo hello" in result
+    # Dest empty gap preserved (source template NOT injected)
+    assert "Default env vars" not in result
+    assert "MY_VAR" not in result
+
+
+def test_replace_simple_dest_gets_source_gap_as_boilerplate():
+    """When dest has NO gap structure (1 part), source gap is used as boilerplate.
+
+    This is the case when expanding a simple section to resumable - the source
+    gap content serves as template/instructions for the user.
+    """
+    source_with_gap = """\
+# === DO_NOT_EDIT: path-sync job ===
+name: Source Job
+# === OK_EDIT: path-sync job ===
+# Default env vars - customize as needed:
+#   MY_VAR: value
+# === DO_NOT_EDIT: path-sync job ===
+steps:
+  - run: echo hello
+# === OK_EDIT: path-sync job ===
+"""
+    # Dest is SIMPLE (1 part, no gap structure)
+    simple_dest = """\
+# === DO_NOT_EDIT: path-sync job ===
+name: Old Simple Job
+# === OK_EDIT: path-sync job ===
+"""
+    src_sections = parse_sections(source_with_gap, "path-sync", HASH_CONFIG)
+    assert len(src_sections[0].parts) == 2  # Source has 2 parts
+
+    dest_sections = parse_sections(simple_dest, "path-sync", HASH_CONFIG)
+    assert len(dest_sections[0].parts) == 1  # Dest has 1 part (no gap structure)
+
+    result = replace_sections(simple_dest, src_sections, "path-sync", HASH_CONFIG)
+
+    # Source managed content used
+    assert "name: Source Job" in result
+    assert "echo hello" in result
+    # Source gap used as boilerplate (dest had no structure)
+    assert "Default env vars" in result
+    assert "MY_VAR" in result
