@@ -342,7 +342,6 @@ def test_parse_resumable_section():
     section = sections[0]
     assert section.id == "job-snapshot-tests"
     # Section should have 2 parts (before and after the gap)
-    assert hasattr(section, "parts")
     assert len(section.parts) == 2
     # First part: job header
     assert "runs-on: ubuntu-latest" in section.parts[0].content
@@ -430,7 +429,6 @@ def test_parse_resumable_section_multiple_gaps():
     assert len(sections) == 1
     section = sections[0]
     assert section.id == "workflow"
-    assert hasattr(section, "parts")
     assert len(section.parts) == 3
     # Part 1: workflow header
     assert "on: push" in section.parts[0].content
@@ -470,10 +468,9 @@ def test_parse_resumable_section_captures_gaps():
     assert section.id == "job"
     assert len(section.parts) == 2
     # Gap should be on the first part (content after its OK_EDIT)
-    assert hasattr(section.parts[0], "gap_after")
-    assert "CUSTOMIZE: Add your environment variables" in section.parts[0].gap_after
+    assert "CUSTOMIZE: Add your environment variables" in section.parts[0].content_after
     # Last part has no gap after
-    assert section.parts[1].gap_after == ""
+    assert section.parts[1].content_after == ""
 
 
 def test_replace_resumable_section_new_file_includes_source_gaps():
@@ -573,7 +570,7 @@ def test_replace_resumable_source_to_simple_dest():
     """Source has 2 parts with gap, dest has 1 part - extra parts appended."""
     src_sections = parse_sections(RESUMABLE_SOURCE_WITH_GAPS, "path-sync", HASH_CONFIG)
     assert len(src_sections[0].parts) == 2  # Resumable = 2 parts
-    assert src_sections[0].parts[0].gap_after  # First part has gap_after
+    assert src_sections[0].parts[0].content_after  # First part has content_after
 
     # Simple dest (no gaps)
     simple_dest = """\
@@ -592,35 +589,35 @@ name: Old Simple Job
     assert result.count("DO_NOT_EDIT: path-sync job") == 2
     assert result.count("OK_EDIT: path-sync job") == 2
 
-    # Source gap_after included (dest didn't have any, so use source boilerplate)
+    # Source content_after included (dest didn't have any, so use source boilerplate)
     assert "CUSTOMIZE: Add your environment" in result
 
 
-def test_parse_trailing_content_after_final_ok_edit_ignored():
-    """Trailing content after the final OK_EDIT is NOT captured as gap_after.
+def test_parse_section_captures_trailing_content():
+    """Trailing content after the final OK_EDIT IS captured in Section.content_after.
 
-    This is intentional: gaps are only meaningful between OK_EDIT and the next
-    DO_NOT_EDIT (for resuming). Content after the final marker is outside the
-    section scope.
+    This allows user content after a section to be preserved during replace_sections.
     """
     content_with_trailing = """\
 # === DO_NOT_EDIT: path-sync job ===
 name: Test Job
 # === OK_EDIT: path-sync job ===
 # This trailing content after final OK_EDIT
-# is NOT part of the section
+# IS captured in section.content_after
 extra_key: value
 """
     sections = parse_sections(content_with_trailing, "path-sync", HASH_CONFIG)
     assert len(sections) == 1
     section = sections[0]
     assert len(section.parts) == 1
-    # Trailing content is NOT captured - gap_after is empty
-    assert section.parts[0].gap_after == ""
-    # Only managed content is in the section
+    # Part's content_after is empty (no resumable gap)
+    assert section.parts[0].content_after == ""
+    # Section's content_after captures trailing content
+    assert "trailing content" in section.content_after
+    assert "extra_key" in section.content_after
+    # Only managed content is in the section content
     assert "name: Test Job" in section.content
     assert "trailing content" not in section.content
-    assert "extra_key" not in section.content
 
 
 def test_replace_empty_dest_gap_preserved_when_structure_exists():
@@ -651,11 +648,11 @@ steps:
 # === OK_EDIT: path-sync job ===
 """
     src_sections = parse_sections(source_with_gap, "path-sync", HASH_CONFIG)
-    assert src_sections[0].parts[0].gap_after  # Source has gap
+    assert src_sections[0].parts[0].content_after  # Source has gap
     assert len(src_sections[0].parts) == 2
 
     dest_sections = parse_sections(dest_with_empty_gap, "path-sync", HASH_CONFIG)
-    assert dest_sections[0].parts[0].gap_after == ""  # Dest has empty gap
+    assert dest_sections[0].parts[0].content_after == ""  # Dest has empty gap
     assert len(dest_sections[0].parts) == 2  # But dest HAS the structure
 
     result = replace_sections(dest_with_empty_gap, src_sections, "path-sync", HASH_CONFIG)
@@ -705,3 +702,317 @@ name: Old Simple Job
     # Source gap used as boilerplate (dest had no structure)
     assert "Default env vars" in result
     assert "MY_VAR" in result
+
+
+# ============================================================================
+# Inter-Section and Trailing Content - Tests for t07-08
+# ============================================================================
+# These tests verify that content BETWEEN sections and content AFTER the last
+# section is preserved during replace_sections.
+
+
+INTER_SECTION_CONTENT = """\
+# Preamble content
+
+# === DO_NOT_EDIT: tool section_a ===
+content a
+# === OK_EDIT: tool section_a ===
+
+### User notes between sections
+This content is between section_a and section_b.
+
+# === DO_NOT_EDIT: tool section_b ===
+content b
+# === OK_EDIT: tool section_b ===
+
+Trailing content after all sections.
+"""
+
+
+def test_parse_inter_section_content():
+    """Content between sections should be captured in Section.content_after."""
+    sections = parse_sections(INTER_SECTION_CONTENT, "tool", HASH_CONFIG)
+    assert len(sections) == 2
+    section_a = sections[0]
+    section_b = sections[1]
+
+    assert section_a.id == "section_a"
+    assert section_b.id == "section_b"
+
+    # section_a's content_after captures the inter-section content
+    assert "User notes between sections" in section_a.content_after
+    assert "between section_a and section_b" in section_a.content_after
+
+    # section_b's content_after captures trailing content
+    assert "Trailing content after all sections" in section_b.content_after
+
+
+def test_replace_preserves_inter_section_content():
+    """replace_sections should preserve user content between sections."""
+    src_sections = [
+        Section(id="section_a", parts=[SectionPart("new content a", 0, 0, "")]),
+        Section(id="section_b", parts=[SectionPart("new content b", 0, 0, "")]),
+    ]
+    result = replace_sections(INTER_SECTION_CONTENT, src_sections, "tool", HASH_CONFIG)
+
+    # Managed content updated
+    assert "new content a" in result
+    assert "new content b" in result
+    assert "content a" not in result or "new content a" in result
+
+    # Preamble preserved
+    assert "Preamble content" in result
+
+    # Inter-section content preserved
+    assert "User notes between sections" in result
+    assert "between section_a and section_b" in result
+
+    # Trailing content preserved
+    assert "Trailing content after all sections" in result
+
+
+def test_replace_preserves_trailing_content():
+    """Trailing content after the last section should be preserved."""
+    dest = """\
+# === DO_NOT_EDIT: tool sec ===
+old content
+# === OK_EDIT: tool sec ===
+
+User documentation at the end of the file.
+More trailing content here.
+"""
+    src_sections = [Section(id="sec", parts=[SectionPart("new content", 0, 0, "")])]
+    result = replace_sections(dest, src_sections, "tool", HASH_CONFIG)
+
+    # Managed content updated
+    assert "new content" in result
+    assert "old content" not in result
+
+    # Trailing content preserved
+    assert "User documentation at the end of the file" in result
+    assert "More trailing content here" in result
+
+
+def test_replace_new_file_uses_source_trailing_content():
+    """When dest is empty, source's content_after is used as template."""
+    src_sections = [
+        Section(
+            id="sec",
+            parts=[SectionPart("managed content", 0, 0, "")],
+            content_after="# Add your custom content here",
+        )
+    ]
+    result = replace_sections("", src_sections, "tool", HASH_CONFIG)
+
+    assert "managed content" in result
+    assert "Add your custom content here" in result
+
+
+def test_replace_dest_trailing_content_preserved_over_source():
+    """Dest's trailing content takes precedence over source's."""
+    src_sections = [
+        Section(
+            id="sec",
+            parts=[SectionPart("new managed", 0, 0, "")],
+            content_after="# Source template trailing",
+        )
+    ]
+    dest = """\
+# === DO_NOT_EDIT: tool sec ===
+old managed
+# === OK_EDIT: tool sec ===
+
+My custom trailing content.
+"""
+    result = replace_sections(dest, src_sections, "tool", HASH_CONFIG)
+
+    assert "new managed" in result
+    # Dest trailing preserved
+    assert "My custom trailing content" in result
+    # Source trailing NOT injected
+    assert "Source template trailing" not in result
+
+
+def test_replace_empty_dest_trailing_preserved():
+    """If user cleared trailing content (empty), preserve empty (don't inject source)."""
+    src_sections = [
+        Section(
+            id="sec",
+            parts=[SectionPart("new managed", 0, 0, "")],
+            content_after="# Source template",
+        )
+    ]
+    # Dest exists but has no trailing content (user may have removed it)
+    dest = """\
+# === DO_NOT_EDIT: tool sec ===
+old managed
+# === OK_EDIT: tool sec ==="""
+    result = replace_sections(dest, src_sections, "tool", HASH_CONFIG)
+
+    assert "new managed" in result
+    # No trailing content should be present (user's empty trailing preserved)
+    assert "Source template" not in result
+
+
+def test_parse_multiple_sections_each_has_content_after():
+    """Each section captures its own content_after until next section or EOF."""
+    content = """\
+# preamble
+# === DO_NOT_EDIT: t a ===
+a content
+# === OK_EDIT: t a ===
+after a
+# === DO_NOT_EDIT: t b ===
+b content
+# === OK_EDIT: t b ===
+after b
+# === DO_NOT_EDIT: t c ===
+c content
+# === OK_EDIT: t c ===
+after c (trailing)
+"""
+    sections = parse_sections(content, "t", HASH_CONFIG)
+    assert len(sections) == 3
+
+    assert sections[0].id == "a"
+    assert "after a" in sections[0].content_after
+    assert "after b" not in sections[0].content_after
+
+    assert sections[1].id == "b"
+    assert "after b" in sections[1].content_after
+    assert "after c" not in sections[1].content_after
+
+    assert sections[2].id == "c"
+    assert "after c (trailing)" in sections[2].content_after
+
+
+# ============================================================================
+# Idempotency Tests
+# ============================================================================
+# Verify that running replace_sections multiple times produces the same result.
+
+
+def test_replace_sections_idempotent_simple():
+    """Running replace_sections twice with same source produces identical output."""
+    dest = """\
+# preamble
+# === DO_NOT_EDIT: t sec ===
+old content
+# === OK_EDIT: t sec ===
+trailing content
+"""
+    src = {"sec": "new content"}
+    result1 = replace_sections(dest, src, "t", HASH_CONFIG)
+    result2 = replace_sections(result1, src, "t", HASH_CONFIG)
+    assert result1 == result2
+
+
+def test_replace_sections_idempotent_with_inter_section():
+    """Idempotency with inter-section content between multiple sections."""
+    dest = """\
+# preamble
+
+# === DO_NOT_EDIT: t a ===
+content a
+# === OK_EDIT: t a ===
+
+User notes between sections.
+
+# === DO_NOT_EDIT: t b ===
+content b
+# === OK_EDIT: t b ===
+
+Trailing content.
+"""
+    src = {"a": "new a", "b": "new b"}
+    result1 = replace_sections(dest, src, "t", HASH_CONFIG)
+    result2 = replace_sections(result1, src, "t", HASH_CONFIG)
+    assert result1 == result2
+    # Verify content is preserved
+    assert "User notes between sections" in result2
+    assert "Trailing content" in result2
+
+
+def test_replace_sections_idempotent_resumable():
+    """Idempotency with resumable sections (intra-section gaps)."""
+    dest = """\
+# === DO_NOT_EDIT: t job ===
+name: CI
+# === OK_EDIT: t job ===
+env:
+  MY_VAR: value
+# === DO_NOT_EDIT: t job ===
+steps:
+  - run: echo done
+# === OK_EDIT: t job ===
+"""
+    src_sections = [
+        Section(
+            id="job",
+            parts=[
+                SectionPart("name: CI Updated", 0, 0, ""),
+                SectionPart("steps:\n  - run: echo updated", 0, 0, ""),
+            ],
+        )
+    ]
+    result1 = replace_sections(dest, src_sections, "t", HASH_CONFIG)
+    result2 = replace_sections(result1, src_sections, "t", HASH_CONFIG)
+    assert result1 == result2
+    # Verify gap content preserved
+    assert "MY_VAR" in result2
+
+
+def test_replace_sections_idempotent_full_document():
+    """Idempotency test for a realistic document with all features."""
+    dest = """\
+# Document Title
+
+Some preamble text.
+
+# === DO_NOT_EDIT: tool header ===
+## Generated Header
+# === OK_EDIT: tool header ===
+
+### User Section
+
+Custom user content here.
+
+# === DO_NOT_EDIT: tool body ===
+Part 1 of body
+# === OK_EDIT: tool body ===
+# Customize this part:
+#   option: value
+# === DO_NOT_EDIT: tool body ===
+Part 2 of body
+# === OK_EDIT: tool body ===
+
+# === DO_NOT_EDIT: tool footer ===
+Generated footer
+# === OK_EDIT: tool footer ===
+
+Final notes at end of document.
+"""
+    src_sections = [
+        Section(id="header", parts=[SectionPart("## Updated Header", 0, 0, "")]),
+        Section(
+            id="body",
+            parts=[
+                SectionPart("Part 1 updated", 0, 0, ""),
+                SectionPart("Part 2 updated", 0, 0, ""),
+            ],
+        ),
+        Section(id="footer", parts=[SectionPart("Updated footer", 0, 0, "")]),
+    ]
+    result1 = replace_sections(dest, src_sections, "tool", HASH_CONFIG)
+    result2 = replace_sections(result1, src_sections, "tool", HASH_CONFIG)
+    result3 = replace_sections(result2, src_sections, "tool", HASH_CONFIG)
+
+    assert result1 == result2 == result3
+
+    # Verify all user content preserved
+    assert "Document Title" in result3
+    assert "Some preamble text" in result3
+    assert "User Section" in result3
+    assert "Custom user content" in result3
+    assert "Customize this part" in result3
+    assert "Final notes at end" in result3
