@@ -8,6 +8,7 @@ groups:
   - _internal.sections.CommentConfig
   - _internal.sections.Section
   - _internal.sections.SectionChanges
+  - _internal.sections.SectionPart
   - _internal.sections.changed_sections
   - _internal.sections.compare_sections
   - _internal.sections.extract_sections

@@ -1,7 +1,6 @@
 # === DO_NOT_EDIT: pkg-ext site ===
 site_name: zero_3rdparty
 # === OK_EDIT: pkg-ext site ===
-
 # === DO_NOT_EDIT: pkg-ext theme ===
 theme:
   name: material
@@ -9,17 +8,13 @@ theme:
     - navigation.tabs
     - navigation.sections
 # === OK_EDIT: pkg-ext theme ===
-
 # === DO_NOT_EDIT: pkg-ext nav ===
 nav:
   - Home: index.md
   - sections:
     - Overview: sections/index.md
-    - get_comment_config: sections/get_comment_config.md
-    - parse_sections: sections/parse_sections.md
     - replace_sections: sections/replace_sections.md
 # === OK_EDIT: pkg-ext nav ===
-
 # === DO_NOT_EDIT: pkg-ext extensions ===
 markdown_extensions:
   - pymdownx.highlight:
