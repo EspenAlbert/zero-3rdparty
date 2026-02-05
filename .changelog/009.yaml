@@ -1,0 +1,50 @@
+name: SectionPart
+ts: 2026-02-05 18:42:25.888610+00:00
+type: make_public
+details: created in _internal/sections.py
+full_path: _internal.sections.SectionPart
+group: sections
+---
+name: Section
+ts: 2026-02-05 18:45:11.287512+00:00
+type: breaking_change
+auto_generated: true
+change_kind: field_removed
+details: removed field 'end_line'
+field_name: end_line
+group: sections
+---
+name: Section
+ts: 2026-02-05 18:45:11.287532+00:00
+type: breaking_change
+auto_generated: true
+change_kind: field_removed
+details: removed field 'content'
+field_name: content
+group: sections
+---
+name: Section
+ts: 2026-02-05 18:45:11.287536+00:00
+type: breaking_change
+auto_generated: true
+change_kind: field_removed
+details: removed field 'start_line'
+field_name: start_line
+group: sections
+---
+name: Section
+ts: 2026-02-05 18:45:11.287541+00:00
+type: additional_change
+auto_generated: true
+change_kind: optional_field_added
+details: 'added optional field ''parts'' (default: ...)'
+field_name: parts
+group: sections
+---
+name: replace_sections
+ts: 2026-02-05 18:45:11.287545+00:00
+type: breaking_change
+auto_generated: true
+change_kind: param_type_changed
+details: 'param ''src_sections'' type: dict[str, str] -> dict[str, str] | list[Section]'
+group: sections
