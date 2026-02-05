@@ -48,3 +48,12 @@ auto_generated: true
 change_kind: param_type_changed
 details: 'param ''src_sections'' type: dict[str, str] -> dict[str, str] | list[Section]'
 group: sections
+---
+name: Section
+ts: 2026-02-05 20:43:54.722082+00:00
+type: additional_change
+auto_generated: true
+change_kind: optional_field_added
+details: 'added optional field ''content_after'' (default: '''')'
+field_name: content_after
+group: sections

@@ -4,7 +4,7 @@
 <!-- === OK_EDIT: pkg-ext header === -->
 <!-- === DO_NOT_EDIT: pkg-ext symbols === -->
 - [`CommentConfig`](#commentconfig_def)
-- [`Section`](#section_def)
+- [Section](./section.md)
 - [`SectionChanges`](#sectionchanges_def)
 - [`SectionPart`](#sectionpart_def)
 - [`changed_sections`](#changed_sections_def)
@@ -52,7 +52,7 @@ class CommentConfig:
 <a id="compare_sections_def"></a>
 
 ### function: `compare_sections`
-- [source](../../zero_3rdparty/_internal/sections.py#L239)
+- [source](../../zero_3rdparty/_internal/sections.py#L251)
 > **Since:** 0.101.0
 
 ```python
@@ -72,7 +72,7 @@ Return section IDs with changes (modified or removed), excluding skipped section
 <a id="extract_sections_def"></a>
 
 ### function: `extract_sections`
-- [source](../../zero_3rdparty/_internal/sections.py#L230)
+- [source](../../zero_3rdparty/_internal/sections.py#L242)
 > **Since:** 0.101.0
 
 ```python
@@ -90,7 +90,7 @@ def extract_sections(content: str, tool_name: str, config: CommentConfig, filena
 <a id="extract_sections_from_path_def"></a>
 
 ### function: `extract_sections_from_path`
-- [source](../../zero_3rdparty/_internal/sections.py#L399)
+- [source](../../zero_3rdparty/_internal/sections.py#L428)
 > **Since:** 0.101.0
 
 ```python
@@ -108,7 +108,7 @@ def extract_sections_from_path(path: Path, tool_name: str) -> dict[str, str]:
 <a id="has_sections_def"></a>
 
 ### function: `has_sections`
-- [source](../../zero_3rdparty/_internal/sections.py#L226)
+- [source](../../zero_3rdparty/_internal/sections.py#L238)
 > **Since:** 0.101.0
 
 ```python
@@ -126,7 +126,7 @@ def has_sections(content: str, tool_name: str, config: CommentConfig) -> bool:
 <a id="has_sections_in_path_def"></a>
 
 ### function: `has_sections_in_path`
-- [source](../../zero_3rdparty/_internal/sections.py#L394)
+- [source](../../zero_3rdparty/_internal/sections.py#L423)
 > **Since:** 0.101.0
 
 ```python
@@ -144,7 +144,7 @@ def has_sections_in_path(path: Path, tool_name: str) -> bool:
 <a id="parse_sections_from_path_def"></a>
 
 ### function: `parse_sections_from_path`
-- [source](../../zero_3rdparty/_internal/sections.py#L389)
+- [source](../../zero_3rdparty/_internal/sections.py#L418)
 > **Since:** 0.101.0
 
 ```python
@@ -182,7 +182,7 @@ Convert text to lowercase slug suitable for section marker IDs.
 <a id="wrap_in_default_section_def"></a>
 
 ### function: `wrap_in_default_section`
-- [source](../../zero_3rdparty/_internal/sections.py#L287)
+- [source](../../zero_3rdparty/_internal/sections.py#L299)
 > **Since:** 0.101.0
 
 ```python
@@ -200,7 +200,7 @@ def wrap_in_default_section(content: str, tool_name: str, config: CommentConfig)
 <a id="wrap_section_def"></a>
 
 ### function: `wrap_section`
-- [source](../../zero_3rdparty/_internal/sections.py#L281)
+- [source](../../zero_3rdparty/_internal/sections.py#L293)
 > **Since:** 0.101.0
 
 ```python
@@ -214,35 +214,11 @@ def wrap_section(content: str, section_id: str, tool_name: str, config: CommentC
 |---------|--------|
 | 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext wrap_section_def === -->
-<!-- === DO_NOT_EDIT: pkg-ext section_def === -->
-<a id="section_def"></a>
-
-### class: `Section`
-- [source](../../zero_3rdparty/_internal/sections.py#L32)
-> **Since:** 0.101.0
-
-```python
-class Section:
-    id: str
-    parts: list[SectionPart] = ...
-```
-
-| Field | Type | Default | Since |
-|---|---|---|---|
-| id | `str` | - | 0.101.0 |
-| parts | `list[SectionPart]` | `...` | 0.101.0 |
-
-### Changes
-
-| Version | Change |
-|---------|--------|
-| 0.101.0 | Made public |
-<!-- === OK_EDIT: pkg-ext section_def === -->
 <!-- === DO_NOT_EDIT: pkg-ext sectionchanges_def === -->
 <a id="sectionchanges_def"></a>
 
 ### class: `SectionChanges`
-- [source](../../zero_3rdparty/_internal/sections.py#L50)
+- [source](../../zero_3rdparty/_internal/sections.py#L51)
 > **Since:** 0.102.0
 
 ```python
@@ -266,7 +242,7 @@ class SectionChanges:
 <a id="changed_sections_def"></a>
 
 ### function: `changed_sections`
-- [source](../../zero_3rdparty/_internal/sections.py#L258)
+- [source](../../zero_3rdparty/_internal/sections.py#L270)
 > **Since:** 0.102.0
 
 ```python
@@ -286,7 +262,7 @@ Return modified and missing sections separately.
 <a id="get_comment_config_def"></a>
 
 ### function: `get_comment_config`
-- [source](../../zero_3rdparty/_internal/sections.py#L118)
+- [source](../../zero_3rdparty/_internal/sections.py#L119)
 > **Since:** 0.101.0
 
 ```python
@@ -304,7 +280,7 @@ def get_comment_config(path: Path | str, override: CommentConfig | None = None) 
 <a id="parse_sections_def"></a>
 
 ### function: `parse_sections`
-- [source](../../zero_3rdparty/_internal/sections.py#L153)
+- [source](../../zero_3rdparty/_internal/sections.py#L154)
 > **Since:** 0.101.0
 
 ```python
@@ -330,7 +306,7 @@ class SectionPart:
     content: str
     start_line: int
     end_line: int
-    gap_after: str = ''
+    content_after: str = ''
 ```
 
 | Field | Type | Default | Since |
@@ -338,7 +314,7 @@ class SectionPart:
 | content | `str` | - | unreleased |
 | start_line | `int` | - | unreleased |
 | end_line | `int` | - | unreleased |
-| gap_after | `str` | `''` | unreleased |
+| content_after | `str` | `''` | unreleased |
 
 ### Changes
 
