@@ -106,7 +106,7 @@ def parse_kub_time(raw: str) -> datetime:
         before_decimal, decimal_part = raw.rsplit(".", maxsplit=1)
         if len(decimal_part.rstrip("Z")) > 6:
             raw = f"{before_decimal}.{decimal_part[:6]}Z"
-    return datetime.fromisoformat(raw.replace("T", " ").replace("Z", "+00:00"))
+    return datetime.fromisoformat(raw.replace("T", " "))
 
 
 @singledispatch

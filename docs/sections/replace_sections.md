@@ -39,6 +39,15 @@ Content between different sections and content after the last section is preserv
 - **New file**: Source's `Section.content_after` is used as template
 - **Dest content cleared**: Empty content is preserved (source template not re-injected)
 
+#### Blank Line Preservation
+
+Since 0.104.0, the `content_after` field uses `str | None` type to distinguish between:
+- `None`: No content after (section ends immediately before next section/EOF)
+- `""`: One blank line after
+- `"\n"`: Two blank lines after
+
+This ensures single blank lines between sections are correctly preserved during replacement.
+
 <!-- === DO_NOT_EDIT: pkg-ext replace_sections_changes === -->
 ### Changes
 

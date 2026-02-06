@@ -1,0 +1,65 @@
+name: sections
+ts: 2026-02-06 06:37:59.258675+00:00
+type: fix
+author: Espen Albert
+changelog_message: 'fix(sections): preserve single blank lines between sections'
+message: 'fix(sections): preserve single blank lines between sections
+
+
+  Change content_after type from `str = ""` to `str | None = None` to
+
+  distinguish between "no content after" (None) and "one blank line" ("").
+
+
+  Previously, a single blank line between sections was lost because
+
+  `"\n".join([''''])` produces `""` which is falsy and was skipped during
+
+  section reconstruction.
+
+
+  Now:
+
+  - None = no content after this section
+
+  - "" = one blank line after this section
+
+  - "\n" = two blank lines, etc.'
+rephrased: true
+short_sha: ae5365
+---
+name: SectionPart
+ts: 2026-02-06 06:55:01.385434+00:00
+type: breaking_change
+auto_generated: true
+change_kind: param_type_changed
+details: 'field ''content_after'' type: str -> str | None'
+field_name: content_after
+group: sections
+---
+name: SectionPart
+ts: 2026-02-06 06:55:01.385446+00:00
+type: additional_change
+auto_generated: true
+change_kind: default_changed
+details: 'field ''content_after'' default: '''' -> None'
+field_name: content_after
+group: sections
+---
+name: Section
+ts: 2026-02-06 06:55:01.385451+00:00
+type: breaking_change
+auto_generated: true
+change_kind: param_type_changed
+details: 'field ''content_after'' type: str -> str | None'
+field_name: content_after
+group: sections
+---
+name: Section
+ts: 2026-02-06 06:55:01.385454+00:00
+type: additional_change
+auto_generated: true
+change_kind: default_changed
+details: 'field ''content_after'' default: '''' -> None'
+field_name: content_after
+group: sections

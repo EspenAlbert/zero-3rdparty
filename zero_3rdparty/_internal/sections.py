@@ -26,14 +26,14 @@ class SectionPart:
     content: str
     start_line: int
     end_line: int
-    content_after: str = ""
+    content_after: str | None = None
 
 
 @dataclass
 class Section:
     id: str
     parts: list[SectionPart] = field(default_factory=list)
-    content_after: str = ""
+    content_after: str | None = None
 
     @property
     def content(self) -> str:
@@ -190,7 +190,7 @@ def parse_sections(  # noqa: C901
                     raise ValueError(
                         f"Mismatched section end at line {i}: expected '{current_id}', got '{end_id}'{file_suffix}"
                     )
-                sections_by_id[current_id].parts.append(SectionPart("\n".join(content_lines), current_start, i, ""))
+                sections_by_id[current_id].parts.append(SectionPart("\n".join(content_lines), current_start, i))
                 after_lines = []
                 state = _ParseState.PAUSED
             elif start_match:
@@ -302,7 +302,7 @@ def wrap_in_default_section(content: str, tool_name: str, config: CommentConfig)
 
 def _normalize_src_sections(src_sections: dict[str, str] | list[Section]) -> list[Section]:
     if isinstance(src_sections, dict):
-        return [Section(id=sid, parts=[SectionPart(content, 0, 0, "")]) for sid, content in src_sections.items()]
+        return [Section(id=sid, parts=[SectionPart(content, 0, 0)]) for sid, content in src_sections.items()]
     return src_sections
 
 
@@ -318,7 +318,7 @@ def _render_section_parts(
         if part.content:
             result.append(part.content)
         result.append(_end_marker(tool_name, section_id, config))
-        if part.content_after:
+        if part.content_after is not None:
             result.append(part.content_after)
     return result
 
@@ -355,14 +355,14 @@ def replace_sections(  # noqa: C901
 
         if sid in skip:
             result.extend(_render_section_parts(dest_section.parts, sid, tool_name, config))
-            if dest_section.content_after:
+            if dest_section.content_after is not None:
                 result.append(dest_section.content_after)
             continue
 
         if sid not in src_by_id:
             if keep_deleted_sections:
                 result.extend(_render_section_parts(dest_section.parts, sid, tool_name, config))
-                if dest_section.content_after:
+                if dest_section.content_after is not None:
                     result.append(dest_section.content_after)
             continue
 
@@ -375,17 +375,17 @@ def replace_sections(  # noqa: C901
                 src_part = src_section.parts[i]
                 has_more_parts = i + 1 < src_len
                 # Only preserve intra-section content if source expects it
-                if has_more_parts or src_part.content_after:
+                if has_more_parts or src_part.content_after is not None:
                     # Dest has structure if it has a next part (i+1 exists)
                     dest_has_structure = i + 1 < dest_len
                     if dest_has_structure:
                         after = dest_section.parts[i].content_after
-                    elif i < dest_len and dest_section.parts[i].content_after:
+                    elif i < dest_len and dest_section.parts[i].content_after is not None:
                         after = dest_section.parts[i].content_after
                     else:
                         after = src_part.content_after
                 else:
-                    after = ""
+                    after = None
                 merged_parts.append(SectionPart(src_part.content, 0, 0, after))
             else:
                 logger.warning(f"Deleting extra dest part {i} for section '{sid}'")
@@ -396,19 +396,17 @@ def replace_sections(  # noqa: C901
         result.extend(_render_section_parts(merged_parts, sid, tool_name, config))
 
         # Preserve section's content_after (inter-section/trailing content)
-        # Dest takes precedence if it exists (even if empty - user may have cleared it)
-        if dest_section in dest_parsed:
-            if dest_section.content_after:
-                result.append(dest_section.content_after)
-        elif src_section.content_after:
-            result.append(src_section.content_after)
+        # Only use dest's content_after when iterating dest sections
+        # Source's content_after is only used when adding NEW sections below
+        if dest_section.content_after is not None:
+            result.append(dest_section.content_after)
 
     # Append new sections not in dest
     for src_section in src_list:
         if src_section.id in seen_sections or src_section.id in skip:
             continue
         result.extend(_render_section_parts(src_section.parts, src_section.id, tool_name, config))
-        if src_section.content_after:
+        if src_section.content_after is not None:
             result.append(src_section.content_after)
 
     return "\n".join(result)

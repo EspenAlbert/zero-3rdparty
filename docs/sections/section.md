@@ -9,7 +9,7 @@
 class Section:
     id: str
     parts: list[SectionPart] = ...
-    content_after: str = ''
+    content_after: str | None = None
 ```
 <!-- === OK_EDIT: pkg-ext section_def === -->
 
@@ -19,7 +19,13 @@ class Section:
 |---|---|---|---|
 | id | `str` | - | Section identifier from the marker |
 | parts | `list[SectionPart]` | `[]` | Managed content parts (resumable sections have multiple) |
-| content_after | `str` | `''` | User content after this section until next section or EOF |
+| content_after | `str \| None` | `None` | User content after this section until next section or EOF |
+
+The `content_after` field captures user content after this section's last OK_EDIT marker. Semantics:
+- `None`: No content after (no lines between this section's end and the next section or EOF)
+- `""`: One blank line after
+- `"\n"`: Two blank lines after
+- Other strings: Actual user content (may include multiple lines)
 
 <!-- === DO_NOT_EDIT: pkg-ext section_changes === -->
 ### Changes

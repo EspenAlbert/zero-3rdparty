@@ -16,7 +16,7 @@ def test_repr():
 
 
 def test_str():
-    assert f"{_Status.STARTED}" == "STARTED"
+    assert _Status.STARTED == "STARTED"
 
 
 def test_is_str():

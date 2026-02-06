@@ -27,9 +27,9 @@ def _already_decorated(some_arg):
 
 def test_marking_function_as_decorated():
     assert _my_func("ok") == "ok"
-    assert is_decorated(_my_decorator, _my_func) is False
+    assert not is_decorated(_my_decorator, _my_func)
     mark_as_decorated(_my_decorator, _my_func)
-    assert is_decorated(_my_decorator, _my_func) is True
+    assert is_decorated(_my_decorator, _my_func)
     assert _my_decorator(_my_func)("ok") == "ok"
 
 
