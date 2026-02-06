@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.104.1 2026-02-06T09-56Z
+
+### Sections
+- fix(sections): preserve dest trailing content when adding new sections [f9a1f0](https://github.com/EspenAlbert/zero-3rdparty/commit/f9a1f0)
+
+
 ## 0.104.0 2026-02-06T06-59Z
 
 ### Sections

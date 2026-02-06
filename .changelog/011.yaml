@@ -22,3 +22,8 @@ message: 'fix(sections): preserve dest trailing content when adding new sections
   were replaced by source''s module-specific content during section sync.'
 rephrased: true
 short_sha: f9a1f0
+---
+name: 0.104.1
+ts: 2026-02-06 09:56:24.275129+00:00
+type: release
+old_version: 0.104.0
