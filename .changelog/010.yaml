@@ -63,3 +63,8 @@ change_kind: default_changed
 details: 'field ''content_after'' default: '''' -> None'
 field_name: content_after
 group: sections
+---
+name: 0.104.0
+ts: 2026-02-06 06:59:40.833389+00:00
+type: release
+old_version: 0.103.0

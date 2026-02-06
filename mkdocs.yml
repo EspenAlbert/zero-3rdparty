@@ -14,6 +14,7 @@ nav:
   - sections:
     - Overview: sections/index.md
     - Section: sections/section.md
+    - SectionPart: sections/sectionpart.md
     - replace_sections: sections/replace_sections.md
 # === OK_EDIT: pkg-ext nav ===
 # === DO_NOT_EDIT: pkg-ext extensions ===

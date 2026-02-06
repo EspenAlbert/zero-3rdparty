@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.104.0 2026-02-06T06-59Z
+
+### Sections
+- BREAKING `sections.SectionPart`: field 'content_after' type: str -> str | None
+- BREAKING `sections.Section`: field 'content_after' type: str -> str | None
+- fix(sections): preserve single blank lines between sections [ae5365](https://github.com/EspenAlbert/zero-3rdparty/commit/ae5365)
+- `sections.SectionPart`: field 'content_after' default: '' -> None
+- `sections.Section`: field 'content_after' default: '' -> None
+
+
 ## 0.103.0 2026-02-06T05-56Z
 
 ### Sections

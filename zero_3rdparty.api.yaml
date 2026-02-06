@@ -1,5 +1,5 @@
 pkg_import_name: zero_3rdparty
-version: 0.103.0
+version: 0.104.0
 groups:
 - name: sections
   symbols:
@@ -47,10 +47,10 @@ groups:
       is_class_var: false
       is_computed: false
     - name: content_after
-      type_annotation: str
+      type_annotation: str | None
       type_imports: []
       default:
-        value_repr: ''''''
+        value_repr: None
         is_factory: false
       is_class_var: false
       is_computed: false
@@ -96,10 +96,10 @@ groups:
       is_class_var: false
       is_computed: false
     - name: content_after
-      type_annotation: str
+      type_annotation: str | None
       type_imports: []
       default:
-        value_repr: ''''''
+        value_repr: None
         is_factory: false
       is_class_var: false
       is_computed: false
@@ -216,7 +216,7 @@ groups:
   - name: extract_sections_from_path
     module_path: _internal.sections
     docstring: ''
-    line_number: 428
+    line_number: 426
     type: function
     signature:
       parameters:
@@ -279,7 +279,7 @@ groups:
   - name: has_sections_in_path
     module_path: _internal.sections
     docstring: ''
-    line_number: 423
+    line_number: 421
     type: function
     signature:
       parameters:
@@ -327,7 +327,7 @@ groups:
   - name: parse_sections_from_path
     module_path: _internal.sections
     docstring: ''
-    line_number: 418
+    line_number: 416
     type: function
     signature:
       parameters:
@@ -445,4 +445,4 @@ groups:
         - zero_3rdparty._internal.sections.CommentConfig
       return_annotation: str
       return_type_imports: []
-dumped_at: 2026-02-06 05:56:43.948186+00:00
+dumped_at: 2026-02-06 06:59:40.820289+00:00

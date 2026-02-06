@@ -6,7 +6,7 @@
 - [`CommentConfig`](#commentconfig_def)
 - [Section](./section.md)
 - [`SectionChanges`](#sectionchanges_def)
-- [`SectionPart`](#sectionpart_def)
+- [SectionPart](./sectionpart.md)
 - [`changed_sections`](#changed_sections_def)
 - [`compare_sections`](#compare_sections_def)
 - [`extract_sections`](#extract_sections_def)
@@ -294,37 +294,3 @@ def parse_sections(content: str, tool_name: str, config: CommentConfig, filename
 |---------|--------|
 | 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext parse_sections_def === -->
-<!-- === DO_NOT_EDIT: pkg-ext sectionpart_def === -->
-<a id="sectionpart_def"></a>
-
-### class: `SectionPart`
-- [source](../../zero_3rdparty/_internal/sections.py#L24)
-> **Since:** 0.103.0
-
-```python
-class SectionPart:
-    content: str
-    start_line: int
-    end_line: int
-    content_after: str | None = None
-```
-
-| Field | Type | Default | Since |
-|---|---|---|---|
-| content | `str` | - | 0.103.0 |
-| start_line | `int` | - | 0.103.0 |
-| end_line | `int` | - | 0.103.0 |
-| content_after | `str | None` | `None` | 0.103.0 |
-
-### Changes
-
-| Version | Change |
-|---------|--------|
-| 0.103.0 | Made public |
-<!-- === OK_EDIT: pkg-ext sectionpart_def === -->
-
-The `content_after` field captures user content after this part's OK_EDIT marker (for resumable sections). Semantics:
-- `None`: No content after (no lines between this part's end marker and the next start marker)
-- `""`: One blank line after
-- `"\n"`: Two blank lines after
-- Other strings: Actual user content
