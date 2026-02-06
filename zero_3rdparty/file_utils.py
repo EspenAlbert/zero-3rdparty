@@ -220,7 +220,7 @@ def read_between_markers(
     end_marker: str,
 ) -> str:
     matches = list(markers_pattern(start_marker, end_marker).finditer(text))
-    if len(matches) == 0:
+    if not matches:
         start, end = text.find(start_marker), text.find(end_marker)
         if start == -1:
             raise MarkerNotFoundError(start_marker)

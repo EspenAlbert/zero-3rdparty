@@ -113,7 +113,7 @@ CRASH_CODES = {Code.UNKNOWN, Code.INTERNAL, Code.UNIMPLEMENTED}
 ERROR_CODES = set(Code) - CRASH_CODES - {Code.OK} - {Code.TIMEOUT}
 _all_codes = OK_CODES | TIMEOUT_CODES | CRASH_CODES | ERROR_CODES
 _missing_category = set(Code) - _all_codes
-assert _missing_category == set(), f"missing category for codes: {_missing_category}"
+assert not _missing_category, f"missing category for codes: {_missing_category}"
 
 
 @singledispatch

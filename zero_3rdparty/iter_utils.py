@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import inspect
+import operator
 from collections import ChainMap, defaultdict
 from collections.abc import Generator
 from functools import singledispatch
@@ -156,7 +157,7 @@ def public_dict(cls: Union[Type, ModuleType], recursive: bool = False) -> Dict[s
 def public_values(cls: Union[Type, ModuleType], sorted_=True) -> List[Any]:
     public_vars = public_dict(cls)
     if sorted_:
-        sorted_kv = sorted(public_vars.items(), key=lambda kv: kv[0])
+        sorted_kv = sorted(public_vars.items(), key=operator.itemgetter(0))
         return [kv[1] for kv in sorted_kv]
     return list(public_vars.values())
 

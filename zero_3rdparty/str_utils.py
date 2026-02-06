@@ -162,12 +162,12 @@ def print_object(obj: Any, attrs: Iterable[str]) -> str:
 
 
 def print_as_table(d: dict, column_key_width=30, column_value_width=30) -> str:
-    paths = sorted(f"{key}".ljust(column_key_width) + f"{d[key]}".ljust(column_value_width) for key in d)
+    paths = sorted(str(key).ljust(column_key_width) + str(d[key]).ljust(column_value_width) for key in d)
     return "\n".join(paths)
 
 
 def print_as_table_value_first(d: dict, column_key_width=30, column_value_width=30) -> str:
-    paths = sorted(f"{d[key]}".ljust(column_value_width) + f"{key}".ljust(column_key_width) for key in d)
+    paths = sorted(str(d[key]).ljust(column_value_width) + str(key).ljust(column_key_width) for key in d)
     return "\n".join(paths)
 
 
@@ -353,8 +353,7 @@ def markdown_table_lines(
         return []
     lines = []
     if header:
-        lines.append(f"{'#' * header_level} {header}")
-        lines.append("")
+        lines.extend((f"{'#' * header_level} {header}", ""))
     lines.extend(
         [
             " | ".join(columns),

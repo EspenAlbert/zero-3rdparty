@@ -179,8 +179,7 @@ def select_values(some_container: dict | list, allowed_values: tuple[type, ...])
     def unpack_list_or_dict(some_dict_or_list: dict | list):
         if isinstance(some_dict_or_list, dict):
             return {key: unpack(value) for key, value in some_dict_or_list.items() if ok_value(value)}
-        else:
-            return [unpack(value) for value in some_dict_or_list if ok_value(value)]
+        return [unpack(value) for value in some_dict_or_list if ok_value(value)]
 
     return unpack_list_or_dict(some_container)
 

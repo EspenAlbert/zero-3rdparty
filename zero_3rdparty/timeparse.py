@@ -42,10 +42,10 @@ TIMEFORMATS = [
         MINS=OPTSEP(MINS),
         SECS=OPT(SECS),
     ),
-    rf"{MINCLOCK}",
+    MINCLOCK,
     rf"{OPTSEP(WEEKS)}\s*{OPTSEP(DAYS)}\s*{HOURCLOCK}",
-    rf"{DAYCLOCK}",
-    rf"{SECCLOCK}",
+    DAYCLOCK,
+    SECCLOCK,
     # r'{YEARS}'.format(
     # YEARS=YEARS),
     # r'{MONTHS}'.format(
@@ -53,7 +53,7 @@ TIMEFORMATS = [
 ]
 
 COMPILED_SIGN = re.compile(r"\s*" + SIGN + r"\s*(?P<unsigned>.*)$")
-COMPILED_TIMEFORMATS = [re.compile(r"\s*" + timefmt + r"\s*$", re.I) for timefmt in TIMEFORMATS]
+COMPILED_TIMEFORMATS = [re.compile(r"\s*" + timefmt + r"\s*$", re.IGNORECASE) for timefmt in TIMEFORMATS]
 
 MULTIPLIERS = dict(
     [

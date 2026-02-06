@@ -106,7 +106,7 @@ def func_arg_types(func: Callable) -> list[type]:
 
 
 def call_signature(func, args=None, kwargs=None):
-    args = args or tuple()
+    args = args or ()
     kwargs = kwargs or {}
     key_value_str = ",".join(f"{k}={v}" for k, v in kwargs.items())
     function_name = as_name(func)

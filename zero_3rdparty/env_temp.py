@@ -2,6 +2,7 @@ import logging
 import os
 from collections.abc import Mapping
 from contextlib import contextmanager
+from itertools import starmap
 from typing import ContextManager
 
 logger = logging.getLogger(__name__)
@@ -27,7 +28,7 @@ class os_env_temp:
 
     @classmethod
     def from_dict(cls, d: Mapping) -> ContextManager:
-        os_env_temps = [cls(key, value) for key, value in d.items()]
+        os_env_temps = list(starmap(cls, d.items()))
 
         @contextmanager
         def inner():

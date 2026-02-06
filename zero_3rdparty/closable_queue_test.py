@@ -79,10 +79,7 @@ def test_many_consumers_all_should_finish():
     queue = ClosableQueue()
 
     def iterate() -> list[str]:
-        messages: list[str] = []
-        for m in queue:
-            messages.append(m)
-        return messages
+        return list(queue)
 
     with ThreadPoolExecutor() as executor:
         futures = {executor.submit(iterate): i for i in range(30)}
@@ -124,7 +121,7 @@ def test_get_no_wait_empty_queue_should_raise_exception():
 
 def test_iter_non_blocking():
     queue = ClosableQueue()
-    assert list(queue.iter_non_blocking()) == []
+    assert not list(queue.iter_non_blocking())
     queue.put(1)
     assert list(queue.iter_non_blocking()) == [1]
     queue.put(2)
@@ -132,7 +129,7 @@ def test_iter_non_blocking():
     assert list(queue.iter_non_blocking()) == [2, 3]
     queue.close()
     with pytest.raises(QueueIsClosed):
-        assert list(queue.iter_non_blocking()) == []
+        assert not list(queue.iter_non_blocking())
 
 
 def test_close_all():

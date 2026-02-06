@@ -59,11 +59,7 @@ def test_want_list_from_tuple():
 
 def test_iter_slices():
     full_list = list(range(1, 11))
-    slices = []
-    for slice in iter_slices(full_list, max=2):
-        slices.append(slice)
+    slices = [s for s in iter_slices(full_list, max=2)]
     assert slices == [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]
-    slices.clear()
-    for slice in iter_slices(full_list, max=3):
-        slices.append(slice)
+    slices = [s for s in iter_slices(full_list, max=3)]
     assert slices == [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10]]

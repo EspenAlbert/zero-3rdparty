@@ -83,10 +83,10 @@ def test_iter_paths_and_relative(tmp_path, subtests):
             clean_dest=True,
         )
         assert len(list(iter_paths(tmp_path, "3.ini"))) == 2
-        assert len(list(iter_paths(tmp_path, "4.txt"))) == 0
+        assert not list(iter_paths(tmp_path, "4.txt"))
     with subtests.test("clean_dir"):
         clean_dir(tmp_path)
-        assert len(list(iter_paths(tmp_path, "*.ini"))) == 0
+        assert not list(iter_paths(tmp_path, "*.ini"))
 
 
 def test_update_between_markers_update_non_existing_file(tmp_path):

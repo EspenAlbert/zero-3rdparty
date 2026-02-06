@@ -1,5 +1,4 @@
 import logging
-import os
 import subprocess
 import sys
 import tempfile
@@ -14,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 @lru_cache(maxsize=1)
 def running_in_container_environment() -> bool:
-    if os.path.isfile("/.dockerenv"):
+    if Path("/.dockerenv").is_file():
         return True
     with tempfile.NamedTemporaryFile() as tmp:
         stderr = TextIOWrapper(tmp)

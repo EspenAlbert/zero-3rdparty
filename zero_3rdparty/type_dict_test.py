@@ -33,7 +33,7 @@ class _TypeDictParam:
     def expected_count(self):
         is_subclass_ = issubclass(self.get_cls, self.add_cls)
         same_cls = self.get_cls is self.add_cls
-        return int(is_subclass_ and (self.strict is False or same_cls))
+        return int(is_subclass_ and (not self.strict or same_cls))
 
 
 # fmt: off
