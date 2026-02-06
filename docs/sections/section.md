@@ -26,10 +26,10 @@ class Section:
 
 | Version | Change |
 |---------|--------|
-| unreleased | added optional field 'content_after' (default: '') |
-| unreleased | added optional field 'parts' (default: ...) |
-| unreleased | removed field 'start_line' |
-| unreleased | removed field 'content' |
-| unreleased | removed field 'end_line' |
+| 0.103.0 | added optional field 'content_after' (default: '') |
+| 0.103.0 | added optional field 'parts' (default: ...) |
+| 0.103.0 | removed field 'start_line' |
+| 0.103.0 | removed field 'content' |
+| 0.103.0 | removed field 'end_line' |
 | 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext section_changes === -->

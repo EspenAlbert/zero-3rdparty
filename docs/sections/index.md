@@ -299,7 +299,7 @@ def parse_sections(content: str, tool_name: str, config: CommentConfig, filename
 
 ### class: `SectionPart`
 - [source](../../zero_3rdparty/_internal/sections.py#L24)
-> **Since:** unreleased
+> **Since:** 0.103.0
 
 ```python
 class SectionPart:
@@ -311,14 +311,14 @@ class SectionPart:
 
 | Field | Type | Default | Since |
 |---|---|---|---|
-| content | `str` | - | unreleased |
-| start_line | `int` | - | unreleased |
-| end_line | `int` | - | unreleased |
-| content_after | `str` | `''` | unreleased |
+| content | `str` | - | 0.103.0 |
+| start_line | `int` | - | 0.103.0 |
+| end_line | `int` | - | 0.103.0 |
+| content_after | `str` | `''` | 0.103.0 |
 
 ### Changes
 
 | Version | Change |
 |---------|--------|
-| unreleased | Made public |
+| 0.103.0 | Made public |
 <!-- === OK_EDIT: pkg-ext sectionpart_def === -->

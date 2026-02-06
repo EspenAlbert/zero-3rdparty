@@ -57,3 +57,8 @@ change_kind: optional_field_added
 details: 'added optional field ''content_after'' (default: '''')'
 field_name: content_after
 group: sections
+---
+name: 0.103.0
+ts: 2026-02-06 05:56:43.971872+00:00
+type: release
+old_version: 0.102.0

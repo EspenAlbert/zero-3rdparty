@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.103.0 2026-02-06T05-56Z
+
+### Sections
+- BREAKING `sections.Section`: removed field 'end_line'
+- BREAKING `sections.Section`: removed field 'content'
+- BREAKING `sections.Section`: removed field 'start_line'
+- BREAKING `sections.replace_sections`: param 'src_sections' type: dict[str, str] -> dict[str, str] | list[Section]
+- New class `SectionPart`
+- `sections.Section`: added optional field 'parts' (default: ...)
+- `sections.Section`: added optional field 'content_after' (default: '')
+
+
 ## 0.102.0 2026-01-24T19-19Z
 
 ### Sections
