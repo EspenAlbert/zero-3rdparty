@@ -384,8 +384,8 @@ def test_replace_resumable_section_preserves_gap():
         Section(
             id="job-snapshot-tests",
             parts=[
-                SectionPart("plan-snapshot-tests:\n  name: New Job Name\n  runs-on: ubuntu-latest", 0, 0, ""),
-                SectionPart("  steps:\n    - uses: actions/checkout@v4", 0, 0, ""),
+                SectionPart("plan-snapshot-tests:\n  name: New Job Name\n  runs-on: ubuntu-latest", 0, 0),
+                SectionPart("  steps:\n    - uses: actions/checkout@v4", 0, 0),
             ],
         )
     ]
@@ -469,8 +469,8 @@ def test_parse_resumable_section_captures_gaps():
     assert len(section.parts) == 2
     # Gap should be on the first part (content after its OK_EDIT)
     assert "CUSTOMIZE: Add your environment variables" in section.parts[0].content_after
-    # Last part has no gap after
-    assert section.parts[1].content_after == ""
+    # Last part has no gap after (None means no content_after was set)
+    assert section.parts[1].content_after is None
 
 
 def test_replace_resumable_section_new_file_includes_source_gaps():
@@ -610,8 +610,8 @@ extra_key: value
     assert len(sections) == 1
     section = sections[0]
     assert len(section.parts) == 1
-    # Part's content_after is empty (no resumable gap)
-    assert section.parts[0].content_after == ""
+    # Part's content_after is None (no resumable gap)
+    assert section.parts[0].content_after is None
     # Section's content_after captures trailing content
     assert "trailing content" in section.content_after
     assert "extra_key" in section.content_after
@@ -637,11 +637,12 @@ steps:
   - run: echo hello
 # === OK_EDIT: path-sync job ===
 """
-    # Dest has same structure (2 parts) but with EMPTY gap (user cleared template)
+    # Dest has same structure (2 parts) but with EMPTY gap (one blank line - user cleared template)
     dest_with_empty_gap = """\
 # === DO_NOT_EDIT: path-sync job ===
 name: Dest Job
 # === OK_EDIT: path-sync job ===
+
 # === DO_NOT_EDIT: path-sync job ===
 steps:
   - run: old command
@@ -652,7 +653,8 @@ steps:
     assert len(src_sections[0].parts) == 2
 
     dest_sections = parse_sections(dest_with_empty_gap, "path-sync", HASH_CONFIG)
-    assert dest_sections[0].parts[0].content_after == ""  # Dest has empty gap
+    # Dest has one blank line as gap (represented as "" when joined)
+    assert dest_sections[0].parts[0].content_after == ""
     assert len(dest_sections[0].parts) == 2  # But dest HAS the structure
 
     result = replace_sections(dest_with_empty_gap, src_sections, "path-sync", HASH_CONFIG)
@@ -750,8 +752,8 @@ def test_parse_inter_section_content():
 def test_replace_preserves_inter_section_content():
     """replace_sections should preserve user content between sections."""
     src_sections = [
-        Section(id="section_a", parts=[SectionPart("new content a", 0, 0, "")]),
-        Section(id="section_b", parts=[SectionPart("new content b", 0, 0, "")]),
+        Section(id="section_a", parts=[SectionPart("new content a", 0, 0)]),
+        Section(id="section_b", parts=[SectionPart("new content b", 0, 0)]),
     ]
     result = replace_sections(INTER_SECTION_CONTENT, src_sections, "tool", HASH_CONFIG)
 
@@ -781,7 +783,7 @@ old content
 User documentation at the end of the file.
 More trailing content here.
 """
-    src_sections = [Section(id="sec", parts=[SectionPart("new content", 0, 0, "")])]
+    src_sections = [Section(id="sec", parts=[SectionPart("new content", 0, 0)])]
     result = replace_sections(dest, src_sections, "tool", HASH_CONFIG)
 
     # Managed content updated
@@ -798,7 +800,7 @@ def test_replace_new_file_uses_source_trailing_content():
     src_sections = [
         Section(
             id="sec",
-            parts=[SectionPart("managed content", 0, 0, "")],
+            parts=[SectionPart("managed content", 0, 0)],
             content_after="# Add your custom content here",
         )
     ]
@@ -813,7 +815,7 @@ def test_replace_dest_trailing_content_preserved_over_source():
     src_sections = [
         Section(
             id="sec",
-            parts=[SectionPart("new managed", 0, 0, "")],
+            parts=[SectionPart("new managed", 0, 0)],
             content_after="# Source template trailing",
         )
     ]
@@ -838,7 +840,7 @@ def test_replace_empty_dest_trailing_preserved():
     src_sections = [
         Section(
             id="sec",
-            parts=[SectionPart("new managed", 0, 0, "")],
+            parts=[SectionPart("new managed", 0, 0)],
             content_after="# Source template",
         )
     ]
@@ -950,8 +952,8 @@ steps:
         Section(
             id="job",
             parts=[
-                SectionPart("name: CI Updated", 0, 0, ""),
-                SectionPart("steps:\n  - run: echo updated", 0, 0, ""),
+                SectionPart("name: CI Updated", 0, 0),
+                SectionPart("steps:\n  - run: echo updated", 0, 0),
             ],
         )
     ]
@@ -960,6 +962,49 @@ steps:
     assert result1 == result2
     # Verify gap content preserved
     assert "MY_VAR" in result2
+
+
+def test_replace_sections_preserves_single_blank_line_between_sections():
+    """Single blank line between sections should be preserved during replacement.
+
+    This was a regression where a single blank line (content_after="") was lost
+    because the truthy check `if content_after:` returned False for empty string.
+    """
+    # Source with blank line between sections
+    source = """\
+<!-- === DO_NOT_EDIT: pkg-ext header === -->
+# header content
+<!-- === OK_EDIT: pkg-ext header === -->
+
+<!-- === DO_NOT_EDIT: pkg-ext symbols === -->
+- symbol1
+<!-- === OK_EDIT: pkg-ext symbols === -->
+"""
+    # Dest with blank line between sections (same structure)
+    dest = """\
+<!-- === DO_NOT_EDIT: pkg-ext header === -->
+# old header
+<!-- === OK_EDIT: pkg-ext header === -->
+
+<!-- === DO_NOT_EDIT: pkg-ext symbols === -->
+- old symbol
+<!-- === OK_EDIT: pkg-ext symbols === -->
+"""
+    src_sections = parse_sections(source, "pkg-ext", HTML_CONFIG)
+    result = replace_sections(dest, src_sections, "pkg-ext", HTML_CONFIG)
+
+    # Verify content was updated
+    assert "# header content" in result
+    assert "- symbol1" in result
+    assert "# old header" not in result
+
+    # Verify blank line between sections is preserved
+    lines = result.split("\n")
+    header_end_idx = next(i for i, line in enumerate(lines) if "OK_EDIT: pkg-ext header" in line)
+    symbols_start_idx = next(i for i, line in enumerate(lines) if "DO_NOT_EDIT: pkg-ext symbols" in line)
+    # There should be exactly one blank line between them
+    assert symbols_start_idx == header_end_idx + 2  # +1 for blank line, +1 for symbols line
+    assert lines[header_end_idx + 1] == ""  # The blank line
 
 
 def test_replace_sections_idempotent_full_document():
@@ -993,15 +1038,15 @@ Generated footer
 Final notes at end of document.
 """
     src_sections = [
-        Section(id="header", parts=[SectionPart("## Updated Header", 0, 0, "")]),
+        Section(id="header", parts=[SectionPart("## Updated Header", 0, 0)]),
         Section(
             id="body",
             parts=[
-                SectionPart("Part 1 updated", 0, 0, ""),
-                SectionPart("Part 2 updated", 0, 0, ""),
+                SectionPart("Part 1 updated", 0, 0),
+                SectionPart("Part 2 updated", 0, 0),
             ],
         ),
-        Section(id="footer", parts=[SectionPart("Updated footer", 0, 0, "")]),
+        Section(id="footer", parts=[SectionPart("Updated footer", 0, 0)]),
     ]
     result1 = replace_sections(dest, src_sections, "tool", HASH_CONFIG)
     result2 = replace_sections(result1, src_sections, "tool", HASH_CONFIG)
