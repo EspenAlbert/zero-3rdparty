@@ -2,6 +2,7 @@
 from zero_3rdparty._internal.sections import CommentConfig as _CommentConfig
 from zero_3rdparty._internal.sections import Section as _Section
 from zero_3rdparty._internal.sections import SectionChanges as _SectionChanges
+from zero_3rdparty._internal.sections import SectionPart as _SectionPart
 from zero_3rdparty._internal.sections import changed_sections as _changed_sections
 from zero_3rdparty._internal.sections import compare_sections as _compare_sections
 from zero_3rdparty._internal.sections import extract_sections as _extract_sections
@@ -19,6 +20,7 @@ from zero_3rdparty._internal.sections import wrap_section as _wrap_section
 CommentConfig = _CommentConfig
 Section = _Section
 SectionChanges = _SectionChanges
+SectionPart = _SectionPart
 changed_sections = _changed_sections
 compare_sections = _compare_sections
 extract_sections = _extract_sections

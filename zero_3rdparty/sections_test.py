@@ -7,7 +7,6 @@ from zero_3rdparty import sections_examples as examples_module
 from zero_3rdparty.sections import CommentConfig, get_comment_config, parse_sections, replace_sections
 
 # === OK_EDIT: pkg-ext header ===
-
 # === DO_NOT_EDIT: pkg-ext commentconfig_test_parametrize ===
 commentconfig_examples = [
     e for e in vars(examples_module).values() if isinstance(e, examples_module.CommentConfigExample)
@@ -21,7 +20,6 @@ def test_commentconfig(example: examples_module.CommentConfigExample):
 
 
 # === OK_EDIT: pkg-ext commentconfig_test_parametrize ===
-
 # === DO_NOT_EDIT: pkg-ext get_comment_config_test_parametrize ===
 get_comment_config_examples = [
     e for e in vars(examples_module).values() if isinstance(e, examples_module.GetCommentConfigExample)
@@ -37,7 +35,6 @@ def test_get_comment_config(example: examples_module.GetCommentConfigExample):
 
 
 # === OK_EDIT: pkg-ext get_comment_config_test_parametrize ===
-
 # === DO_NOT_EDIT: pkg-ext parse_sections_test_parametrize ===
 parse_sections_examples = [
     e for e in vars(examples_module).values() if isinstance(e, examples_module.ParseSectionsExample)
@@ -53,7 +50,6 @@ def test_parse_sections(example: examples_module.ParseSectionsExample):
 
 
 # === OK_EDIT: pkg-ext parse_sections_test_parametrize ===
-
 # === DO_NOT_EDIT: pkg-ext replace_sections_test_parametrize ===
 replace_sections_examples = [
     e for e in vars(examples_module).values() if isinstance(e, examples_module.ReplaceSectionsExample)

@@ -2,69 +2,49 @@
 
 <!-- === DO_NOT_EDIT: pkg-ext replace_sections_def === -->
 ## function: replace_sections
-- [source](../../zero_3rdparty/_internal/sections.py#L262)
+- [source](../../zero_3rdparty/_internal/sections.py#L326)
 > **Since:** 0.101.0
 
 ```python
-def replace_sections(dest_content: str, src_sections: dict[str, str], tool_name: str, config: CommentConfig, skip_sections: list[str] | None = None, *, keep_deleted_sections: bool = False) -> str:
+def replace_sections(dest_content: str, src_sections: dict[str, str] | list[Section], tool_name: str, config: CommentConfig, skip_sections: list[str] | None = None, *, keep_deleted_sections: bool = False) -> str:
     ...
 ```
 
-Replace sections in dest_content with src_sections.
-
-Args:
-    dest_content: The destination content containing sections to update
-    src_sections: Dict mapping section IDs to their new content
-    tool_name: The tool name used in section markers
-    config: Comment configuration for the file type
-    skip_sections: Section IDs to preserve unchanged (not replaced, not deleted)
-    keep_deleted_sections: If True, preserve sections not in src_sections.
-        If False (default), delete sections not in src_sections (unless skipped).
-
-New sections from src_sections are always added at the end.
+Replace sections in dest_content with src_sections, preserving user content.
 <!-- === OK_EDIT: pkg-ext replace_sections_def === -->
 
-<!-- === DO_NOT_EDIT: pkg-ext replace_sections_example_replace_existing === -->
-### Example: replace_existing
+### Content Preservation
 
-```python
-result = replace_sections(
-    dest_content="""\
-# === DO_NOT_EDIT: t std ===
-old content
-# === OK_EDIT: t std ===""",
-    src_sections={"std": "new content"},
-    tool_name="t",
-    config={"prefix": "#", "suffix": ""},
-    skip_sections=None,
-    keep_deleted_sections=False,
-)
-```
-<!-- === OK_EDIT: pkg-ext replace_sections_example_replace_existing === -->
+The function preserves three types of user content:
 
-<!-- === DO_NOT_EDIT: pkg-ext replace_sections_example_skip_section === -->
-### Example: skip_section
+1. **Preamble**: Content before the first section marker
+2. **Intra-section content** (`SectionPart.content_after`): Content between parts of a resumable section
+3. **Inter-section content** (`Section.content_after`): Content between sections or after the last section
 
-```python
-result = replace_sections(
-    dest_content="""\
-# === DO_NOT_EDIT: t std ===
-preserved
-# === OK_EDIT: t std ===""",
-    src_sections={"std": "would be replaced"},
-    tool_name="t",
-    config={"prefix": "#", "suffix": ""},
-    skip_sections=["std"],
-    keep_deleted_sections=False,
-)
-```
-<!-- === OK_EDIT: pkg-ext replace_sections_example_skip_section === -->
+#### Intra-Section Content (Resumable Sections)
+
+When a section has multiple parts (resumable sections), the function handles user content between parts:
+
+- **Existing dest with content**: Dest content is preserved, source content is ignored
+- **Empty dest content**: Source content is used as boilerplate template
+- **New file (no dest sections)**: Source content is included as default
+- **Source has fewer parts**: Extra dest parts are deleted (unless `keep_deleted_sections=True`)
+- **Source has more parts**: Extra source parts are appended with their content
+
+#### Inter-Section and Trailing Content
+
+Content between different sections and content after the last section is preserved:
+
+- **Dest has content**: Dest's inter-section/trailing content is preserved
+- **New file**: Source's `Section.content_after` is used as template
+- **Dest content cleared**: Empty content is preserved (source template not re-injected)
 
 <!-- === DO_NOT_EDIT: pkg-ext replace_sections_changes === -->
 ### Changes
 
 | Version | Change |
 |---------|--------|
+| unreleased | param 'src_sections' type: dict[str, str] -> dict[str, str] | list[Section] |
 | 0.101.3 | added optional param 'keep_deleted_sections' (default: False) |
 | 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext replace_sections_changes === -->
