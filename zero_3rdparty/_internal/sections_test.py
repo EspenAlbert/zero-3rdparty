@@ -468,6 +468,7 @@ def test_parse_resumable_section_captures_gaps():
     assert section.id == "job"
     assert len(section.parts) == 2
     # Gap should be on the first part (content after its OK_EDIT)
+    assert section.parts[0].content_after is not None
     assert "CUSTOMIZE: Add your environment variables" in section.parts[0].content_after
     # Last part has no gap after (None means no content_after was set)
     assert section.parts[1].content_after is None
@@ -613,6 +614,7 @@ extra_key: value
     # Part's content_after is None (no resumable gap)
     assert section.parts[0].content_after is None
     # Section's content_after captures trailing content
+    assert section.content_after is not None
     assert "trailing content" in section.content_after
     assert "extra_key" in section.content_after
     # Only managed content is in the section content
@@ -742,10 +744,12 @@ def test_parse_inter_section_content():
     assert section_b.id == "section_b"
 
     # section_a's content_after captures the inter-section content
+    assert section_a.content_after is not None
     assert "User notes between sections" in section_a.content_after
     assert "between section_a and section_b" in section_a.content_after
 
     # section_b's content_after captures trailing content
+    assert section_b.content_after is not None
     assert "Trailing content after all sections" in section_b.content_after
 
 
@@ -877,14 +881,17 @@ after c (trailing)
     assert len(sections) == 3
 
     assert sections[0].id == "a"
+    assert sections[0].content_after is not None
     assert "after a" in sections[0].content_after
     assert "after b" not in sections[0].content_after
 
     assert sections[1].id == "b"
+    assert sections[1].content_after is not None
     assert "after b" in sections[1].content_after
     assert "after c" not in sections[1].content_after
 
     assert sections[2].id == "c"
+    assert sections[2].content_after is not None
     assert "after c (trailing)" in sections[2].content_after
 
 
