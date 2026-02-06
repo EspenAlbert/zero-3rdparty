@@ -338,6 +338,10 @@ def replace_sections(  # noqa: C901
     src_by_id = {s.id: s for s in src_list}
     dest_parsed = parse_sections(dest_content, tool_name, config)
 
+    # Capture dest's trailing content (content after last section) before processing
+    dest_trailing: str | None = dest_parsed[-1].content_after if dest_parsed else None
+    last_dest_id = dest_parsed[-1].id if dest_parsed else None
+
     # Collect preamble (lines before any section starts)
     start_pattern = _build_start_pattern(tool_name, config)
     preamble: list[str] = []
@@ -352,17 +356,18 @@ def replace_sections(  # noqa: C901
     for dest_section in dest_parsed:
         sid = dest_section.id
         seen_sections.add(sid)
+        is_last_dest_section = sid == last_dest_id
 
         if sid in skip:
             result.extend(_render_section_parts(dest_section.parts, sid, tool_name, config))
-            if dest_section.content_after is not None:
+            if dest_section.content_after is not None and not is_last_dest_section:
                 result.append(dest_section.content_after)
             continue
 
         if sid not in src_by_id:
             if keep_deleted_sections:
                 result.extend(_render_section_parts(dest_section.parts, sid, tool_name, config))
-                if dest_section.content_after is not None:
+                if dest_section.content_after is not None and not is_last_dest_section:
                     result.append(dest_section.content_after)
             continue
 
@@ -395,19 +400,21 @@ def replace_sections(  # noqa: C901
 
         result.extend(_render_section_parts(merged_parts, sid, tool_name, config))
 
-        # Preserve section's content_after (inter-section/trailing content)
-        # Only use dest's content_after when iterating dest sections
-        # Source's content_after is only used when adding NEW sections below
-        if dest_section.content_after is not None:
+        # Preserve inter-section content (skip trailing - it's appended at end)
+        if dest_section.content_after is not None and not is_last_dest_section:
             result.append(dest_section.content_after)
 
-    # Append new sections not in dest
+    # Append new sections not in dest (skip source's content_after - use dest's trailing instead)
     for src_section in src_list:
         if src_section.id in seen_sections or src_section.id in skip:
             continue
         result.extend(_render_section_parts(src_section.parts, src_section.id, tool_name, config))
-        if src_section.content_after is not None:
-            result.append(src_section.content_after)
+
+    # Append trailing content: dest's if updating, source's if initial copy
+    if dest_trailing is not None:
+        result.append(dest_trailing)
+    elif not dest_parsed and src_list and src_list[-1].content_after is not None:
+        result.append(src_list[-1].content_after)
 
     return "\n".join(result)
 
