@@ -1014,6 +1014,34 @@ def test_replace_sections_preserves_single_blank_line_between_sections():
     assert lines[header_end_idx + 1] == ""  # The blank line
 
 
+def test_replace_new_sections_preserves_dest_trailing():
+    """When adding new sections from source, preserve dest's trailing content."""
+    dest = """\
+# === DO_NOT_EDIT: t standard ===
+old content
+# === OK_EDIT: t standard ===
+# dest trailing
+dest-recipe:
+    echo "keep me"
+"""
+    src = [
+        Section(id="core", parts=[SectionPart("core content", 0, 0)]),
+        Section(
+            id="checks",
+            parts=[SectionPart("checks content", 0, 0)],
+            content_after="# source trailing\nsrc-recipe:\n    echo source",
+        ),
+    ]
+    result = replace_sections(dest, src, "t", HASH_CONFIG)
+
+    assert "core content" in result
+    assert "checks content" in result
+    assert "dest trailing" in result
+    assert "keep me" in result
+    assert "source trailing" not in result
+    assert "echo source" not in result
+
+
 def test_replace_sections_idempotent_full_document():
     """Idempotency test for a realistic document with all features."""
     dest = """\

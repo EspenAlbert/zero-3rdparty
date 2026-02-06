@@ -1,0 +1,24 @@
+name: sections
+ts: 2026-02-06 09:16:16.697420+00:00
+type: fix
+author: Espen Albert
+changelog_message: 'fix(sections): preserve dest trailing content when adding new sections'
+message: 'fix(sections): preserve dest trailing content when adding new sections
+
+
+  When replace_sections adds new sections from source to an existing dest
+
+  file, the source''s trailing content (content after the last section)
+
+  was incorrectly copied. This fix preserves the destination''s trailing
+
+  content for updates while still using source''s trailing content for
+
+  initial file creation.
+
+
+  Fixes issue where module-specific recipes in destination justfiles
+
+  were replaced by source''s module-specific content during section sync.'
+rephrased: true
+short_sha: f9a1f0

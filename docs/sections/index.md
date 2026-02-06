@@ -90,7 +90,7 @@ def extract_sections(content: str, tool_name: str, config: CommentConfig, filena
 <a id="extract_sections_from_path_def"></a>
 
 ### function: `extract_sections_from_path`
-- [source](../../zero_3rdparty/_internal/sections.py#L426)
+- [source](../../zero_3rdparty/_internal/sections.py#L433)
 > **Since:** 0.101.0
 
 ```python
@@ -126,7 +126,7 @@ def has_sections(content: str, tool_name: str, config: CommentConfig) -> bool:
 <a id="has_sections_in_path_def"></a>
 
 ### function: `has_sections_in_path`
-- [source](../../zero_3rdparty/_internal/sections.py#L421)
+- [source](../../zero_3rdparty/_internal/sections.py#L428)
 > **Since:** 0.101.0
 
 ```python
@@ -144,7 +144,7 @@ def has_sections_in_path(path: Path, tool_name: str) -> bool:
 <a id="parse_sections_from_path_def"></a>
 
 ### function: `parse_sections_from_path`
-- [source](../../zero_3rdparty/_internal/sections.py#L416)
+- [source](../../zero_3rdparty/_internal/sections.py#L423)
 > **Since:** 0.101.0
 
 ```python
