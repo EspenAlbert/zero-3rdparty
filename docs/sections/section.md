@@ -10,6 +10,7 @@ class Section:
     id: str
     parts: list[SectionPart] = ...
     content_after: str | None = None
+    indent: str = ''
 ```
 <!-- === OK_EDIT: pkg-ext section_def === -->
 
@@ -32,6 +33,7 @@ The `content_after` field captures user content after this section's last OK_EDI
 
 | Version | Change |
 |---------|--------|
+| unreleased | added optional field 'indent' (default: '') |
 | 0.104.0 | field 'content_after' default: '' -> None |
 | 0.104.0 | field 'content_after' type: str -> str | None |
 | 0.103.0 | added optional field 'content_after' (default: '') |
