@@ -1,0 +1,7 @@
+name: sections
+ts: 2026-02-10 14:58:23.611460+00:00
+type: fix
+author: Espen Albert
+changelog_message: 'fix(sections): allow indented section markers in parse patterns'
+message: 'fix(sections): allow indented section markers in parse patterns'
+short_sha: a6596d
