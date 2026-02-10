@@ -1,0 +1,24 @@
+name: sections
+ts: 2026-02-10 14:58:23.611460+00:00
+type: fix
+author: Espen Albert
+changelog_message: 'fix(sections): allow indented section markers in parse patterns'
+message: 'fix(sections): allow indented section markers in parse patterns'
+short_sha: a6596d
+---
+name: sections
+ts: 2026-02-10 15:15:32.082430+00:00
+type: fix
+author: Espen Albert
+changelog_message: 'fix(sections): preserve indentation of section markers during parse and replace'
+message: 'fix(sections): preserve indentation of section markers during parse and replace'
+short_sha: b905d6
+---
+name: Section
+ts: 2026-02-10 15:15:33.479264+00:00
+type: additional_change
+auto_generated: true
+change_kind: optional_field_added
+details: 'added optional field ''indent'' (default: '''')'
+field_name: indent
+group: sections

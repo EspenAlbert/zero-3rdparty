@@ -34,6 +34,7 @@ class Section:
     id: str
     parts: list[SectionPart] = field(default_factory=list)
     content_after: str | None = None
+    indent: str = ""
 
     @property
     def content(self) -> str:
@@ -129,7 +130,7 @@ def get_comment_config(path: Path | str, override: CommentConfig | None = None) 
 
 def _build_start_pattern(tool_name: str, config: CommentConfig) -> re.Pattern[str]:
     return re.compile(
-        rf"^{re.escape(config.prefix)}\s*===\s*DO_NOT_EDIT:\s*"
+        rf"^(?P<indent>\s*){re.escape(config.prefix)}\s*===\s*DO_NOT_EDIT:\s*"
         rf"{re.escape(tool_name)}\s+(?P<id>[\w-]+)\s*==={re.escape(config.suffix)}$",
         re.MULTILINE,
     )
@@ -137,18 +138,18 @@ def _build_start_pattern(tool_name: str, config: CommentConfig) -> re.Pattern[st
 
 def _build_end_pattern(tool_name: str, config: CommentConfig) -> re.Pattern[str]:
     return re.compile(
-        rf"^{re.escape(config.prefix)}\s*===\s*OK_EDIT:\s*"
+        rf"^\s*{re.escape(config.prefix)}\s*===\s*OK_EDIT:\s*"
         rf"{re.escape(tool_name)}\s+(?P<end_id>[\w-]+)\s*==={re.escape(config.suffix)}$",
         re.MULTILINE,
     )
 
 
-def _start_marker(tool_name: str, section_id: str, config: CommentConfig) -> str:
-    return f"{config.prefix} === DO_NOT_EDIT: {tool_name} {section_id} ==={config.suffix}"
+def _start_marker(tool_name: str, section_id: str, config: CommentConfig, indent: str = "") -> str:
+    return f"{indent}{config.prefix} === DO_NOT_EDIT: {tool_name} {section_id} ==={config.suffix}"
 
 
-def _end_marker(tool_name: str, section_id: str, config: CommentConfig) -> str:
-    return f"{config.prefix} === OK_EDIT: {tool_name} {section_id} ==={config.suffix}"
+def _end_marker(tool_name: str, section_id: str, config: CommentConfig, indent: str = "") -> str:
+    return f"{indent}{config.prefix} === OK_EDIT: {tool_name} {section_id} ==={config.suffix}"
 
 
 def parse_sections(  # noqa: C901
@@ -179,7 +180,9 @@ def parse_sections(  # noqa: C901
                 current_id = start_match.group("id")
                 current_start = i
                 content_lines = []
-                sections_by_id.setdefault(current_id, Section(id=current_id, parts=[]))
+                sections_by_id.setdefault(
+                    current_id, Section(id=current_id, parts=[], indent=start_match.group("indent"))
+                )
                 if current_id not in section_order:
                     section_order.append(current_id)
                 state = _ParseState.IN_SECTION
@@ -218,7 +221,9 @@ def parse_sections(  # noqa: C901
                     current_start = i
                     content_lines = []
                     after_lines = []
-                    sections_by_id.setdefault(current_id, Section(id=current_id, parts=[]))
+                    sections_by_id.setdefault(
+                        current_id, Section(id=current_id, parts=[], indent=start_match.group("indent"))
+                    )
                     if current_id not in section_order:
                         section_order.append(current_id)
                     state = _ParseState.IN_SECTION
@@ -311,13 +316,14 @@ def _render_section_parts(
     section_id: str,
     tool_name: str,
     config: CommentConfig,
+    indent: str = "",
 ) -> list[str]:
     result: list[str] = []
     for part in parts:
-        result.append(_start_marker(tool_name, section_id, config))
+        result.append(_start_marker(tool_name, section_id, config, indent))
         if part.content:
             result.append(part.content)
-        result.append(_end_marker(tool_name, section_id, config))
+        result.append(_end_marker(tool_name, section_id, config, indent))
         if part.content_after is not None:
             result.append(part.content_after)
     return result
@@ -359,14 +365,14 @@ def replace_sections(  # noqa: C901
         is_last_dest_section = sid == last_dest_id
 
         if sid in skip:
-            result.extend(_render_section_parts(dest_section.parts, sid, tool_name, config))
+            result.extend(_render_section_parts(dest_section.parts, sid, tool_name, config, dest_section.indent))
             if dest_section.content_after is not None and not is_last_dest_section:
                 result.append(dest_section.content_after)
             continue
 
         if sid not in src_by_id:
             if keep_deleted_sections:
-                result.extend(_render_section_parts(dest_section.parts, sid, tool_name, config))
+                result.extend(_render_section_parts(dest_section.parts, sid, tool_name, config, dest_section.indent))
                 if dest_section.content_after is not None and not is_last_dest_section:
                     result.append(dest_section.content_after)
             continue
@@ -398,7 +404,7 @@ def replace_sections(  # noqa: C901
         if src_len > dest_len:
             logger.warning(f"Appending {src_len - dest_len} extra src part(s) for section '{sid}'")
 
-        result.extend(_render_section_parts(merged_parts, sid, tool_name, config))
+        result.extend(_render_section_parts(merged_parts, sid, tool_name, config, src_by_id[sid].indent))
 
         # Preserve inter-section content (skip trailing - it's appended at end)
         if dest_section.content_after is not None and not is_last_dest_section:
@@ -408,7 +414,7 @@ def replace_sections(  # noqa: C901
     for src_section in src_list:
         if src_section.id in seen_sections or src_section.id in skip:
             continue
-        result.extend(_render_section_parts(src_section.parts, src_section.id, tool_name, config))
+        result.extend(_render_section_parts(src_section.parts, src_section.id, tool_name, config, src_section.indent))
 
     # Append trailing content: dest's if updating, source's if initial copy
     if dest_trailing is not None:

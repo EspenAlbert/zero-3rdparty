@@ -1096,3 +1096,111 @@ Final notes at end of document.
     assert "Custom user content" in result3
     assert "Customize this part" in result3
     assert "Final notes at end" in result3
+
+
+# ============================================================================
+# Indented Section Markers
+# ============================================================================
+# Section markers may be indented (e.g., inside a YAML `jobs:` block).
+# The parser must recognize markers with leading whitespace.
+
+
+INDENTED_YAML_CONTENT = """\
+# === DO_NOT_EDIT: path-sync triggers ===
+name: Code Health
+on: push
+# === OK_EDIT: path-sync triggers ===
+
+jobs:
+  # === DO_NOT_EDIT: path-sync job-check ===
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: just pre-commit
+  # === OK_EDIT: path-sync job-check ===
+
+  # === DO_NOT_EDIT: path-sync job-tests ===
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - run: just test
+  # === OK_EDIT: path-sync job-tests ===
+"""
+
+
+def test_parse_indented_section_markers():
+    """Indented markers (e.g. under YAML jobs:) must be recognized by the parser."""
+    sections = parse_sections(INDENTED_YAML_CONTENT, "path-sync", HASH_CONFIG)
+    ids = [s.id for s in sections]
+    assert ids == ["triggers", "job-check", "job-tests"]
+    assert "on: push" in sections[0].content
+    assert "just pre-commit" in sections[1].content
+    assert "just test" in sections[2].content
+    assert sections[0].indent == ""
+    assert sections[1].indent == "  "
+    assert sections[2].indent == "  "
+
+
+def test_has_sections_with_indented_markers():
+    """has_sections must detect indented markers."""
+    only_indented = """\
+jobs:
+  # === DO_NOT_EDIT: tool job ===
+  build:
+    runs-on: ubuntu-latest
+  # === OK_EDIT: tool job ===
+"""
+    assert has_sections(only_indented, "tool", HASH_CONFIG)
+
+
+def test_replace_indented_sections_updates_dest():
+    """Dest with only the top-level section gets new indented sections from source."""
+    dest = """\
+# === DO_NOT_EDIT: path-sync triggers ===
+name: Code Health
+on: push
+# === OK_EDIT: path-sync triggers ===
+"""
+    src_sections = parse_sections(INDENTED_YAML_CONTENT, "path-sync", HASH_CONFIG)
+    result = replace_sections(dest, src_sections, "path-sync", HASH_CONFIG)
+
+    # New sections appended from source
+    assert "just pre-commit" in result
+    assert "just test" in result
+    # Existing section updated
+    assert "DO_NOT_EDIT: path-sync job-check" in result
+    assert "DO_NOT_EDIT: path-sync job-tests" in result
+
+
+def test_replace_indented_sections_with_skip():
+    """skip_sections works for indented sections."""
+    dest = """\
+# === DO_NOT_EDIT: path-sync triggers ===
+name: Code Health
+on: push
+# === OK_EDIT: path-sync triggers ===
+"""
+    src_sections = parse_sections(INDENTED_YAML_CONTENT, "path-sync", HASH_CONFIG)
+    result = replace_sections(dest, src_sections, "path-sync", HASH_CONFIG, skip_sections=["job-tests"])
+
+    assert "just pre-commit" in result
+    assert "just test" not in result
+    assert "DO_NOT_EDIT: path-sync job-check" in result
+    assert "DO_NOT_EDIT: path-sync job-tests" not in result
+
+
+def test_replace_indented_sections_preserves_indent():
+    """Round-trip: indented markers in source must keep their indent in rendered output."""
+    src_sections = parse_sections(INDENTED_YAML_CONTENT, "path-sync", HASH_CONFIG)
+    dest = """\
+# === DO_NOT_EDIT: path-sync triggers ===
+name: Code Health
+on: push
+# === OK_EDIT: path-sync triggers ===
+"""
+    result = replace_sections(dest, src_sections, "path-sync", HASH_CONFIG)
+    result_lines = result.split("\n")
+    indented_starts = [line for line in result_lines if "DO_NOT_EDIT: path-sync job-" in line]
+    indented_ends = [line for line in result_lines if "OK_EDIT: path-sync job-" in line]
+    for line in indented_starts + indented_ends:
+        assert line.startswith("  #"), f"Expected 2-space indent, got: {line!r}"
