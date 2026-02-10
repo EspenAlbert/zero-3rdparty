@@ -1,5 +1,5 @@
 pkg_import_name: zero_3rdparty
-version: 0.104.1
+version: 0.104.2
 groups:
 - name: sections
   symbols:
@@ -52,10 +52,18 @@ groups:
         is_factory: false
       is_class_var: false
       is_computed: false
+    - name: indent
+      type_annotation: str
+      type_imports: []
+      default:
+        value_repr: ''''''
+        is_factory: false
+      is_class_var: false
+      is_computed: false
   - name: SectionChanges
     module_path: _internal.sections
     docstring: ''
-    line_number: 51
+    line_number: 52
     type: class
     direct_bases: []
     fields:
@@ -102,7 +110,7 @@ groups:
   - name: changed_sections
     module_path: _internal.sections
     docstring: Return modified and missing sections separately.
-    line_number: 270
+    line_number: 275
     type: function
     signature:
       parameters:
@@ -143,7 +151,7 @@ groups:
   - name: compare_sections
     module_path: _internal.sections
     docstring: Return section IDs with changes (modified or removed), excluding skipped sections.
-    line_number: 251
+    line_number: 256
     type: function
     signature:
       parameters:
@@ -183,7 +191,7 @@ groups:
   - name: extract_sections
     module_path: _internal.sections
     docstring: ''
-    line_number: 242
+    line_number: 247
     type: function
     signature:
       parameters:
@@ -212,7 +220,7 @@ groups:
   - name: extract_sections_from_path
     module_path: _internal.sections
     docstring: ''
-    line_number: 433
+    line_number: 439
     type: function
     signature:
       parameters:
@@ -230,7 +238,7 @@ groups:
   - name: get_comment_config
     module_path: _internal.sections
     docstring: ''
-    line_number: 119
+    line_number: 120
     type: function
     signature:
       parameters:
@@ -253,7 +261,7 @@ groups:
   - name: has_sections
     module_path: _internal.sections
     docstring: ''
-    line_number: 238
+    line_number: 243
     type: function
     signature:
       parameters:
@@ -275,7 +283,7 @@ groups:
   - name: has_sections_in_path
     module_path: _internal.sections
     docstring: ''
-    line_number: 428
+    line_number: 434
     type: function
     signature:
       parameters:
@@ -293,7 +301,7 @@ groups:
   - name: parse_sections
     module_path: _internal.sections
     docstring: ''
-    line_number: 154
+    line_number: 155
     type: function
     signature:
       parameters:
@@ -323,7 +331,7 @@ groups:
   - name: parse_sections_from_path
     module_path: _internal.sections
     docstring: ''
-    line_number: 423
+    line_number: 429
     type: function
     signature:
       parameters:
@@ -342,7 +350,7 @@ groups:
   - name: replace_sections
     module_path: _internal.sections
     docstring: Replace sections in dest_content with src_sections, preserving user content.
-    line_number: 326
+    line_number: 332
     type: function
     signature:
       parameters:
@@ -396,7 +404,7 @@ groups:
   - name: wrap_in_default_section
     module_path: _internal.sections
     docstring: ''
-    line_number: 299
+    line_number: 304
     type: function
     signature:
       parameters:
@@ -418,7 +426,7 @@ groups:
   - name: wrap_section
     module_path: _internal.sections
     docstring: ''
-    line_number: 293
+    line_number: 298
     type: function
     signature:
       parameters:
@@ -441,4 +449,4 @@ groups:
         - zero_3rdparty._internal.sections.CommentConfig
       return_annotation: str
       return_type_imports: []
-dumped_at: 2026-02-06 09:56:24.255718+00:00
+dumped_at: 2026-02-10 15:18:41.547001+00:00

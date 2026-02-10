@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.104.2 2026-02-10T15-18Z
+
+### Sections
+- fix(sections): allow indented section markers in parse patterns [a6596d](https://github.com/EspenAlbert/zero-3rdparty/commit/a6596d)
+- fix(sections): preserve indentation of section markers during parse and replace [b905d6](https://github.com/EspenAlbert/zero-3rdparty/commit/b905d6)
+- `sections.Section`: added optional field 'indent' (default: '')
+
+
 ## 0.104.1 2026-02-06T09-56Z
 
 ### Sections

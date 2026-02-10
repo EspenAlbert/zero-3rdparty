@@ -22,3 +22,8 @@ change_kind: optional_field_added
 details: 'added optional field ''indent'' (default: '''')'
 field_name: indent
 group: sections
+---
+name: 0.104.2
+ts: 2026-02-10 15:18:41.567282+00:00
+type: release
+old_version: 0.104.1
