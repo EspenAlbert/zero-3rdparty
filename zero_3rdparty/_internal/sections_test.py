@@ -1136,6 +1136,9 @@ def test_parse_indented_section_markers():
     assert "on: push" in sections[0].content
     assert "just pre-commit" in sections[1].content
     assert "just test" in sections[2].content
+    assert sections[0].indent == ""
+    assert sections[1].indent == "  "
+    assert sections[2].indent == "  "
 
 
 def test_has_sections_with_indented_markers():
@@ -1184,3 +1187,20 @@ on: push
     assert "just test" not in result
     assert "DO_NOT_EDIT: path-sync job-check" in result
     assert "DO_NOT_EDIT: path-sync job-tests" not in result
+
+
+def test_replace_indented_sections_preserves_indent():
+    """Round-trip: indented markers in source must keep their indent in rendered output."""
+    src_sections = parse_sections(INDENTED_YAML_CONTENT, "path-sync", HASH_CONFIG)
+    dest = """\
+# === DO_NOT_EDIT: path-sync triggers ===
+name: Code Health
+on: push
+# === OK_EDIT: path-sync triggers ===
+"""
+    result = replace_sections(dest, src_sections, "path-sync", HASH_CONFIG)
+    result_lines = result.split("\n")
+    indented_starts = [line for line in result_lines if "DO_NOT_EDIT: path-sync job-" in line]
+    indented_ends = [line for line in result_lines if "OK_EDIT: path-sync job-" in line]
+    for line in indented_starts + indented_ends:
+        assert line.startswith("  #"), f"Expected 2-space indent, got: {line!r}"
