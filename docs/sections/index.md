@@ -41,12 +41,18 @@ class CommentConfig:
 |---|---|---|---|
 | prefix | `str` | - | 0.101.0 |
 | suffix | `str` | `''` | 0.101.0 |
+
+### Changes
+
+| Version | Change |
+|---------|--------|
+| 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext commentconfig_def === -->
 <!-- === DO_NOT_EDIT: pkg-ext compare_sections_def === -->
 <a id="compare_sections_def"></a>
 
 ### function: `compare_sections`
-- [source](../../zero_3rdparty/_internal/sections.py#L256)
+- [source](../../zero_3rdparty/_internal/sections.py#L260)
 > **Since:** 0.101.0
 
 ```python
@@ -55,66 +61,102 @@ def compare_sections(baseline_content: str, current_content: str, tool_name: str
 ```
 
 Return section IDs with changes (modified or removed), excluding skipped sections.
+
+### Changes
+
+| Version | Change |
+|---------|--------|
+| 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext compare_sections_def === -->
 <!-- === DO_NOT_EDIT: pkg-ext extract_sections_def === -->
 <a id="extract_sections_def"></a>
 
 ### function: `extract_sections`
-- [source](../../zero_3rdparty/_internal/sections.py#L247)
+- [source](../../zero_3rdparty/_internal/sections.py#L251)
 > **Since:** 0.101.0
 
 ```python
 def extract_sections(content: str, tool_name: str, config: CommentConfig, filename: str = '') -> dict[str, str]:
     ...
 ```
+
+### Changes
+
+| Version | Change |
+|---------|--------|
+| 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext extract_sections_def === -->
 <!-- === DO_NOT_EDIT: pkg-ext extract_sections_from_path_def === -->
 <a id="extract_sections_from_path_def"></a>
 
 ### function: `extract_sections_from_path`
-- [source](../../zero_3rdparty/_internal/sections.py#L439)
+- [source](../../zero_3rdparty/_internal/sections.py#L443)
 > **Since:** 0.101.0
 
 ```python
 def extract_sections_from_path(path: Path, tool_name: str) -> dict[str, str]:
     ...
 ```
+
+### Changes
+
+| Version | Change |
+|---------|--------|
+| 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext extract_sections_from_path_def === -->
 <!-- === DO_NOT_EDIT: pkg-ext has_sections_def === -->
 <a id="has_sections_def"></a>
 
 ### function: `has_sections`
-- [source](../../zero_3rdparty/_internal/sections.py#L243)
+- [source](../../zero_3rdparty/_internal/sections.py#L247)
 > **Since:** 0.101.0
 
 ```python
 def has_sections(content: str, tool_name: str, config: CommentConfig) -> bool:
     ...
 ```
+
+### Changes
+
+| Version | Change |
+|---------|--------|
+| 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext has_sections_def === -->
 <!-- === DO_NOT_EDIT: pkg-ext has_sections_in_path_def === -->
 <a id="has_sections_in_path_def"></a>
 
 ### function: `has_sections_in_path`
-- [source](../../zero_3rdparty/_internal/sections.py#L434)
+- [source](../../zero_3rdparty/_internal/sections.py#L438)
 > **Since:** 0.101.0
 
 ```python
 def has_sections_in_path(path: Path, tool_name: str) -> bool:
     ...
 ```
+
+### Changes
+
+| Version | Change |
+|---------|--------|
+| 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext has_sections_in_path_def === -->
 <!-- === DO_NOT_EDIT: pkg-ext parse_sections_from_path_def === -->
 <a id="parse_sections_from_path_def"></a>
 
 ### function: `parse_sections_from_path`
-- [source](../../zero_3rdparty/_internal/sections.py#L429)
+- [source](../../zero_3rdparty/_internal/sections.py#L433)
 > **Since:** 0.101.0
 
 ```python
 def parse_sections_from_path(path: Path, tool_name: str) -> list[Section]:
     ...
 ```
+
+### Changes
+
+| Version | Change |
+|---------|--------|
+| 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext parse_sections_from_path_def === -->
 <!-- === DO_NOT_EDIT: pkg-ext slug_def === -->
 <a id="slug_def"></a>
@@ -129,30 +171,48 @@ def slug(text: str) -> str:
 ```
 
 Convert text to lowercase slug suitable for section marker IDs.
+
+### Changes
+
+| Version | Change |
+|---------|--------|
+| 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext slug_def === -->
 <!-- === DO_NOT_EDIT: pkg-ext wrap_in_default_section_def === -->
 <a id="wrap_in_default_section_def"></a>
 
 ### function: `wrap_in_default_section`
-- [source](../../zero_3rdparty/_internal/sections.py#L304)
+- [source](../../zero_3rdparty/_internal/sections.py#L308)
 > **Since:** 0.101.0
 
 ```python
 def wrap_in_default_section(content: str, tool_name: str, config: CommentConfig) -> str:
     ...
 ```
+
+### Changes
+
+| Version | Change |
+|---------|--------|
+| 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext wrap_in_default_section_def === -->
 <!-- === DO_NOT_EDIT: pkg-ext wrap_section_def === -->
 <a id="wrap_section_def"></a>
 
 ### function: `wrap_section`
-- [source](../../zero_3rdparty/_internal/sections.py#L298)
+- [source](../../zero_3rdparty/_internal/sections.py#L302)
 > **Since:** 0.101.0
 
 ```python
 def wrap_section(content: str, section_id: str, tool_name: str, config: CommentConfig) -> str:
     ...
 ```
+
+### Changes
+
+| Version | Change |
+|---------|--------|
+| 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext wrap_section_def === -->
 <!-- === DO_NOT_EDIT: pkg-ext sectionchanges_def === -->
 <a id="sectionchanges_def"></a>
@@ -171,12 +231,18 @@ class SectionChanges:
 |---|---|---|---|
 | modified | `list[str]` | - | 0.102.0 |
 | missing | `list[str]` | - | 0.102.0 |
+
+### Changes
+
+| Version | Change |
+|---------|--------|
+| 0.102.0 | Made public |
 <!-- === OK_EDIT: pkg-ext sectionchanges_def === -->
 <!-- === DO_NOT_EDIT: pkg-ext changed_sections_def === -->
 <a id="changed_sections_def"></a>
 
 ### function: `changed_sections`
-- [source](../../zero_3rdparty/_internal/sections.py#L275)
+- [source](../../zero_3rdparty/_internal/sections.py#L279)
 > **Since:** 0.102.0
 
 ```python
@@ -185,28 +251,46 @@ def changed_sections(baseline_content: str, current_content: str, tool_name: str
 ```
 
 Return modified and missing sections separately.
+
+### Changes
+
+| Version | Change |
+|---------|--------|
+| 0.102.0 | Made public |
 <!-- === OK_EDIT: pkg-ext changed_sections_def === -->
 <!-- === DO_NOT_EDIT: pkg-ext get_comment_config_def === -->
 <a id="get_comment_config_def"></a>
 
 ### function: `get_comment_config`
-- [source](../../zero_3rdparty/_internal/sections.py#L120)
+- [source](../../zero_3rdparty/_internal/sections.py#L124)
 > **Since:** 0.101.0
 
 ```python
 def get_comment_config(path: Path | str, override: CommentConfig | None = None) -> CommentConfig:
     ...
 ```
+
+### Changes
+
+| Version | Change |
+|---------|--------|
+| 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext get_comment_config_def === -->
 <!-- === DO_NOT_EDIT: pkg-ext parse_sections_def === -->
 <a id="parse_sections_def"></a>
 
 ### function: `parse_sections`
-- [source](../../zero_3rdparty/_internal/sections.py#L155)
+- [source](../../zero_3rdparty/_internal/sections.py#L159)
 > **Since:** 0.101.0
 
 ```python
 def parse_sections(content: str, tool_name: str, config: CommentConfig, filename: str = '') -> list[Section]:
     ...
 ```
+
+### Changes
+
+| Version | Change |
+|---------|--------|
+| 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext parse_sections_def === -->

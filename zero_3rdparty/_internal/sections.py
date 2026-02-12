@@ -97,6 +97,10 @@ EXTENSION_COMMENT_MAP: dict[str, CommentConfig] = {
     ".css": CommentConfig("/*", " */"),
     ".scss": CommentConfig("/*", " */"),
     ".less": CommentConfig("/*", " */"),
+    # HCL / Terraform
+    ".tf": CommentConfig("#"),
+    ".tfvars": CommentConfig("#"),
+    ".hcl": CommentConfig("#"),
     # SQL
     ".sql": CommentConfig("--"),
     # Lua
