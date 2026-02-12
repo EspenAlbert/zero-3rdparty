@@ -1,0 +1,7 @@
+name: sections
+ts: 2026-02-12 15:40:34.536682+00:00
+type: fix
+author: Espen Albert
+changelog_message: 'fix(sections): add support for HCL/Terraform file extensions'
+message: 'fix(sections): add support for HCL/Terraform file extensions'
+short_sha: b72ee3
