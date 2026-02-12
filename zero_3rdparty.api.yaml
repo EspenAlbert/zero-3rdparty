@@ -1,5 +1,5 @@
 pkg_import_name: zero_3rdparty
-version: 0.104.2
+version: 0.104.3
 groups:
 - name: sections
   symbols:
@@ -110,7 +110,7 @@ groups:
   - name: changed_sections
     module_path: _internal.sections
     docstring: Return modified and missing sections separately.
-    line_number: 275
+    line_number: 279
     type: function
     signature:
       parameters:
@@ -151,7 +151,7 @@ groups:
   - name: compare_sections
     module_path: _internal.sections
     docstring: Return section IDs with changes (modified or removed), excluding skipped sections.
-    line_number: 256
+    line_number: 260
     type: function
     signature:
       parameters:
@@ -191,7 +191,7 @@ groups:
   - name: extract_sections
     module_path: _internal.sections
     docstring: ''
-    line_number: 247
+    line_number: 251
     type: function
     signature:
       parameters:
@@ -220,7 +220,7 @@ groups:
   - name: extract_sections_from_path
     module_path: _internal.sections
     docstring: ''
-    line_number: 439
+    line_number: 443
     type: function
     signature:
       parameters:
@@ -238,7 +238,7 @@ groups:
   - name: get_comment_config
     module_path: _internal.sections
     docstring: ''
-    line_number: 120
+    line_number: 124
     type: function
     signature:
       parameters:
@@ -261,7 +261,7 @@ groups:
   - name: has_sections
     module_path: _internal.sections
     docstring: ''
-    line_number: 243
+    line_number: 247
     type: function
     signature:
       parameters:
@@ -283,7 +283,7 @@ groups:
   - name: has_sections_in_path
     module_path: _internal.sections
     docstring: ''
-    line_number: 434
+    line_number: 438
     type: function
     signature:
       parameters:
@@ -301,7 +301,7 @@ groups:
   - name: parse_sections
     module_path: _internal.sections
     docstring: ''
-    line_number: 155
+    line_number: 159
     type: function
     signature:
       parameters:
@@ -331,7 +331,7 @@ groups:
   - name: parse_sections_from_path
     module_path: _internal.sections
     docstring: ''
-    line_number: 429
+    line_number: 433
     type: function
     signature:
       parameters:
@@ -350,7 +350,7 @@ groups:
   - name: replace_sections
     module_path: _internal.sections
     docstring: Replace sections in dest_content with src_sections, preserving user content.
-    line_number: 332
+    line_number: 336
     type: function
     signature:
       parameters:
@@ -404,7 +404,7 @@ groups:
   - name: wrap_in_default_section
     module_path: _internal.sections
     docstring: ''
-    line_number: 304
+    line_number: 308
     type: function
     signature:
       parameters:
@@ -426,7 +426,7 @@ groups:
   - name: wrap_section
     module_path: _internal.sections
     docstring: ''
-    line_number: 298
+    line_number: 302
     type: function
     signature:
       parameters:
@@ -449,4 +449,4 @@ groups:
         - zero_3rdparty._internal.sections.CommentConfig
       return_annotation: str
       return_type_imports: []
-dumped_at: 2026-02-10 15:18:41.547001+00:00
+dumped_at: 2026-02-12 18:21:16.224149+00:00

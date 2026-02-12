@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.104.3 2026-02-12T18-21Z
+
+### Sections
+- fix(sections): add support for HCL/Terraform file extensions [b72ee3](https://github.com/EspenAlbert/zero-3rdparty/commit/b72ee3)
+
+
 ## 0.104.2 2026-02-10T15-18Z
 
 ### Sections

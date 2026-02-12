@@ -5,3 +5,8 @@ author: Espen Albert
 changelog_message: 'fix(sections): add support for HCL/Terraform file extensions'
 message: 'fix(sections): add support for HCL/Terraform file extensions'
 short_sha: b72ee3
+---
+name: 0.104.3
+ts: 2026-02-12 18:21:16.243712+00:00
+type: release
+old_version: 0.104.2
