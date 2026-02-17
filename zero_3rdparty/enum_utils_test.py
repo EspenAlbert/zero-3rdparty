@@ -12,7 +12,7 @@ def test_comparison():
 
 
 def test_repr():
-    assert repr(_Status.STARTED) == repr("STARTED")
+    assert repr(_Status.STARTED) == "<_Status.STARTED: 'STARTED'>"
 
 
 def test_str():
