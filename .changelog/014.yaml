@@ -1,0 +1,7 @@
+name: __ROOT__
+ts: 2026-02-18 06:27:53.747597+00:00
+type: fix
+author: Espen Albert
+changelog_message: 'fix: minor lint errors'
+message: 'fix: minor lint errors'
+short_sha: a309b1
