@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.104.4 2026-02-18T06-40Z
+
+### __Root__
+- fix: minor lint errors [a309b1](https://github.com/EspenAlbert/zero-3rdparty/commit/a309b1)
+
+
 ## 0.104.3 2026-02-12T18-21Z
 
 ### Sections

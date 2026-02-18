@@ -5,3 +5,8 @@ author: Espen Albert
 changelog_message: 'fix: minor lint errors'
 message: 'fix: minor lint errors'
 short_sha: a309b1
+---
+name: 0.104.4
+ts: 2026-02-18 06:40:16.603969+00:00
+type: release
+old_version: 0.104.3
