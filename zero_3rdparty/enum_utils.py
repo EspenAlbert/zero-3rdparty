@@ -1,12 +1,8 @@
 from enum import Enum
 
 
-class StrEnum(str, Enum):
-    """Needed to avoid the enum repr: "<_Status.STARTED: 'STARTED'>".
-
-    Will become unnecessary in python3.11:
-    https://docs.python.org/3.11/library/enum.html#enum.StrEnum
-    """
+class StrEnum(str, Enum):  # noqa: UP042 # uses a custom repr
+    """Used to avoid the enum repr: "<_Status.STARTED: 'STARTED'>"."""
 
     def __repr__(self) -> str:
         return str.__repr__(self)

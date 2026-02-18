@@ -55,17 +55,15 @@ TIMEFORMATS = [
 COMPILED_SIGN = re.compile(r"\s*" + SIGN + r"\s*(?P<unsigned>.*)$")
 COMPILED_TIMEFORMATS = [re.compile(r"\s*" + timefmt + r"\s*$", re.IGNORECASE) for timefmt in TIMEFORMATS]
 
-MULTIPLIERS = dict(
-    [
-        # ('years',  60 * 60 * 24 * 365),
-        # ('months', 60 * 60 * 24 * 30),
-        ("weeks", 60 * 60 * 24 * 7),
-        ("days", 60 * 60 * 24),
-        ("hours", 60 * 60),
-        ("mins", 60),
-        ("secs", 1),
-    ]
-)
+MULTIPLIERS: dict[str, int] = {
+    # 'years':  60 * 60 * 24 * 365,
+    # 'months': 60 * 60 * 24 * 30,
+    "weeks": 60 * 60 * 24 * 7,
+    "days": 60 * 60 * 24,
+    "hours": 60 * 60,
+    "mins": 60,
+    "secs": 1,
+}
 
 
 def _interpret_as_minutes(sval, mdict):
@@ -132,7 +130,8 @@ def timeparse(sval, granularity="seconds"):
     >>> timeparse('1:30', granularity='minutes')
     5400
     """
-    match = COMPILED_SIGN.match(sval)
+    if not (match := COMPILED_SIGN.match(sval)):
+        return None
     sign = -1 if match.groupdict()["sign"] == "-" else 1
     sval = match.groupdict()["unsigned"]
     for timefmt in COMPILED_TIMEFORMATS:
