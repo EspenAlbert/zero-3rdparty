@@ -9,7 +9,7 @@ sync:
   uv sync
 
 # === DO_NOT_EDIT: path-sync standard ===
-pre-push: lint fmt-check test
+pre-push: lint fmt-check test vulture
   @echo "All checks passed"
 
 pre-commit: fmt fix lint
@@ -82,3 +82,7 @@ docs-serve:
   uv run scripts/fix_source_links.py {{REPO_URL}}
   uv run --group docs mkdocs serve
 # === OK_EDIT: path-sync docs ===
+# === DO_NOT_EDIT: path-sync vulture ===
+vulture:
+  uv run vulture .
+# === OK_EDIT: path-sync vulture ===
