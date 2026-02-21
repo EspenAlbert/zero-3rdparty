@@ -9,7 +9,7 @@ sync:
   uv sync
 
 # === DO_NOT_EDIT: path-sync standard ===
-pre-push: lint fmt-check test
+pre-push: lint fmt-check test vulture
   @echo "All checks passed"
 
 pre-commit: fmt fix lint
@@ -33,6 +33,11 @@ test:
 build:
   uv build
 # === OK_EDIT: path-sync standard ===
+
+# === DO_NOT_EDIT: path-sync vulture ===
+vulture:
+  uv run vulture .
+# === OK_EDIT: path-sync vulture ===
 
 # === DO_NOT_EDIT: path-sync path-sync ===
 path-sync-validate:
