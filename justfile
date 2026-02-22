@@ -34,6 +34,11 @@ build:
   uv build
 # === OK_EDIT: path-sync standard ===
 
+# === DO_NOT_EDIT: path-sync vulture ===
+vulture:
+  uv run vulture .
+# === OK_EDIT: path-sync vulture ===
+
 # === DO_NOT_EDIT: path-sync path-sync ===
 path-sync-validate:
   uv run path-sync validate-no-changes -n python-template

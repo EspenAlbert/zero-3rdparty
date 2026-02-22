@@ -68,6 +68,7 @@ extend-select = [
   "UP",
   "I",
   "T",
+  "FURB",
 ]
 
 [tool.pytest.ini_options]
@@ -95,16 +96,25 @@ exclude = [
   "zero_3rdparty/timeparse.py",
 ]
 
+[tool.vulture]
+min_confidence = 80
+ignore_names = ["mock_*", "Mock*", "*_mock"]
+exclude = [".venv/", "*test.py"]
+
 [dependency-groups]
-dev = [
+dev-lint = [
+  "pyright>=1.1",
+  "ruff>=0.14",
+  "vulture>=2.14",
+]
+dev-test = [
   "pytest>=9.0",
   "pytest-cov>=7.0",
   "pytest-freezer>=0.4.9",
-  "ruff>=0.14",
   "xdoctest>=1.3.0",
-  "pyright>=1.1.404",
   "pydantic",
 ]
+dev = [{include-group = "dev-lint"}, {include-group = "dev-test"}]
 docs = [
   "mkdocs-material>=9.5",
 ]
