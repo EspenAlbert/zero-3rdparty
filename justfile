@@ -87,7 +87,3 @@ docs-serve:
   uv run scripts/fix_source_links.py {{REPO_URL}}
   uv run --group docs mkdocs serve
 # === OK_EDIT: path-sync docs ===
-# === DO_NOT_EDIT: path-sync vulture ===
-vulture:
-  uv run vulture .
-# === OK_EDIT: path-sync vulture ===
