@@ -29,7 +29,7 @@
 
 ### class: `CommentConfig`
 - [source](../../zero_3rdparty/_internal/sections.py#L18)
-- [Example](../examples/sections/CommentConfig.md)
+- [Example: Frozen dataclass holding comment prefix/suffix for section markers](../examples/sections/CommentConfig.md)
 > **Since:** 0.101.0
 
 ```python
@@ -53,7 +53,7 @@ class CommentConfig:
 <a id="compare_sections_def"></a>
 
 ### function: `compare_sections`
-- [source](https://github.com/EspenAlbert/zero-3rdparty/blob/main/zero_3rdparty/_internal/sections.py#L260)
+- [source](../../zero_3rdparty/_internal/sections.py#L260)
 > **Since:** 0.101.0
 
 ```python
@@ -73,7 +73,7 @@ Return section IDs with changes (modified or removed), excluding skipped section
 <a id="extract_sections_def"></a>
 
 ### function: `extract_sections`
-- [source](https://github.com/EspenAlbert/zero-3rdparty/blob/main/zero_3rdparty/_internal/sections.py#L251)
+- [source](../../zero_3rdparty/_internal/sections.py#L251)
 > **Since:** 0.101.0
 
 ```python
@@ -91,7 +91,7 @@ def extract_sections(content: str, tool_name: str, config: CommentConfig, filena
 <a id="extract_sections_from_path_def"></a>
 
 ### function: `extract_sections_from_path`
-- [source](https://github.com/EspenAlbert/zero-3rdparty/blob/main/zero_3rdparty/_internal/sections.py#L443)
+- [source](../../zero_3rdparty/_internal/sections.py#L443)
 > **Since:** 0.101.0
 
 ```python
@@ -109,7 +109,7 @@ def extract_sections_from_path(path: Path, tool_name: str) -> dict[str, str]:
 <a id="has_sections_def"></a>
 
 ### function: `has_sections`
-- [source](https://github.com/EspenAlbert/zero-3rdparty/blob/main/zero_3rdparty/_internal/sections.py#L247)
+- [source](../../zero_3rdparty/_internal/sections.py#L247)
 > **Since:** 0.101.0
 
 ```python
@@ -127,7 +127,7 @@ def has_sections(content: str, tool_name: str, config: CommentConfig) -> bool:
 <a id="has_sections_in_path_def"></a>
 
 ### function: `has_sections_in_path`
-- [source](https://github.com/EspenAlbert/zero-3rdparty/blob/main/zero_3rdparty/_internal/sections.py#L438)
+- [source](../../zero_3rdparty/_internal/sections.py#L438)
 > **Since:** 0.101.0
 
 ```python
@@ -145,7 +145,7 @@ def has_sections_in_path(path: Path, tool_name: str) -> bool:
 <a id="parse_sections_from_path_def"></a>
 
 ### function: `parse_sections_from_path`
-- [source](https://github.com/EspenAlbert/zero-3rdparty/blob/main/zero_3rdparty/_internal/sections.py#L433)
+- [source](../../zero_3rdparty/_internal/sections.py#L433)
 > **Since:** 0.101.0
 
 ```python
@@ -163,7 +163,7 @@ def parse_sections_from_path(path: Path, tool_name: str) -> list[Section]:
 <a id="slug_def"></a>
 
 ### function: `slug`
-- [source](https://github.com/EspenAlbert/zero-3rdparty/blob/main/zero_3rdparty/_internal/sections.py#L12)
+- [source](../../zero_3rdparty/_internal/sections.py#L12)
 > **Since:** 0.101.0
 
 ```python
@@ -183,7 +183,7 @@ Convert text to lowercase slug suitable for section marker IDs.
 <a id="wrap_in_default_section_def"></a>
 
 ### function: `wrap_in_default_section`
-- [source](https://github.com/EspenAlbert/zero-3rdparty/blob/main/zero_3rdparty/_internal/sections.py#L308)
+- [source](../../zero_3rdparty/_internal/sections.py#L308)
 > **Since:** 0.101.0
 
 ```python
@@ -201,7 +201,7 @@ def wrap_in_default_section(content: str, tool_name: str, config: CommentConfig)
 <a id="wrap_section_def"></a>
 
 ### function: `wrap_section`
-- [source](https://github.com/EspenAlbert/zero-3rdparty/blob/main/zero_3rdparty/_internal/sections.py#L302)
+- [source](../../zero_3rdparty/_internal/sections.py#L302)
 > **Since:** 0.101.0
 
 ```python
@@ -219,7 +219,7 @@ def wrap_section(content: str, section_id: str, tool_name: str, config: CommentC
 <a id="sectionchanges_def"></a>
 
 ### class: `SectionChanges`
-- [source](https://github.com/EspenAlbert/zero-3rdparty/blob/main/zero_3rdparty/_internal/sections.py#L52)
+- [source](../../zero_3rdparty/_internal/sections.py#L52)
 > **Since:** 0.102.0
 
 ```python
@@ -243,7 +243,7 @@ class SectionChanges:
 <a id="changed_sections_def"></a>
 
 ### function: `changed_sections`
-- [source](https://github.com/EspenAlbert/zero-3rdparty/blob/main/zero_3rdparty/_internal/sections.py#L279)
+- [source](../../zero_3rdparty/_internal/sections.py#L279)
 > **Since:** 0.102.0
 
 ```python
@@ -264,7 +264,7 @@ Return modified and missing sections separately.
 
 ### function: `get_comment_config`
 - [source](../../zero_3rdparty/_internal/sections.py#L124)
-- [Example](../examples/sections/get_comment_config.md)
+- [Example: Resolve CommentConfig from a file path or override](../examples/sections/get_comment_config.md)
 > **Since:** 0.101.0
 
 ```python
@@ -283,7 +283,7 @@ def get_comment_config(path: Path | str, override: CommentConfig | None = None) 
 
 ### function: `parse_sections`
 - [source](../../zero_3rdparty/_internal/sections.py#L159)
-- [Example](../examples/sections/parse_sections.md)
+- [Example: Parse content with DO_NOT_EDIT/OK_EDIT markers into Section objects](../examples/sections/parse_sections.md)
 > **Since:** 0.101.0
 
 ```python
@@ -297,13 +297,3 @@ def parse_sections(content: str, tool_name: str, config: CommentConfig, filename
 |---------|--------|
 | 0.101.0 | Made public |
 <!-- === OK_EDIT: pkg-ext parse_sections_def === -->
-<!-- === DO_NOT_EDIT: pkg-ext examples === -->
-## Examples
-
-| Symbol | Description |
-|--------|-------------|
-| [CommentConfig](../examples/sections/CommentConfig.md) | Frozen dataclass holding comment prefix/suffix for section markers |
-| [parse_sections](../examples/sections/parse_sections.md) | Parse content with DO_NOT_EDIT/OK_EDIT markers into Section objects |
-| [replace_sections](../examples/sections/replace_sections.md) | Replace managed section content while preserving user-editable gaps |
-| [get_comment_config](../examples/sections/get_comment_config.md) | Resolve CommentConfig from a file path or override |
-<!-- === OK_EDIT: pkg-ext examples === -->
