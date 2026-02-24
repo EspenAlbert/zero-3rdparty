@@ -2,7 +2,7 @@
 
 <!-- === DO_NOT_EDIT: pkg-ext sectionpart_def === -->
 ## class: SectionPart
-- [source](../../zero_3rdparty/_internal/sections.py#L24)
+- [source](https://github.com/EspenAlbert/zero-3rdparty/blob/main/zero_3rdparty/_internal/sections.py#L24)
 > **Since:** 0.103.0
 
 ```python
