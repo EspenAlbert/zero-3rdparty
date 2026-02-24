@@ -39,7 +39,6 @@ tag_prefix = "v"
 max_bump_type = "minor"
 
 [tool.pkg-ext.groups.sections]
-examples_enabled = true
 examples_include = [
   "CommentConfig",
   "parse_sections",
