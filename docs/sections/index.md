@@ -29,6 +29,7 @@
 
 ### class: `CommentConfig`
 - [source](../../zero_3rdparty/_internal/sections.py#L18)
+- [Example](../examples/sections/CommentConfig.md)
 > **Since:** 0.101.0
 
 ```python
@@ -263,6 +264,7 @@ Return modified and missing sections separately.
 
 ### function: `get_comment_config`
 - [source](../../zero_3rdparty/_internal/sections.py#L124)
+- [Example](../examples/sections/get_comment_config.md)
 > **Since:** 0.101.0
 
 ```python
@@ -281,6 +283,7 @@ def get_comment_config(path: Path | str, override: CommentConfig | None = None) 
 
 ### function: `parse_sections`
 - [source](../../zero_3rdparty/_internal/sections.py#L159)
+- [Example](../examples/sections/parse_sections.md)
 > **Since:** 0.101.0
 
 ```python

@@ -16,6 +16,11 @@ nav:
     - Section: sections/section.md
     - SectionPart: sections/sectionpart.md
     - replace_sections: sections/replace_sections.md
+    - Examples:
+      - CommentConfig: examples/sections/CommentConfig.md
+      - parse_sections: examples/sections/parse_sections.md
+      - replace_sections: examples/sections/replace_sections.md
+      - get_comment_config: examples/sections/get_comment_config.md
 # === OK_EDIT: pkg-ext nav ===
 # === DO_NOT_EDIT: pkg-ext extensions ===
 markdown_extensions:
