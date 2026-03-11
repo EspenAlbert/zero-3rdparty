@@ -1,3 +1,5 @@
+import pytest
+
 from zero_3rdparty.object_name import (
     as_caller_name,
     as_name,
@@ -37,6 +39,7 @@ def test_name_on_async_func():
     assert short_name(async_func) == "async_func"
 
 
+@pytest.mark.filterwarnings("ignore::RuntimeWarning")
 def test_name_on_async_coroutine():
     assert as_name(async_func()) == "zero_3rdparty.object_name_test.async_func"
 
