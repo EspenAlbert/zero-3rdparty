@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.104.5 2026-04-07T08-58Z
+
+### Other Changes
+- Chore: add find_repo_root
+
+
 ## 0.104.4 2026-02-18T06-40Z
 
 ### __Root__

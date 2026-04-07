@@ -1,5 +1,5 @@
 pkg_import_name: zero_3rdparty
-version: 0.104.4
+version: 0.104.5
 groups:
 - name: sections
   symbols:
@@ -453,4 +453,4 @@ groups:
         - zero_3rdparty._internal.sections.CommentConfig
       return_annotation: str
       return_type_imports: []
-dumped_at: 2026-02-18 06:40:16.585363+00:00
+dumped_at: 2026-04-07 08:58:26.664161+00:00

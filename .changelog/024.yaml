@@ -6,3 +6,8 @@ full_path: file_utils.find_repo_root
 ts: 2026-04-07 08:56:59.339542+00:00
 type: chore
 description: add find_repo_root
+---
+name: 0.104.5
+ts: 2026-04-07 08:58:26.683247+00:00
+type: release
+old_version: 0.104.4

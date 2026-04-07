@@ -2,7 +2,7 @@
 # flake8: noqa
 from zero_3rdparty import sections
 
-VERSION = "0.104.4"
+VERSION = "0.104.5"
 __all__ = [
     "sections",
 ]
