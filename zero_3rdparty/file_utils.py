@@ -232,3 +232,12 @@ def read_between_markers(
     if len(matches) == 1:
         return matches[0].group("between_markers")
     raise MultipleMarkersError(start_marker, matches)
+
+
+def find_repo_root(start_path: Path) -> Path:
+    current = start_path.resolve()
+    while current != current.parent:
+        if (current / ".git").exists():
+            return current
+        current = current.parent
+    raise ValueError(f"No git repository found from {start_path}")

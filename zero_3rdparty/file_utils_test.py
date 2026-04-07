@@ -11,6 +11,7 @@ from zero_3rdparty.file_utils import (
     copy,
     ensure_parents_write_text,
     file_modified_time,
+    find_repo_root,
     iter_paths,
     iter_paths_and_relative,
     join_if_not_absolute,
@@ -204,6 +205,17 @@ def test_update_between_markers_with_content_separator_empty(tmp_path):
     replaced = update_between_markers(path, "new-text", start_marker, end_marker, marker_content_separator="")
     assert replaced.before == "some-content"
     assert replaced.after == "new-text"
+
+
+def test_find_repo_root(tmp_path):
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    (repo / ".git").mkdir()
+    subdir = repo / "a" / "b"
+    subdir.mkdir(parents=True)
+    assert find_repo_root(subdir) == repo
+    with pytest.raises(ValueError, match="No git repository found"):
+        find_repo_root(tmp_path)
 
 
 def test_read_between_markers_multiple():
