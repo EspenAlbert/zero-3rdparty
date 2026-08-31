@@ -46,7 +46,7 @@ def unique_id(length: int, character_class: str) -> str:
         AssertionError when `character_class` is empty.
 
     Returns:
-        A random string of length `length` composed only by characters contained in `character_clas`.
+        A random string of length `length` composed only by characters contained in `character_class`.
     """
 
     assert length > 0, "length must be a positive natural!"
@@ -56,11 +56,11 @@ def unique_id(length: int, character_class: str) -> str:
 
 
 """
-A string containing all the characters that are available to be used in a GET query paramaters
+A string containing all the characters that are available to be used in a GET query parameters
 without being escaped.
 
 See https://www.456bereastreet.com/archive/201008/what_characters_are_allowed_unencoded_in_query_strings/
-for informations about what characters are allowed.
+for information about what characters are allowed.
 """
 url_query_safe_characters: str = string.ascii_letters + string.digits + "-_.!$&'()*+,;=:@?"
 
