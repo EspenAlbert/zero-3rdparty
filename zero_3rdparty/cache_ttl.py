@@ -58,7 +58,7 @@ def _wrap_method(seconds: float, instance_key: Callable[[T], Hashable], meth: Ca
     return inner
 
 
-def cache_ttl(seconds: float | int) -> Callable[[Callable[P, T]], Callable[P, T]]:
+def cache_ttl(seconds: float) -> Callable[[Callable[P, T]], Callable[P, T]]:
     """simple decorator if you want to cache the results of a call ignoring arguments
     Warning:
         1. Only caches a 'single value'

@@ -88,7 +88,6 @@ def _interpret_as_minutes(sval, mdict):
         mdict["hours"] = mdict["mins"]
         mdict["mins"] = mdict["secs"]
         mdict.pop("secs")
-        pass
     return mdict
 
 

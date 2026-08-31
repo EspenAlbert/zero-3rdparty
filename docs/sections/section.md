@@ -10,7 +10,7 @@ class Section:
     id: str
     parts: list[SectionPart] = ...
     content_after: str | None = None
-    indent: str = ''
+    indent: str = ""
 ```
 <!-- === OK_EDIT: pkg-ext section_def === -->
 

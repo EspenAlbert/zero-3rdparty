@@ -35,7 +35,7 @@
 ```python
 class CommentConfig:
     prefix: str
-    suffix: str = ''
+    suffix: str = ""
 ```
 
 | Field | Type | Default | Since |
@@ -57,8 +57,14 @@ class CommentConfig:
 > **Since:** 0.101.0
 
 ```python
-def compare_sections(baseline_content: str, current_content: str, tool_name: str, config: CommentConfig, skip: set[str] | None = None, filename: str = '') -> list[str]:
-    ...
+def compare_sections(
+    baseline_content: str,
+    current_content: str,
+    tool_name: str,
+    config: CommentConfig,
+    skip: set[str] | None = None,
+    filename: str = "",
+) -> list[str]: ...
 ```
 
 Return section IDs with changes (modified or removed), excluding skipped sections.
@@ -77,8 +83,7 @@ Return section IDs with changes (modified or removed), excluding skipped section
 > **Since:** 0.101.0
 
 ```python
-def extract_sections(content: str, tool_name: str, config: CommentConfig, filename: str = '') -> dict[str, str]:
-    ...
+def extract_sections(content: str, tool_name: str, config: CommentConfig, filename: str = "") -> dict[str, str]: ...
 ```
 
 ### Changes
@@ -91,12 +96,11 @@ def extract_sections(content: str, tool_name: str, config: CommentConfig, filena
 <a id="extract_sections_from_path_def"></a>
 
 ### function: `extract_sections_from_path`
-- [source](../../zero_3rdparty/_internal/sections.py#L443)
+- [source](../../zero_3rdparty/_internal/sections.py#L441)
 > **Since:** 0.101.0
 
 ```python
-def extract_sections_from_path(path: Path, tool_name: str) -> dict[str, str]:
-    ...
+def extract_sections_from_path(path: Path, tool_name: str) -> dict[str, str]: ...
 ```
 
 ### Changes
@@ -113,8 +117,7 @@ def extract_sections_from_path(path: Path, tool_name: str) -> dict[str, str]:
 > **Since:** 0.101.0
 
 ```python
-def has_sections(content: str, tool_name: str, config: CommentConfig) -> bool:
-    ...
+def has_sections(content: str, tool_name: str, config: CommentConfig) -> bool: ...
 ```
 
 ### Changes
@@ -127,12 +130,11 @@ def has_sections(content: str, tool_name: str, config: CommentConfig) -> bool:
 <a id="has_sections_in_path_def"></a>
 
 ### function: `has_sections_in_path`
-- [source](../../zero_3rdparty/_internal/sections.py#L438)
+- [source](../../zero_3rdparty/_internal/sections.py#L436)
 > **Since:** 0.101.0
 
 ```python
-def has_sections_in_path(path: Path, tool_name: str) -> bool:
-    ...
+def has_sections_in_path(path: Path, tool_name: str) -> bool: ...
 ```
 
 ### Changes
@@ -145,12 +147,11 @@ def has_sections_in_path(path: Path, tool_name: str) -> bool:
 <a id="parse_sections_from_path_def"></a>
 
 ### function: `parse_sections_from_path`
-- [source](../../zero_3rdparty/_internal/sections.py#L433)
+- [source](../../zero_3rdparty/_internal/sections.py#L431)
 > **Since:** 0.101.0
 
 ```python
-def parse_sections_from_path(path: Path, tool_name: str) -> list[Section]:
-    ...
+def parse_sections_from_path(path: Path, tool_name: str) -> list[Section]: ...
 ```
 
 ### Changes
@@ -167,8 +168,7 @@ def parse_sections_from_path(path: Path, tool_name: str) -> list[Section]:
 > **Since:** 0.101.0
 
 ```python
-def slug(text: str) -> str:
-    ...
+def slug(text: str) -> str: ...
 ```
 
 Convert text to lowercase slug suitable for section marker IDs.
@@ -187,8 +187,7 @@ Convert text to lowercase slug suitable for section marker IDs.
 > **Since:** 0.101.0
 
 ```python
-def wrap_in_default_section(content: str, tool_name: str, config: CommentConfig) -> str:
-    ...
+def wrap_in_default_section(content: str, tool_name: str, config: CommentConfig) -> str: ...
 ```
 
 ### Changes
@@ -205,8 +204,7 @@ def wrap_in_default_section(content: str, tool_name: str, config: CommentConfig)
 > **Since:** 0.101.0
 
 ```python
-def wrap_section(content: str, section_id: str, tool_name: str, config: CommentConfig) -> str:
-    ...
+def wrap_section(content: str, section_id: str, tool_name: str, config: CommentConfig) -> str: ...
 ```
 
 ### Changes
@@ -247,8 +245,14 @@ class SectionChanges:
 > **Since:** 0.102.0
 
 ```python
-def changed_sections(baseline_content: str, current_content: str, tool_name: str, config: CommentConfig, skip: set[str] | None = None, filename: str = '') -> SectionChanges:
-    ...
+def changed_sections(
+    baseline_content: str,
+    current_content: str,
+    tool_name: str,
+    config: CommentConfig,
+    skip: set[str] | None = None,
+    filename: str = "",
+) -> SectionChanges: ...
 ```
 
 Return modified and missing sections separately.
@@ -268,8 +272,7 @@ Return modified and missing sections separately.
 > **Since:** 0.101.0
 
 ```python
-def get_comment_config(path: Path | str, override: CommentConfig | None = None) -> CommentConfig:
-    ...
+def get_comment_config(path: Path | str, override: CommentConfig | None = None) -> CommentConfig: ...
 ```
 
 ### Changes
@@ -287,8 +290,7 @@ def get_comment_config(path: Path | str, override: CommentConfig | None = None) 
 > **Since:** 0.101.0
 
 ```python
-def parse_sections(content: str, tool_name: str, config: CommentConfig, filename: str = '') -> list[Section]:
-    ...
+def parse_sections(content: str, tool_name: str, config: CommentConfig, filename: str = "") -> list[Section]: ...
 ```
 
 ### Changes

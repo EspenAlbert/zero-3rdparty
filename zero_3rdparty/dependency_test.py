@@ -38,9 +38,8 @@ class _MySubClass(_MyClass):
 
 def test_dep(subtests):
     cls_user = _MyClassUser()
-    with subtests.test("dependency descriptor raises AttributeError"):
-        with pytest.raises(AttributeError):
-            cls_user.my_cls
+    with subtests.test("dependency descriptor raises AttributeError"), pytest.raises(AttributeError):
+        _ = cls_user.my_cls
     with subtests.test("as_dependency_cls"):
         assert as_dependency_cls(_MyClassUser.my_cls) is _MyClass
     with subtests.test("MissingDependencies"):

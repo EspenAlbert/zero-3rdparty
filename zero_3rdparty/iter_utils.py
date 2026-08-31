@@ -294,7 +294,7 @@ def _unpack_dict(raw: dict, allowed_falsy: set[object] | None):
     return ignore_falsy_recurse(**raw, allowed_falsy=allowed_falsy)
 
 
-_allowed_falsy = {False, 0}
+_allowed_falsy = {False}
 
 
 def ignore_falsy_recurse(allowed_falsy: set[Any] | None = None, **kwargs) -> dict:

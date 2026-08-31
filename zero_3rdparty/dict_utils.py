@@ -114,10 +114,10 @@ def merge(
         path = []
     for key, value in b.items():
         if key in a:
-            if isinstance(a[key], dict) and isinstance(b[key], dict):
+            if isinstance(a[key], dict) and isinstance(value, dict):
                 merge(
                     a[key],
-                    b[key],
+                    value,
                     path + [str(key)],
                     allow_overwrite=allow_overwrite,
                     allow_new=allow_new,
@@ -128,7 +128,7 @@ def merge(
                 else:
                     raise MergeDictError(path=".".join(path + [str(key)]))
         elif allow_new:
-            a[key] = b[key]
+            a[key] = value
 
 
 def select_existing(existing_vars: dict, new_vars: dict) -> dict:
