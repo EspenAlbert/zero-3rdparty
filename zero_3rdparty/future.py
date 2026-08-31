@@ -80,9 +80,7 @@ def add_done_callback(
     @wraps(call)
     def on_complete(f: Future):
         error = f.exception()
-        if _only_on_ok and error:
-            return
-        elif _only_on_error and not error:
+        if _only_on_ok and error or _only_on_error and not error:
             return
         if _include_error:
             callback_kwargs[_include_error_name] = error
@@ -103,15 +101,13 @@ def add_done_callback_ignore_errors(
 
     @wraps(call)
     def on_complete(f: Future):
-        if _only_on_ok and f.exception():
-            return
-        elif _only_on_error and not f.exception():
+        if _only_on_ok and f.exception() or _only_on_error and not f.exception():
             return
         try:
             call(**callback_kwargs)
         except Exception as e:
             if not isinstance(e, errors):
-                raise e
+                raise
 
     future.add_done_callback(on_complete)
 
@@ -164,7 +160,6 @@ def as_incomplete_future(future: Future | None, fut_type: type = ConcFuture) -> 
 def safe_cancel(future: Future | None, _reason: str = "") -> None:
     if future and not future.done():
         future.cancel()
-    return None
 
 
 def safe_wait(future: Future[ResultT], timeout: float | None = None) -> ResultT | None:
@@ -174,8 +169,8 @@ def safe_wait(future: Future[ResultT], timeout: float | None = None) -> ResultT 
         if isinstance(future, ConcFuture):
             return future.result(timeout)
         return future.result()
-    except Exception as e:
-        logger.exception(e)
+    except Exception:
+        logger.exception("safe_wait failed")
     return None
 
 

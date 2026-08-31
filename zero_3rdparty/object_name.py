@@ -56,9 +56,8 @@ def as_name(obj: type[object] | object) -> str:
     True
     """
     name_ = _name(obj)
-    if name_ == "functools.partial":
-        if isinstance(obj, partial):
-            return f"partial: {as_name(obj.func)} args: {obj.args}, kwargs: {obj.keywords}"
+    if name_ == "functools.partial" and isinstance(obj, partial):
+        return f"partial: {as_name(obj.func)} args: {obj.args}, kwargs: {obj.keywords}"
     parts = name_.split(".")
     if parts[0] == "__main__":
         return ".".join([_detect_main_name()] + parts[1:])
@@ -89,9 +88,7 @@ def func_arg_names(func: Callable, skip_self: bool = True, skip_kwargs: bool = T
     def filter(param: Parameter) -> bool:
         if skip_self and param.name == "self":
             return False
-        if skip_kwargs and param.kind == param.VAR_KEYWORD:
-            return False
-        return True
+        return not (skip_kwargs and param.kind == param.VAR_KEYWORD)
 
     return [param.name for param in signature(func).parameters.values() if filter(param)]
 
@@ -135,9 +132,7 @@ def func_args_of_instance(func: Callable, arg_type: type[T]) -> Iterable[tuple[s
 
 def func_args_of_instance_or_type(func: Callable, arg_type: type[T]) -> Iterable[tuple[str, T | type[T]]]:
     for name, value in get_type_hints(func).items():
-        if isinstance(value, arg_type):
-            yield name, value
-        elif is_subclass(value, arg_type):
+        if isinstance(value, arg_type) or is_subclass(value, arg_type):
             yield name, value
 
 
@@ -154,9 +149,7 @@ def func_default_instances(func: Callable, default_type: type[T]) -> Iterable[tu
 def func_default_instances_or_classes(func: Callable, default_type: type[T]) -> Iterable[tuple[str, T | type[T]]]:
     for name, parameter in signature(func).parameters.items():
         default = parameter.default
-        if isinstance(default, default_type):
-            yield name, default
-        elif isclass(default) and issubclass(default, default_type):
+        if isinstance(default, default_type) or isclass(default) and issubclass(default, default_type):
             yield name, default
 
 

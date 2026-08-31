@@ -76,7 +76,7 @@ def test_call_signature():
     def call_me(a: str, **kwargs):
         return "OK"
 
-    assert call_signature(call_me, "1st arg", dict(second_arg=True, another_arg="3rd")) == (
+    assert call_signature(call_me, "1st arg", {"second_arg": True, "another_arg": "3rd"}) == (
         "zero_3rdparty.object_name_test.test_call_signature.<locals>.call_me(1st arg, second_arg=True,another_arg=3rd)"
     )
 

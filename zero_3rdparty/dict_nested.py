@@ -36,9 +36,9 @@ def pop_nested(container: DictList, simple_path: str, default: T = _MISSING) -> 
     last_container, final_accessor = _follow_path(container, simple_path)
     try:
         return last_container.pop(final_accessor)  # type: ignore
-    except (IndexError, KeyError) as e:
+    except (IndexError, KeyError):
         if default is _MISSING:
-            raise e
+            raise
         return default
 
 

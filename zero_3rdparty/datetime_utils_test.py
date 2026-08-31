@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 
 import pytest
 
@@ -21,7 +21,7 @@ def test_values_time_name():
 
 
 def test_week_nr():
-    week_52_dt = datetime(2023, 1, 1)
+    week_52_dt = datetime(2023, 1, 1, tzinfo=UTC)
     day_name = as_day_name(week_52_dt)
     assert day_name == "Sunday"
     assert week_nr(week_52_dt) == 52

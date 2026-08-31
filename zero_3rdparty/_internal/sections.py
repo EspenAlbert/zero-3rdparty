@@ -393,9 +393,7 @@ def replace_sections(  # noqa: C901
                 if has_more_parts or src_part.content_after is not None:
                     # Dest has structure if it has a next part (i+1 exists)
                     dest_has_structure = i + 1 < dest_len
-                    if dest_has_structure:
-                        after = dest_section.parts[i].content_after
-                    elif i < dest_len and dest_section.parts[i].content_after is not None:
+                    if dest_has_structure or i < dest_len and dest_section.parts[i].content_after is not None:
                         after = dest_section.parts[i].content_after
                     else:
                         after = src_part.content_after

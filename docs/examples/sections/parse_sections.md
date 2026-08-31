@@ -18,7 +18,7 @@ managed line 2
 """
 sections = parse_sections(content, "tool", CommentConfig("#"))
 print(sections[0].id)
-# > header
+#> header
 print(sections[0].content)
 """
 managed line 1
@@ -41,7 +41,7 @@ second
 """
 sections = parse_sections(content, "tool", CommentConfig("#"))
 print([s.id for s in sections])
-# > ['alpha', 'beta']
+#> ['alpha', 'beta']
 ```
 
 ## Multi-part Sections (Resumable)
@@ -62,9 +62,9 @@ part 2
 """
 sections = parse_sections(content, "tool", CommentConfig("#"))
 print(len(sections[0].parts))
-# > 2
+#> 2
 print(sections[0].parts[0].content)
-# > part 1
+#> part 1
 print(sections[0].parts[1].content)
-# > part 2
+#> part 2
 ```

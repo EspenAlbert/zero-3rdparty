@@ -41,12 +41,12 @@ def instance(cls: type[T]) -> T:
 def instance_or_inferred(cls: type[T]) -> T:
     try:
         return instance(cls)
-    except DependencyNotSet as e:
+    except DependencyNotSet:
         inferable = _infer_instances + list(_dependencies.values())
         if found := first_or_none(inferable, cls):
             _dependencies[cls] = found
             return found
-        raise e
+        raise
 
 
 def instance_or_none(cls: type[T]) -> T | None:
@@ -65,7 +65,6 @@ def get_dependencies() -> dict[type, Provider[T] | T]:
 
 
 def bind_infer_instances(instances: list[Any], clear_first: bool = False):
-    global _infer_instances
     if clear_first:
         _infer_instances.clear()
     _infer_instances.extend(instances)
@@ -78,9 +77,8 @@ def bind_instances(
 ):
     if clear_first:
         _dependencies.clear()
-    if not allow_re_binding:
-        if re_bindings := [cls for cls in instances if cls in _dependencies]:
-            raise ReBindingError(re_bindings)
+    if not allow_re_binding and (re_bindings := [cls for cls in instances if cls in _dependencies]):
+        raise ReBindingError(re_bindings)
     _dependencies.update(instances)
 
 

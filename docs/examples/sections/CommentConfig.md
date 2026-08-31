@@ -12,7 +12,7 @@ from zero_3rdparty.sections import CommentConfig, wrap_in_default_section
 
 cfg = CommentConfig("#")
 print(cfg)
-# > CommentConfig(prefix='#', suffix='')
+#> CommentConfig(prefix='#', suffix='')
 
 print(wrap_in_default_section("managed content", "tool", cfg))
 """
@@ -29,7 +29,7 @@ from zero_3rdparty.sections import CommentConfig, wrap_in_default_section
 
 cfg = CommentConfig("<!--", " -->")
 print(cfg)
-# > CommentConfig(prefix='<!--', suffix=' -->')
+#> CommentConfig(prefix='<!--', suffix=' -->')
 
 print(wrap_in_default_section("# Title", "pkg", cfg))
 """
@@ -53,9 +53,9 @@ html_content = """\
 """
 sections = parse_sections(html_content, "pkg", CommentConfig("<!--", " -->"))
 print(sections[0].id)
-# > heading
+#> heading
 print(sections[0].content)
-# > # Title
+#> # Title
 ```
 
 ## Extension Map
@@ -66,16 +66,16 @@ print(sections[0].content)
 from zero_3rdparty._internal.sections import EXTENSION_COMMENT_MAP
 
 print(EXTENSION_COMMENT_MAP[".py"])
-# > CommentConfig(prefix='#', suffix='')
+#> CommentConfig(prefix='#', suffix='')
 
 print(EXTENSION_COMMENT_MAP[".md"])
-# > CommentConfig(prefix='<!--', suffix=' -->')
+#> CommentConfig(prefix='<!--', suffix=' -->')
 
 print(EXTENSION_COMMENT_MAP[".js"])
-# > CommentConfig(prefix='//', suffix='')
+#> CommentConfig(prefix='//', suffix='')
 
 print(EXTENSION_COMMENT_MAP[".css"])
-# > CommentConfig(prefix='/*', suffix=' */')
+#> CommentConfig(prefix='/*', suffix=' */')
 ```
 
 ## Filename Map
@@ -86,11 +86,11 @@ Files without extensions (e.g. `justfile`, `Makefile`) are handled by `FILENAME_
 from zero_3rdparty._internal.sections import FILENAME_COMMENT_MAP
 
 print(FILENAME_COMMENT_MAP["justfile"])
-# > CommentConfig(prefix='#', suffix='')
+#> CommentConfig(prefix='#', suffix='')
 
 print(FILENAME_COMMENT_MAP["Dockerfile"])
-# > CommentConfig(prefix='#', suffix='')
+#> CommentConfig(prefix='#', suffix='')
 
 print("Makefile" in FILENAME_COMMENT_MAP)
-# > True
+#> True
 ```

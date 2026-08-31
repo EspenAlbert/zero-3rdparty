@@ -70,6 +70,13 @@ extend-select = [
   "FURB",
 ]
 
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["typer.Option", "typer.Argument"]
+
+[tool.ruff.format]
+# pytest-examples print prefix is `#>`; ruff 0.16 markdown format turns that into `# >`
+exclude = ["docs/examples/**"]
+
 [tool.pytest.ini_options]
 addopts = "-s -vv --log-cli-level=INFO"
 python_files = [

@@ -46,8 +46,7 @@ def test_iterating_over_a_closed_queue_should_return_immediately():
     queue = ClosableQueue()
 
     def iterate(messages: list[str]):
-        for m in queue:
-            messages.append(m)
+        messages.extend(queue)
 
     with ThreadPoolExecutor() as executor:
         messages1 = []

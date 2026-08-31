@@ -172,12 +172,12 @@ def update_between_markers(
     old_text = path.read_text()
     try:
         old_content = read_between_markers(old_text, start_marker, end_marker)
-    except MarkerNotFoundError as e:
+    except MarkerNotFoundError:
         if append_if_not_found:
             new_content = f"{marker_content_separator}{new_content}{marker_content_separator}"
             path.write_text(old_text + new_content)
             return UpdateMarkerResult("", new_content)
-        raise e
+        raise
     if f"{marker_content_separator}{old_content}{marker_content_separator}" == content:
         return UpdateMarkerResult(old_content, old_content)
     updated = markers_pattern(start_marker, end_marker).sub(

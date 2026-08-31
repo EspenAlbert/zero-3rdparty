@@ -7,7 +7,7 @@ from contextlib import suppress
 from functools import partial
 from queue import Empty, Queue
 from threading import RLock
-from typing import Generator, Generic, TypeVar
+from typing import ClassVar, Generator, Generic, TypeVar
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +28,7 @@ def _raise_queue_is_closed(item: object, *, queue: ClosableQueue, **kwargs):
 
 class ClosableQueue(Queue[QueueT], Generic[QueueT]):
     SENTINEL = object()
-    __QUEUES: list[ClosableQueue] = []
+    __QUEUES: ClassVar[list[ClosableQueue]] = []
 
     def __init__(self, maxsize: int = 0):  # 0 == infinite
         super().__init__(maxsize=maxsize)
@@ -62,8 +62,8 @@ class ClosableQueue(Queue[QueueT], Generic[QueueT]):
                         self.not_empty.notify()
                     return  # Cause the thread to exit
                 yield item
-        except BaseException as e:
-            logger.exception(e)
+        except BaseException:
+            logger.exception("queue iterator failed")
         finally:
             with suppress(ValueError):
                 self.task_done()
