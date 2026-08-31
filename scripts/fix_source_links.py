@@ -1,3 +1,4 @@
+# path-sync copy -n python-template
 """Replace relative source links with GitHub URLs in docs."""
 
 import re
@@ -11,7 +12,7 @@ REPO_URL = sys.argv[1]
 BRANCH = "main"
 DOCS_DIR = Path(__file__).parent.parent / "docs"
 
-# Pattern: [source](../../zero_3rdparty/_internal/sections.py#L81)
+# Pattern: [source](../../pkg_name/_internal/module.py#L81)
 RELATIVE_SOURCE_PATTERN = re.compile(r"\[source\]\((?P<rel_path>\.\./[^)]+)\)")
 
 
