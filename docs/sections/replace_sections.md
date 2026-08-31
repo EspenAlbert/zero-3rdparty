@@ -7,8 +7,15 @@
 > **Since:** 0.101.0
 
 ```python
-def replace_sections(dest_content: str, src_sections: dict[str, str] | list[Section], tool_name: str, config: CommentConfig, skip_sections: list[str] | None = None, *, keep_deleted_sections: bool = False) -> str:
-    ...
+def replace_sections(
+    dest_content: str,
+    src_sections: dict[str, str] | list[Section],
+    tool_name: str,
+    config: CommentConfig,
+    skip_sections: list[str] | None = None,
+    *,
+    keep_deleted_sections: bool = False,
+) -> str: ...
 ```
 
 Replace sections in dest_content with src_sections, preserving user content.
