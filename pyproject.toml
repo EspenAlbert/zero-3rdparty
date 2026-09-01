@@ -93,7 +93,10 @@ exclude_lines = [
   "if __name__ == .__main__.:",
 ]
 
-[tool.pyright]
+[tool.ty.environment]
+python = ".venv"
+
+[tool.ty.src]
 include = [
   "zero_3rdparty",
 ]
@@ -109,7 +112,7 @@ exclude = [".venv/", "*test.py"]
 
 [dependency-groups]
 dev-lint = [
-  "pyright>=1.1",
+  "ty==0.0.76",
   "ruff>=0.14",
   "vulture>=2.14",
 ]

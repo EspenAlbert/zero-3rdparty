@@ -44,7 +44,7 @@ def _wrap_method(seconds: float, instance_key: Callable[[T], Hashable], meth: Ca
         expire, call_result = expire_times[key]
         if now_seconds < expire and call_result is not _sentinel:
             return call_result
-        call_result = meth(self, *args, **kwargs)  # type: ignore
+        call_result = meth(self, *args, **kwargs)
         expire_times[key] = now_seconds + seconds, call_result
         return call_result
 
@@ -69,7 +69,7 @@ def cache_ttl(seconds: float) -> Callable[[Callable[P, T]], Callable[P, T]]:
     def decorator(func: Callable[P, T]) -> Callable[P, T]:
         if "self" in signature(func).parameters:
             return _wrap_method(seconds, id, func)
-        return _wrap_func(func, seconds)  # type: ignore
+        return _wrap_func(func, seconds)
 
     return decorator
 

@@ -31,9 +31,9 @@ class TypeDict(Dict[Type | tuple[Type, bool], Iterable[tuple[V, bool]]]):
 
     def __getitem__(self, item: Type) -> Iterable[V]:  # type: ignore
         for base_t in item.__mro__[:-1]:  # skip object
-            for value, strict in super().get(base_t, []):  # type: ignore
-                if self.filter(item, strict, base_t):  # type: ignore
-                    yield value  # type: ignore
+            for value, strict in super().get(base_t, []):
+                if self.filter(item, strict, base_t):
+                    yield value
 
     def pop_specific(self, key: Type, value: V, strict=False):
         values: list = super().__getitem__(key)  # type: ignore

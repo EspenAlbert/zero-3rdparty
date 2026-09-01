@@ -124,7 +124,7 @@ def as_error_code(error: object) -> Code:
 
 @as_error_code.register(BaseException)
 def _base_error_default(error: BaseException) -> Code:
-    return getattr(error, "code", Code.UNKNOWN)  # type: ignore
+    return getattr(error, "code", Code.UNKNOWN)
 
 
 @as_error_code.register(Code)
@@ -136,7 +136,7 @@ def _identity(error: Code):
 @as_error_code.register(ConcTimeoutError)
 @as_error_code.register(AsyncTimeoutError)
 def _timeout(error: TimeoutError) -> Code:
-    return Code.TIMEOUT  # type: ignore
+    return Code.TIMEOUT
 
 
 def is_crash(code_or_error: str | BaseException):

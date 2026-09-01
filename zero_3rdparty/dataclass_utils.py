@@ -19,7 +19,7 @@ def copy_dataclass(instance: T, exclude: Container[str] | None = None, update: d
     if exclude:
 
         def include(field_name: str):
-            return field_name not in exclude  # type: ignore
+            return field_name not in exclude
 
         kwargs = as_dict(instance, filter=include)
     else:

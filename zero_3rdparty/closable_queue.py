@@ -80,7 +80,7 @@ class ClosableQueue(Queue[QueueT], Generic[QueueT]):
 
     def iter_non_blocking(self) -> Iterable[QueueT]:
         next_or_sentinel = partial(self.pop, self.SENTINEL)
-        return iter(next_or_sentinel, self.SENTINEL)  # type: ignore
+        return iter(next_or_sentinel, self.SENTINEL)
 
     @classmethod
     def close_all(cls):

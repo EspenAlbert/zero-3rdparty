@@ -78,8 +78,8 @@ def bind_instances(
     if clear_first:
         _dependencies.clear()
     if not allow_re_binding and (re_bindings := [cls for cls in instances if cls in _dependencies]):
-        raise ReBindingError(re_bindings)
-    _dependencies.update(instances)
+        raise ReBindingError(re_bindings)  # ty: ignore[invalid-argument-type]
+    _dependencies.update(instances)  # ty: ignore[no-matching-overload]
 
 
 @dataclass
@@ -126,7 +126,7 @@ def validate_dependencies(instances: list[Any], allow_binding: bool = True) -> N
     """Raises MissingDependencies."""
     missing_dependencies: dict[type, list[str]] = defaultdict(list)
     for each_instance in instances:
-        for prop_name, cls in _as_member_dependencies(each_instance):  # type: ignore
+        for prop_name, cls in _as_member_dependencies(each_instance):
             if cls not in _dependencies:
                 if allow_binding and (inferred_instance := first_or_none(instances, cls)):
                     logger.info(f"binding by inferring {cls} to {inferred_instance}")
