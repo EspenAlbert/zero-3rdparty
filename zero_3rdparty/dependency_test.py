@@ -53,19 +53,19 @@ def test_dep(subtests):
     with subtests.test("instance_or_none"):
         assert instance_or_none(_MyClass) is None
     with subtests.test("bind_instances"):
-        bind_instances({_MyClass: _MyClass(name="n1")}, clear_first=True)
+        bind_instances({_MyClass: _MyClass(name="n1")}, clear_first=True)  # ty: ignore[invalid-argument-type]
         assert instance(_MyClass) == _MyClass(name="n1")
     with subtests.test("ReBindingError"):
         with pytest.raises(ReBindingError) as exc:
-            bind_instances({_MyClass: _MyClass(name="n2")})
+            bind_instances({_MyClass: _MyClass(name="n2")})  # ty: ignore[invalid-argument-type]
         assert exc.value.classes == [_MyClass]
     with subtests.test("ReBinding allowed"):
-        bind_instances({_MyClass: _MyClass(name="n3")}, allow_re_binding=True)
+        bind_instances({_MyClass: _MyClass(name="n3")}, allow_re_binding=True)  # ty: ignore[invalid-argument-type]
         assert instance(_MyClass).name == "n3"
     with subtests.test("dependency descriptor"):
         assert cls_user.get_name() == "n3"
     with subtests.test("dependency descriptor updates"):
-        bind_instances({_MyClass: _MyClass(name="n4")}, allow_re_binding=True)
+        bind_instances({_MyClass: _MyClass(name="n4")}, allow_re_binding=True)  # ty: ignore[invalid-argument-type]
         assert cls_user.get_name() == "n4"
     with subtests.test("MissingDependencies allow_binding"):
         bind_instances({}, clear_first=True)
@@ -79,12 +79,12 @@ def test_dep(subtests):
             counter += 1
             return _MyClass(name=f"n-{counter}")
 
-        bind_instances({_MyClass: Provider(my_provider)}, allow_re_binding=True)
+        bind_instances({_MyClass: Provider(my_provider)}, allow_re_binding=True)  # ty: ignore[invalid-argument-type]
 
         instances = [instance(_MyClass) for _ in range(10)]
         assert instances[-1] == _MyClass(name="n-10")
     with subtests.test("instance_or_inferred"):
-        bind_instances({_MyClass: _MySubClass(name="inferred")}, clear_first=True)
+        bind_instances({_MyClass: _MySubClass(name="inferred")}, clear_first=True)  # ty: ignore[invalid-argument-type]
         with pytest.raises(DependencyNotSet):
             instance(_MySubClass)
         assert instance_or_inferred(_MySubClass).name == "inferred"

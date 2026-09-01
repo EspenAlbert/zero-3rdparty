@@ -30,7 +30,7 @@ d = {
     ],
 )
 def test_dict_updates(path, new_value):
-    active_d = update(deepcopy(d), path, new_value)
+    active_d = update(deepcopy(d), path, new_value)  # ty: ignore[no-matching-overload]
     final_value = read_nested(active_d, path)
     assert final_value == new_value
 
@@ -43,7 +43,7 @@ def test_dict_updates(path, new_value):
     ],
 )
 def test_list_updates(path, new_value):
-    active_d = update(deepcopy(d), path, new_value)
+    active_d = update(deepcopy(d), path, new_value)  # ty: ignore[no-matching-overload]
     final_value = read_nested(active_d, path)
     assert final_value == new_value
 
@@ -51,18 +51,18 @@ def test_list_updates(path, new_value):
 def test_update_dict_inside_list():
     path = "spec.ports.[0].port"
     new_value = 5601
-    active_d = update(deepcopy(d), path, new_value)
+    active_d = update(deepcopy(d), path, new_value)  # ty: ignore[no-matching-overload]
     assert active_d["spec"]["ports"][0]["port"] == 5601
     assert read_nested(active_d, path) == 5601
 
 
 def test_update_ensure_parents():
-    active_d = update(deepcopy(d), "metadata.labels.name", "kibana")
+    active_d = update(deepcopy(d), "metadata.labels.name", "kibana")  # ty: ignore[no-matching-overload]
     assert active_d["metadata"]["labels"]["name"] == "kibana"
 
 
 def test_update_ensure_parents_dict_and_list_path():
-    active_d = update(deepcopy(d), "spec.containers.[0].name", "kibana")
+    active_d = update(deepcopy(d), "spec.containers.[0].name", "kibana")  # ty: ignore[no-matching-overload]
     assert active_d["spec"]["containers"][0]["name"] == "kibana"
 
 

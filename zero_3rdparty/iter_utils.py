@@ -97,8 +97,8 @@ def first(iterable: Iterable[Any], first_type: Type[T] | None = None) -> T:
     'a'
     """
     if first_type is None:
-        return next(iter(iterable))  # type: ignore
-    return next(instance for instance in filter_on_type(iterable, first_type))  # type: ignore
+        return next(iter(iterable))
+    return next(instance for instance in filter_on_type(iterable, first_type))
 
 
 def first_or_none(
@@ -311,7 +311,7 @@ def ignore_falsy_recurse(allowed_falsy: set[Any] | None = None, **kwargs) -> dic
     """
     allowed_falsy = allowed_falsy or _allowed_falsy
     return {
-        key: _unpack(value, allowed_falsy)  # type: ignore
+        key: _unpack(value, allowed_falsy)
         for key, value in kwargs.items()
         if value or (not isinstance(value, dict | list) and value in allowed_falsy)
     }

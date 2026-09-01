@@ -164,7 +164,7 @@ def sort_keys(some_dict: dict[KT, VT]) -> dict[KT, VT]:
     def add_sorted_value(value: VT):
         return sort_keys(value) if isinstance(value, dict) else value
 
-    return {key: add_sorted_value(some_dict[key]) for key in sorted(some_dict.keys())}  # type: ignore
+    return {key: add_sorted_value(some_dict[key]) for key in sorted(some_dict.keys())}
 
 
 def select_values(some_container: dict | list, allowed_values: tuple[type, ...]):

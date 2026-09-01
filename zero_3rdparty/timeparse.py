@@ -25,7 +25,7 @@ DAYCLOCK = r"(?P<days>\d+):(?P<hours>\d{2}):" r"(?P<mins>\d{2}):(?P<secs>\d{2}(?
 
 
 def OPT(x):
-    return f"(?:{x})?"  # type: ignore
+    return f"(?:{x})?"
 
 
 def OPTSEP(x):

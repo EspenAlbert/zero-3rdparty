@@ -1,5 +1,5 @@
 import pytest
-import xdoctest as xdoc  # type: ignore
+import xdoctest as xdoc
 
 from zero_3rdparty import (
     datetime_utils,

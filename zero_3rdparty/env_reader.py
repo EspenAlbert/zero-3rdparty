@@ -24,12 +24,12 @@ T = TypeVar("T")
 
 
 def read_env_value(env_key: str, default: T) -> T:
-    value_converter: Callable[[str], T] = type(default)
+    value_converter: Callable[[str], T] = type(default)  # ty: ignore[invalid-assignment]
     if value_converter is bool:
         value_converter = want_bool  # type: ignore
     for key_variation in upper_lower_case(env_key):
         if str_value := getenv(key_variation, None):
-            return value_converter(str_value)  # type: ignore
+            return value_converter(str_value)
     return default
 
 
