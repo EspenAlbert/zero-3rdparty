@@ -1,0 +1,8 @@
+name: sections
+ts: 2026-09-02 13:14:02.790635+00:00
+type: fix
+author: Espen Albert
+changelog_message: 'fix(sections): Keep dest body when dest has no markers'
+group: sections
+message: 'fix(sections): Keep dest body when dest has no markers'
+short_sha: fd1a7f
