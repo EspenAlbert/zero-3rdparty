@@ -814,6 +814,23 @@ def test_replace_new_file_uses_source_trailing_content():
     assert "Add your custom content here" in result
 
 
+def test_replace_nonempty_dest_without_markers_does_not_use_src_trailing():
+    dest = "# Contributing to dest\n\n## Submitting Changes\n"
+    src = parse_sections(
+        "<!-- === DO_NOT_EDIT: t release-troubleshooting === -->\n"
+        "troubleshoot body\n"
+        "<!-- === OK_EDIT: t release-troubleshooting === -->\n"
+        "\n## Submitting Changes\n",
+        "t",
+        HTML_CONFIG,
+    )
+    result = replace_sections(dest, src, "t", HTML_CONFIG)
+    assert result.count("## Submitting Changes") == 1
+    assert "# Contributing to dest" in result
+    assert "troubleshoot body" in result
+    assert "DO_NOT_EDIT: t release-troubleshooting" in result
+
+
 def test_replace_dest_trailing_content_preserved_over_source():
     """Dest's trailing content takes precedence over source's."""
     src_sections = [

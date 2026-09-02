@@ -418,10 +418,10 @@ def replace_sections(  # noqa: C901
             continue
         result.extend(_render_section_parts(src_section.parts, src_section.id, tool_name, config, src_section.indent))
 
-    # Append trailing content: dest's if updating, source's if initial copy
+    # Dest trailing if dest has sections; src trailing only when dest content is empty
     if dest_trailing is not None:
         result.append(dest_trailing)
-    elif not dest_parsed and src_list and src_list[-1].content_after is not None:
+    elif dest_content.strip() == "" and src_list and src_list[-1].content_after is not None:
         result.append(src_list[-1].content_after)
 
     return "\n".join(result)
