@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.104.6 2026-09-02T13-32Z
+
+### Sections
+- fix(sections): Keep dest body when dest has no markers [fd1a7f](https://github.com/EspenAlbert/zero-3rdparty/commit/fd1a7f)
+
+
 ## 0.104.5 2026-04-07T08-58Z
 
 ### Other Changes

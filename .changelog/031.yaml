@@ -6,3 +6,8 @@ changelog_message: 'fix(sections): Keep dest body when dest has no markers'
 group: sections
 message: 'fix(sections): Keep dest body when dest has no markers'
 short_sha: fd1a7f
+---
+name: 0.104.6
+ts: 2026-09-02 13:32:01.091913+00:00
+type: release
+old_version: 0.104.5

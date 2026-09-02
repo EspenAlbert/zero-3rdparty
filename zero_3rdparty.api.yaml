@@ -1,5 +1,5 @@
 pkg_import_name: zero_3rdparty
-version: 0.104.5
+version: 0.104.6
 groups:
 - name: sections
   symbols:
@@ -224,7 +224,7 @@ groups:
   - name: extract_sections_from_path
     module_path: _internal.sections
     docstring: ''
-    line_number: 443
+    line_number: 441
     type: function
     signature:
       parameters:
@@ -287,7 +287,7 @@ groups:
   - name: has_sections_in_path
     module_path: _internal.sections
     docstring: ''
-    line_number: 438
+    line_number: 436
     type: function
     signature:
       parameters:
@@ -335,7 +335,7 @@ groups:
   - name: parse_sections_from_path
     module_path: _internal.sections
     docstring: ''
-    line_number: 433
+    line_number: 431
     type: function
     signature:
       parameters:
@@ -453,4 +453,4 @@ groups:
         - zero_3rdparty._internal.sections.CommentConfig
       return_annotation: str
       return_type_imports: []
-dumped_at: 2026-04-07 08:58:26.664161+00:00
+dumped_at: 2026-09-02 13:32:01.075106+00:00
