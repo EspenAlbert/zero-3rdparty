@@ -441,3 +441,15 @@ def has_sections_in_path(path: Path, tool_name: str) -> bool:
 def extract_sections_from_path(path: Path, tool_name: str) -> dict[str, str]:
     config = get_comment_config(path)
     return extract_sections(path.read_text(), tool_name, config, str(path))
+
+
+def t14_03_dogfood_one() -> str:  # pragma: no cover
+    return "t14-03-dogfood-one"  # throwaway t14-03 dogfood
+
+
+def t14_03_dogfood_two() -> str:  # pragma: no cover
+    return "t14-03-dogfood-two"  # throwaway t14-03 dogfood
+
+
+def t14_03_dogfood_three() -> str:  # pragma: no cover
+    return "t14-03-dogfood-three"  # throwaway t14-03 dogfood

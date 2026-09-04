@@ -17,6 +17,9 @@ from zero_3rdparty._internal.sections import (
     parse_sections_from_path,
     replace_sections,
     slug,
+    t14_03_dogfood_one,
+    t14_03_dogfood_three,
+    t14_03_dogfood_two,
     wrap_in_default_section,
 )
 
@@ -1221,3 +1224,9 @@ on: push
     indented_ends = [line for line in result_lines if "OK_EDIT: path-sync job-" in line]
     for line in indented_starts + indented_ends:
         assert line.startswith("  #"), f"Expected 2-space indent, got: {line!r}"
+
+
+def test_t14_03_dogfood_symbols():
+    assert t14_03_dogfood_one() == "t14-03-dogfood-one"
+    assert t14_03_dogfood_two() == "t14-03-dogfood-two"
+    assert t14_03_dogfood_three() == "t14-03-dogfood-three"

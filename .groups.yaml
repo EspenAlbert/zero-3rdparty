@@ -20,5 +20,8 @@ groups:
   - _internal.sections.parse_sections_from_path
   - _internal.sections.replace_sections
   - _internal.sections.slug
+  - _internal.sections.t14_03_dogfood_one
+  - _internal.sections.t14_03_dogfood_three
+  - _internal.sections.t14_03_dogfood_two
   - _internal.sections.wrap_in_default_section
   - _internal.sections.wrap_section
