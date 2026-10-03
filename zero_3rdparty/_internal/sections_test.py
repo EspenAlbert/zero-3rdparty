@@ -1221,3 +1221,30 @@ on: push
     indented_ends = [line for line in result_lines if "OK_EDIT: path-sync job-" in line]
     for line in indented_starts + indented_ends:
         assert line.startswith("  #"), f"Expected 2-space indent, got: {line!r}"
+
+
+@pytest.mark.parametrize("filename", [".zprofile", ".zshrc"])
+def test_get_comment_config_for_zsh_startup_files(filename: str):
+    assert get_comment_config(filename) == HASH_CONFIG
+
+
+@pytest.mark.parametrize("filename", [".zprofile", ".zshrc"])
+def test_replace_sections_for_zsh_startup_files_preserves_surrounding_text(filename: str):
+    config = get_comment_config(filename)
+    preamble = "# User preamble\nexport BEFORE=1"
+    trailing = "# User notes\nexport AFTER=1"
+    dest = f"{preamble}\n# === DO_NOT_EDIT: tool managed ===\nold content\n# === OK_EDIT: tool managed ===\n{trailing}"
+
+    parsed = parse_sections(dest, "tool", config)
+    assert len(parsed) == 1
+    assert parsed[0].content == "old content"
+
+    result = replace_sections(dest, {"managed": "new content"}, "tool", config)
+
+    assert result.startswith(f"{preamble}\n")
+    assert result.endswith(trailing)
+    updated = parse_sections(result, "tool", config)
+    assert len(updated) == 1
+    assert updated[0].content == "new content"
+    assert result.count("# === DO_NOT_EDIT: tool managed ===") == 1
+    assert result.count("# === OK_EDIT: tool managed ===") == 1
