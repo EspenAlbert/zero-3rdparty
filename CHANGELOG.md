@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.104.7 2026-10-03T11-36Z
+
+### Sections
+- fix(sections): Recognize zsh startup files [df146c](https://github.com/EspenAlbert/zero-3rdparty/commit/df146c)
+
+
 ## 0.104.6 2026-09-02T13-32Z
 
 ### Sections

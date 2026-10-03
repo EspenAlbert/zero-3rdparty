@@ -6,3 +6,8 @@ changelog_message: 'fix(sections): Recognize zsh startup files'
 group: sections
 message: 'fix(sections): Recognize zsh startup files'
 short_sha: df146c
+---
+name: 0.104.7
+ts: 2026-10-03 11:36:55.164577+00:00
+type: release
+old_version: 0.104.6
