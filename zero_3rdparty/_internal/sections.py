@@ -113,6 +113,8 @@ FILENAME_COMMENT_MAP: dict[str, CommentConfig] = {
     "Dockerfile": CommentConfig("#"),
     ".gitignore": CommentConfig("#"),
     ".dockerignore": CommentConfig("#"),
+    ".zprofile": CommentConfig("#"),
+    ".zshrc": CommentConfig("#"),
     ".env": CommentConfig("#"),
     ".editorconfig": CommentConfig("#"),
     "uv.lock": CommentConfig("#"),
