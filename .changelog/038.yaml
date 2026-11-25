@@ -1,0 +1,12 @@
+name: sections
+ts: 2026-11-25 00:49:11.264114+00:00
+type: fix
+author: Hunter Hogan
+changelog_message: 'fix(sections): Warn how many dest lines are deleted with an extra part'
+group: sections
+message: 'fix(sections): Warn how many dest lines are deleted with an extra part
+
+
+  Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>'
+rephrased: true
+short_sha: f6f3f8
