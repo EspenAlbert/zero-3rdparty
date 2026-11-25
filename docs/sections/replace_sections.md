@@ -15,6 +15,7 @@ def replace_sections(
     skip_sections: list[str] | None = None,
     *,
     keep_deleted_sections: bool = False,
+    filename: str = "",
 ) -> str: ...
 ```
 
@@ -61,6 +62,7 @@ This ensures single blank lines between sections are correctly preserved during 
 
 | Version | Change |
 |---------|--------|
+| unreleased | added optional param 'filename' (default: '') |
 | 0.103.0 | param 'src_sections' type: dict[str, str] -> dict[str, str] | list[Section] |
 | 0.101.3 | added optional param 'keep_deleted_sections' (default: False) |
 | 0.101.0 | Made public |

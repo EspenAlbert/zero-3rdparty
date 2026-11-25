@@ -1248,3 +1248,22 @@ def test_replace_sections_for_zsh_startup_files_preserves_surrounding_text(filen
     assert updated[0].content == "new content"
     assert result.count("# === DO_NOT_EDIT: tool managed ===") == 1
     assert result.count("# === OK_EDIT: tool managed ===") == 1
+
+
+def test_replace_sections_names_filename_in_dest_errors():
+    dest = "# === DO_NOT_EDIT: tool managed ===\nold content\n"
+    with pytest.raises(ValueError, match=r"Unclosed section 'managed' starting at line 0 in \.github/ci\.yaml"):
+        replace_sections(dest, {"managed": "new content"}, "tool", HASH_CONFIG, filename=".github/ci.yaml")
+
+
+def test_replace_sections_names_filename_in_part_warnings(caplog: pytest.LogCaptureFixture):
+    two_parts = "# === DO_NOT_EDIT: tool job ===\na\n# === OK_EDIT: tool job ===\n# === DO_NOT_EDIT: tool job ===\nb\n# === OK_EDIT: tool job ===\n"
+    one_part = "# === DO_NOT_EDIT: tool job ===\na\n# === OK_EDIT: tool job ===\n"
+
+    replace_sections(two_parts, parse_sections(one_part, "tool", HASH_CONFIG), "tool", HASH_CONFIG, filename="ci.yaml")
+    replace_sections(one_part, parse_sections(two_parts, "tool", HASH_CONFIG), "tool", HASH_CONFIG, filename="ci.yaml")
+
+    assert [r.getMessage() for r in caplog.records] == [
+        "Deleting extra dest part 1 for section 'job' in ci.yaml",
+        "Appending 1 extra src part(s) for section 'job' in ci.yaml",
+    ]

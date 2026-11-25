@@ -343,12 +343,14 @@ def replace_sections(  # noqa: C901
     skip_sections: list[str] | None = None,
     *,
     keep_deleted_sections: bool = False,
+    filename: str = "",
 ) -> str:
     """Replace sections in dest_content with src_sections, preserving user content."""
     skip = set(skip_sections or [])
     src_list = _normalize_src_sections(src_sections)
     src_by_id = {s.id: s for s in src_list}
-    dest_parsed = parse_sections(dest_content, tool_name, config)
+    dest_parsed = parse_sections(dest_content, tool_name, config, filename)
+    file_suffix = f" in {filename}" if filename else ""
 
     # Capture dest's trailing content (content after last section) before processing
     dest_trailing: str | None = dest_parsed[-1].content_after if dest_parsed else None
@@ -403,10 +405,10 @@ def replace_sections(  # noqa: C901
                     after = None
                 merged_parts.append(SectionPart(src_part.content, 0, 0, after))
             else:
-                logger.warning(f"Deleting extra dest part {i} for section '{sid}'")
+                logger.warning(f"Deleting extra dest part {i} for section '{sid}'{file_suffix}")
 
         if src_len > dest_len:
-            logger.warning(f"Appending {src_len - dest_len} extra src part(s) for section '{sid}'")
+            logger.warning(f"Appending {src_len - dest_len} extra src part(s) for section '{sid}'{file_suffix}")
 
         result.extend(_render_section_parts(merged_parts, sid, tool_name, config, src_by_id[sid].indent))
 
