@@ -1,0 +1,21 @@
+name: sections
+ts: 2026-11-25 00:49:40.227266+00:00
+type: fix
+author: Hunter Hogan
+changelog_message: 'fix(sections): Name the file in replace_sections errors and warnings'
+group: sections
+message: 'fix(sections): Name the file in replace_sections errors and warnings
+
+
+  Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>'
+rephrased: true
+short_sha: 20abe0
+---
+name: replace_sections
+ts: 2026-11-25 00:49:43.142484+00:00
+type: additional_change
+auto_generated: true
+change_kind: optional_param_added
+details: 'added optional param ''filename'' (default: '''')'
+field_name: filename
+group: sections
