@@ -567,6 +567,52 @@ steps:
     assert "MY_VAR" not in result
 
 
+THREE_PART_DEST = """\
+# === DO_NOT_EDIT: path-sync job ===
+name: Old Name
+# === OK_EDIT: path-sync job ===
+{gap_1}
+# === DO_NOT_EDIT: path-sync job ===
+runs-on: old-runner
+# === OK_EDIT: path-sync job ===
+{gap_2}
+# === DO_NOT_EDIT: path-sync job ===
+steps: []
+# === OK_EDIT: path-sync job ===
+"""
+
+
+def test_replace_warns_with_dest_lines_deleted_with_extra_parts(caplog: pytest.LogCaptureFixture):
+    """Deleting an extra dest part also deletes the dest gap before it; the warning counts its non-blank lines."""
+    src_sections = [Section(id="job", parts=[SectionPart("name: Simple Job", 0, 0)])]
+    dest_content = THREE_PART_DEST.format(gap_1="env:\n  MY_VAR: value", gap_2="# dest comment")
+
+    result = replace_sections(dest_content, src_sections, "path-sync", HASH_CONFIG)
+
+    assert "MY_VAR" not in result
+    assert "dest comment" not in result
+    assert [r.getMessage() for r in caplog.records] == [
+        "Deleting extra dest part 1 for section 'job' and 2 non-blank dest line(s) before it",
+        "Deleting extra dest part 2 for section 'job' and 1 non-blank dest line(s) before it",
+    ]
+
+
+def test_replace_warns_without_line_count_when_deleted_gap_is_blank(caplog: pytest.LogCaptureFixture):
+    """A gap of blank lines adds no line count to the warning."""
+    src_sections = [
+        Section(
+            id="job",
+            parts=[SectionPart("name: Simple Job", 0, 0, content_after=""), SectionPart("runs-on: ubuntu", 0, 0)],
+        )
+    ]
+    dest_content = THREE_PART_DEST.format(gap_1="# kept dest comment", gap_2="")
+
+    result = replace_sections(dest_content, src_sections, "path-sync", HASH_CONFIG)
+
+    assert "kept dest comment" in result
+    assert [r.getMessage() for r in caplog.records] == ["Deleting extra dest part 2 for section 'job'"]
+
+
 def test_replace_resumable_source_to_simple_dest():
     """Source has 2 parts with gap, dest has 1 part - extra parts appended."""
     src_sections = parse_sections(RESUMABLE_SOURCE_WITH_GAPS, "path-sync", HASH_CONFIG)

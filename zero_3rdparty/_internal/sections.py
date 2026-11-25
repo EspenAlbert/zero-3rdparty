@@ -386,6 +386,7 @@ def replace_sections(  # noqa: C901
         src_section = src_by_id[sid]
         merged_parts: list[SectionPart] = []
         dest_len, src_len = len(dest_section.parts), len(src_section.parts)
+        kept_dest_gaps: set[int] = set()
 
         for i in range(max(dest_len, src_len)):
             if i < src_len:
@@ -397,13 +398,17 @@ def replace_sections(  # noqa: C901
                     dest_has_structure = i + 1 < dest_len
                     if dest_has_structure or i < dest_len and dest_section.parts[i].content_after is not None:
                         after = dest_section.parts[i].content_after
+                        kept_dest_gaps.add(i)
                     else:
                         after = src_part.content_after
                 else:
                     after = None
                 merged_parts.append(SectionPart(src_part.content, 0, 0, after))
             else:
-                logger.warning(f"Deleting extra dest part {i} for section '{sid}'")
+                dropped_gap = dest_section.parts[i - 1].content_after if i - 1 not in kept_dest_gaps else None
+                dropped_lines = sum(1 for line in (dropped_gap or "").split("\n") if line.strip())
+                lines_note = f" and {dropped_lines} non-blank dest line(s) before it" if dropped_lines else ""
+                logger.warning(f"Deleting extra dest part {i} for section '{sid}'{lines_note}")
 
         if src_len > dest_len:
             logger.warning(f"Appending {src_len - dest_len} extra src part(s) for section '{sid}'")
