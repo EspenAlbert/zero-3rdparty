@@ -67,6 +67,7 @@ EXTENSION_COMMENT_MAP: dict[str, CommentConfig] = {
     ".yaml": CommentConfig("#"),
     ".yml": CommentConfig("#"),
     ".toml": CommentConfig("#"),
+    ".cfg": CommentConfig("#"),
     ".sh": CommentConfig("#"),
     ".bash": CommentConfig("#"),
     ".zsh": CommentConfig("#"),
