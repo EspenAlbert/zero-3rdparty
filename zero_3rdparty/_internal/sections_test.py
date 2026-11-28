@@ -144,6 +144,7 @@ def test_get_comment_config():
     assert get_comment_config(Path("test.md")).suffix == " -->"
     assert get_comment_config("justfile").prefix == "#"
     assert get_comment_config(Path("x.ts")).prefix == "//"
+    assert get_comment_config(".isort.cfg").prefix == "#"
 
     override = CommentConfig("%%")
     assert get_comment_config(Path("test.py"), override).prefix == "%%"
